@@ -1,0 +1,5 @@
+# O index.html e os diagramas sao gerados por script, que sempre escreve LF.
+# Sem isto, numa maquina com outra configuracao de core.autocrlf o arquivo
+# inteiro apareceria como alterado a cada vez que a pagina fosse regerada.
+* text=auto eol=lf
+*.png binary
