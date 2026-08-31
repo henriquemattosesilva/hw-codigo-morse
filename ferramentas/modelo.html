@@ -233,6 +233,7 @@ footer a{color:var(--fraco)}
     <span class="nav-marca">hw-codigo-morse</span>
     <a href="#componentes">componentes</a>
     <a href="#montagem">montagem</a>
+    <a href="#tinkercad">tinkercad</a>
     <a href="#funcionamento">como funciona</a>
     <a href="#codigo">código</a>
     <a href="#melhorias">melhorias</a>
@@ -422,10 +423,12 @@ footer a{color:var(--fraco)}
   </div>
 </section>
 
+{{SECAO_TINKERCAD}}
+
 <!-- ===================================================== funcionamento -->
 <section id="funcionamento">
   <div class="env">
-    <p class="marca">···−− <span>como funciona</span></p>
+    <p class="marca">····− <span>como funciona</span></p>
     <h2>Como funciona</h2>
 
     <h3>Os LEDs do transmissor</h3>
@@ -515,7 +518,7 @@ footer a{color:var(--fraco)}
 <!-- =========================================================== codigo -->
 <section id="codigo">
   <div class="env">
-    <p class="marca">····− <span>código</span></p>
+    <p class="marca">····· <span>código</span></p>
     <h2>Código das placas</h2>
     <p class="intro">Um sketch por placa. Abra na IDE do Arduino, selecione a placa certa e
     envie. A única biblioteca a instalar é a RadioHead.</p>
@@ -541,7 +544,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= melhorias -->
 <section id="melhorias">
   <div class="env">
-    <p class="marca">····· <span>melhorias</span></p>
+    <p class="marca">−···· <span>melhorias</span></p>
     <h2>Melhorias</h2>
 
     <h4>Alcance</h4>
@@ -613,7 +616,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= problemas -->
 <section id="problemas">
   <div class="env">
-    <p class="marca">−···· <span>não funciona?</span></p>
+    <p class="marca">−−··· <span>não funciona?</span></p>
     <h2>Quando não funciona</h2>
     <p class="intro">Quase tudo que dá errado nesta montagem cai numa destas linhas.</p>
     <div class="rolagem">
@@ -649,6 +652,8 @@ footer a{color:var(--fraco)}
 
 <script type="text/plain" id="fonte-tx">{{CODIGO_TX}}</script>
 <script type="text/plain" id="fonte-rx">{{CODIGO_RX}}</script>
+<script type="text/plain" id="fonte-tktx">{{CODIGO_TK_TX}}</script>
+<script type="text/plain" id="fonte-tkrx">{{CODIGO_TK_RX}}</script>
 
 <script>
 (() => {
@@ -855,24 +860,28 @@ const colore = (bruto) => escapa(bruto).replace(REGRAS,
   });
 
 const fontes = {};
-for (const id of ['tx','rx']) {
+for (const id of ['tx', 'rx', 'tktx', 'tkrx']) {
   const cru = document.getElementById('fonte-' + id)?.textContent ?? '';
   fontes[id] = cru.replace(/^\n/, '');
   const saida = document.getElementById('saida-' + id);
   if (saida) saida.innerHTML = colore(fontes[id]);
 }
 
-const abas = [['a-tx','p-tx'], ['a-rx','p-rx']];
-abas.forEach(([aid, pid]) => {
+// Dois grupos independentes de abas: os sketches de verdade e os do simulador.
+const grupos = [
+  [['a-tx', 'p-tx'], ['a-rx', 'p-rx']],
+  [['a-tktx', 'p-tktx'], ['a-tkrx', 'p-tkrx']],
+];
+grupos.forEach(grupo => grupo.forEach(([aid]) => {
   document.getElementById(aid)?.addEventListener('click', () => {
-    abas.forEach(([a, p]) => {
+    grupo.forEach(([a, p]) => {
       const ativa = a === aid;
       document.getElementById(a)?.setAttribute('aria-selected', String(ativa));
       const painel = document.getElementById(p);
       if (painel) painel.hidden = !ativa;
     });
   });
-});
+}));
 
 document.querySelectorAll('[data-copiar]').forEach(btn => {
   btn.addEventListener('click', async () => {

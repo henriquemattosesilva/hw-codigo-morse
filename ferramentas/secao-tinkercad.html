@@ -1,0 +1,163 @@
+<!-- ======================================================== tinkercad -->
+<section id="tinkercad">
+  <div class="env">
+    <p class="marca">···−− <span>simular antes</span></p>
+    <h2>Simular no Tinkercad</h2>
+    <p class="intro">Dá para montar e rodar o projeto inteiro no simulador antes de
+    encostar num componente. O Tinkercad não tem três peças deste projeto, então a
+    versão de lá tem substituições — e uma delas muda o código.</p>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>No projeto de verdade</th><th>No Tinkercad</th><th>Por quê</th></tr></thead>
+        <tbody>
+          <tr><td>Arduino Nano</td><td class="pin">Arduino Uno R3</td>
+              <td>o simulador não tem Nano. Os pinos que este projeto usa são os mesmos nas duas placas, então o código não muda</td></tr>
+          <tr><td>Dois módulos RF 433 MHz</td><td class="pin">um fio de D12 a D11</td>
+              <td>não existe módulo de rádio na biblioteca do Tinkercad</td></tr>
+          <tr><td>Biblioteca RadioHead</td><td class="pin">SoftwareSerial</td>
+              <td>o Tinkercad só aceita as bibliotecas oficiais, nenhuma externa</td></tr>
+          <tr><td>Buzzer ativo</td><td class="pin">Piezo</td>
+              <td>o piezo é passivo: precisa de <code>tone()</code>. Um <code>digitalWrite</code> nele daria um clique, não um apito</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aviso">
+      <p><strong>A troca do rádio por um fio funciona porque o 433 MHz já era um link
+      serial.</strong> O transmissor manda bytes por um pino e o receptor lê no dele; o
+      rádio só levava esses bytes pelo ar. Ligando D12 de uma placa em D11 da outra, os
+      mesmos pinos passam a conversar por fio. <strong>Toda a lógica de morse, o protocolo
+      de 3 bytes e o display são simulados de verdade</strong> — o que você não simula é
+      o alcance e a perda de pacote.</p>
+    </div>
+
+    <h3>As peças a arrastar</h3>
+    <p>Os nomes são os que aparecem no painel do Tinkercad em português. A busca do painel
+    encontra todas por esses nomes.</p>
+    <figure class="fig">
+      <div class="quadro">{{SVG_TK_GAL}}</div>
+      <figcaption>Duas placas, duas protoboards: um circuito só, com os dois lados.</figcaption>
+    </figure>
+
+    <h3>O fio que substitui o rádio</h3>
+    <figure class="fig">
+      <div class="quadro">{{SVG_TK_LINK}}</div>
+      <figcaption>Dois fios entre as placas, e não um.</figcaption>
+    </figure>
+    <div class="aviso grave">
+      <p><strong>O GND em comum não é opcional.</strong> Sem ligar o GND de uma placa no
+      GND da outra, as duas não têm referência de tensão em comum e o link não funciona,
+      mesmo com o fio de dados no lugar certo. É o erro mais comum ao ligar dois Arduinos,
+      e não dá nenhuma mensagem: simplesmente não chega nada.</p>
+    </div>
+
+    <h3>Placa 1 — o manipulador</h3>
+    <figure class="fig">
+      <div class="quadro">{{SVG_TK_TX}}</div>
+      <figcaption>Só os fios de sinal e de alimentação aparecem; as peças mostram em quais
+      furos cada perna entra.</figcaption>
+    </figure>
+
+    <p>As metades de cima (linhas <code>f</code> a <code>j</code>) e de baixo
+    (<code>a</code> a <code>e</code>) são separadas pelo canal central, então a mesma
+    coluna nos dois lados são dois pontos diferentes. É o que permite o piezo e o LED
+    verde dividirem a coluna 12 sem se tocarem.</p>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Peça</th><th>Furos</th><th>Fios</th></tr></thead>
+        <tbody>
+          <tr><td>Chave táctil</td><td class="pin">7 e 9, atravessando o canal</td>
+              <td><span class="pin">D2</span> → 7f · 9e → trilha − (furo 10)</td></tr>
+          <tr><td>Piezo</td><td class="pin">12h e 14h</td>
+              <td><span class="pin">D4</span> → 12j · 14j → trilha − de cima (furo 15)</td></tr>
+          <tr><td>Resistor 220 Ω + LED verde</td><td class="pin">12b–14b · LED 14d–16d</td>
+              <td><span class="pin">D3</span> → 12a · 16b → trilha − (furo 16)</td></tr>
+          <tr><td>Resistor 220 Ω + LED amarelo</td><td class="pin">18b–20b · LED 20d–22d</td>
+              <td><span class="pin">D5</span> → 18a · 22b → trilha − (furo 22)</td></tr>
+          <tr><td>Resistor 220 Ω + LED azul</td><td class="pin">24b–26b · LED 26d–28d</td>
+              <td><span class="pin">D6</span> → 24a · 28b → trilha − (furo 28)</td></tr>
+          <tr><td>Potenciômetro</td><td class="pin">24h, 25h e 26h</td>
+              <td>24j → trilha − de cima (23) · <span class="pin">A0</span> → 25j · 26j → trilha + de cima (27)</td></tr>
+          <tr><td>Alimentação</td><td class="pin">trilhas</td>
+              <td><span class="pin">5V</span> → trilha + (furo 2) · <span class="pin">GND</span> → trilha − (furo 4), e um jumper de cada trilha de baixo para a de cima</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>O anodo do LED é a perna longa e vai no furo da esquerda de cada par; o catodo, a
+    perna curta do lado chanfrado, vai no da direita. Invertido, o LED simplesmente não
+    acende — no Tinkercad também.</p>
+
+    <h3>Placa 2 — o display</h3>
+    <figure class="fig">
+      <div class="quadro">{{SVG_TK_RX}}</div>
+      <figcaption>Os seis fios de dados do LCD vão direto nos pinos da placa, cada um na
+      sua faixa.</figcaption>
+    </figure>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Peça</th><th>Furos</th><th>Fios</th></tr></thead>
+        <tbody>
+          <tr><td>LCD, dados e controle</td><td class="pin">direto na placa</td>
+              <td>pino 4 → <span class="pin">D2</span> · 6 → <span class="pin">D3</span> · 11 → <span class="pin">D4</span> · 12 → <span class="pin">D5</span> · 13 → <span class="pin">D6</span> · 14 → <span class="pin">D7</span></td></tr>
+          <tr><td>LCD, alimentação</td><td class="pin">trilhas</td>
+              <td>pino 1 → − (furo 5) · pino 2 → + (furo 3) · pino 5 → − (furo 11) · pino 16 → − (furo 29)</td></tr>
+          <tr><td>Potenciômetro de contraste</td><td class="pin">25h, 26h e 27h</td>
+              <td>25j → − de cima (24) · 26j → <strong>pino 3 do LCD</strong> · 27j → + de cima (28)</td></tr>
+          <tr><td>Resistor 220 Ω da luz de fundo</td><td class="pin">21b–23b</td>
+              <td><strong>pino 15 do LCD</strong> → 21a · 23b → trilha + (furo 23)</td></tr>
+          <tr><td>Resistor 220 Ω + LED vermelho</td><td class="pin">13b–15b · LED 15d–17d</td>
+              <td><span class="pin">D8</span> → 13a · 17b → trilha − (furo 17)</td></tr>
+          <tr><td>Chave táctil de limpar</td><td class="pin">7 e 9, atravessando o canal</td>
+              <td><span class="pin">D9</span> → 7f · 9e → trilha − (furo 10)</td></tr>
+          <tr><td>Alimentação</td><td class="pin">trilhas</td>
+              <td><span class="pin">5V</span> → trilha + (furo 2) · <span class="pin">GND</span> → trilha − (furo 4), e um jumper de cada trilha de baixo para a de cima</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aviso">
+      <p><strong>O pino 5 do LCD (RW) tem que ir ao GND</strong> também no simulador, e o
+      contraste no pino 3 continua sendo o motivo número um de a tela ficar em branco.
+      Gire o potenciômetro de contraste devagar de ponta a ponta antes de achar que algo
+      está errado.</p>
+    </div>
+
+    <h3>O código do simulador</h3>
+    <p>São os mesmos sketches, com as substituições da tabela lá de cima. Cole cada um no
+    editor de código da sua placa no Tinkercad, no modo <strong>Texto</strong>.</p>
+
+    <div class="abas" role="tablist" aria-label="Sketches do Tinkercad">
+      <button class="aba" role="tab" aria-selected="true" aria-controls="p-tktx" id="a-tktx">tx-tinkercad.ino</button>
+      <button class="aba" role="tab" aria-selected="false" aria-controls="p-tkrx" id="a-tkrx">rx-tinkercad.ino</button>
+    </div>
+    <div class="painel-cod" role="tabpanel" id="p-tktx" aria-labelledby="a-tktx">
+      <div class="cod-topo"><span>placa 1 · o manipulador</span>
+        <button class="btn-txt" data-copiar="tktx">copiar</button></div>
+      <pre><code id="saida-tktx"></code></pre>
+    </div>
+    <div class="painel-cod" role="tabpanel" id="p-tkrx" aria-labelledby="a-tkrx" hidden>
+      <div class="cod-topo"><span>placa 2 · o display</span>
+        <button class="btn-txt" data-copiar="tkrx">copiar</button></div>
+      <pre><code id="saida-tkrx"></code></pre>
+    </div>
+
+    <h3>Conferindo se funcionou</h3>
+    <div class="cartoes">
+      <div class="cartao"><h4>1. Uma placa de cada vez</h4><p>Inicie a simulação e abra o
+      monitor serial da placa 1. Ao ligar, os três LEDs acendem em sequência. Segure o
+      botão e veja as letras saindo no monitor. Aqui o fio ainda não importa.</p></div>
+      <div class="cartao"><h4>2. O contraste</h4><p>Gire o potenciômetro da placa 2 até
+      <code>MORSE no fio</code> aparecer. Sem isso a tela fica em branco e parece
+      defeito.</p></div>
+      <div class="cartao"><h4>3. O link</h4><p>Bata um <code>E</code> — um toque curto
+      só. O LED vermelho da placa 2 pisca e a letra aparece no LCD. Se não aparecer,
+      o suspeito número um é o GND entre as placas.</p></div>
+      <div class="cartao"><h4>4. A velocidade</h4><p>Deixe o potenciômetro da placa 1 no
+      lado lento enquanto aprende. A simulação roda mais devagar que o hardware, então
+      unidades curtas ficam difíceis de acertar no simulador.</p></div>
+    </div>
+  </div>
+</section>

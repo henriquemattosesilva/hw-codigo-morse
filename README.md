@@ -32,6 +32,7 @@ e o mesmo display do projeto real. Dá para treinar antes de montar qualquer coi
 | [MONTAGEM.md](MONTAGEM.md) | esquema de ligação, ordem de teste e o que fazer quando não funciona |
 | [transmissor-nano/](transmissor-nano/) | sketch do Nano (manipulador) |
 | [receptor-uno/](receptor-uno/) | sketch do Uno (display) |
+| [tinkercad/](tinkercad/) | os dois sketches adaptados para o simulador |
 | [ferramentas/](ferramentas/) | scripts que geram os diagramas e a página |
 | [docs/superpowers/specs/](docs/superpowers/specs/) | o projeto escrito, com as decisões e os porquês |
 
@@ -40,8 +41,21 @@ diagramas, rode:
 
 ```
 python ferramentas/gerar-diagramas.py   # só se mudou a fiação
+python ferramentas/gerar-tinkercad.py   # só se mudou a montagem do simulador
 python ferramentas/gerar-pagina.py      # sempre
 ```
+
+## Simular antes de montar
+
+Dá para rodar o projeto inteiro no [Tinkercad](https://www.tinkercad.com/) antes de
+encostar num componente. O simulador não tem Arduino Nano, nem módulo de rádio
+433 MHz, nem aceita a RadioHead — mas o rádio já era um link serial, então os dois
+módulos viram **um fio de D12 a D11** e a RadioHead vira **SoftwareSerial**, nos
+mesmos pinos. O buzzer ativo vira um piezo passivo, que precisa de `tone()`.
+
+A montagem desenhada peça por peça, com os furos de cada perna, está na
+[seção Tinkercad da página](https://henriquemattosesilva.github.io/hw-codigo-morse/#tinkercad).
+Os sketches adaptados ficam em [tinkercad/](tinkercad/).
 
 **Comece pelo [MONTAGEM.md](MONTAGEM.md).** A única biblioteca a instalar é a
 **RadioHead**, pelo Gerenciador de Bibliotecas da IDE.

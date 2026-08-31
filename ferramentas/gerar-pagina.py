@@ -12,6 +12,15 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FERR = os.path.join(BASE, "ferramentas")
 
 PECAS = {
+    # A secao entra primeiro: ela mesma traz as marcas que as linhas de baixo
+    # precisam substituir depois.
+    "SECAO_TINKERCAD": os.path.join(FERR, "secao-tinkercad.html"),
+    "SVG_TK_GAL":  os.path.join(FERR, "diagramas", "tk_galeria.svg"),
+    "SVG_TK_LINK": os.path.join(FERR, "diagramas", "tk_link.svg"),
+    "SVG_TK_TX":   os.path.join(FERR, "diagramas", "tk_tx.svg"),
+    "SVG_TK_RX":   os.path.join(FERR, "diagramas", "tk_rx.svg"),
+    "CODIGO_TK_TX": os.path.join(BASE, "tinkercad", "tx-tinkercad", "tx-tinkercad.ino"),
+    "CODIGO_TK_RX": os.path.join(BASE, "tinkercad", "rx-tinkercad", "rx-tinkercad.ino"),
     "SVG_TX":  os.path.join(FERR, "diagramas", "svg_tx.svg"),
     "SVG_RX":  os.path.join(FERR, "diagramas", "svg_rx.svg"),
     "SVG_LCD": os.path.join(FERR, "diagramas", "svg_lcd.svg"),
