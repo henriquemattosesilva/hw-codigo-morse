@@ -125,9 +125,18 @@ vez: 20 segundos com o WiFi realmente desligado, depois ligado, no mesmo log.
 
 | O log mostra | Significa |
 |---|---|
-| chega nas duas fases | rádio e divisor bons — o problema está no `receptor-esp8266.ino` |
-| chega só na fase 1 | é o WiFi. Ver "se for o WiFi", abaixo |
-| não chega em nenhuma | é o divisor, o pino D2 ou o nível de 3,3 V |
+| `transicoes` perto de zero | o fio está morto: divisor, pino D2 errado, alimentação do módulo ou mau contato |
+| `transicoes` altas e `boas` em 0 | o sinal chega e a decodificação falha — problema de tempo, não de eletricidade |
+| `boas` subindo nas duas fases | rádio e divisor bons — o problema está no `receptor-esp8266.ino` |
+| `boas` subindo só na fase 1 | é o WiFi. Ver "se for o WiFi", abaixo |
+
+**Não leia `boas: 0  mas: 0` como "não chega sinal".** O `_rxBad` da `RH_ASK` só conta
+depois que ela reconheceu o símbolo de início do quadro — CRC falhando no fim, ou byte de
+tamanho absurdo (`RH_ASK.cpp`, `validateRxBuf` e o bloco do `_rxCount`). Com a amostragem
+muito torta, o início nunca é reconhecido e as duas contagens ficam zeradas, idêntico ao
+caso de fio morto. Quem separa os dois é o `transicoes`, que lê o pino direto, fora da
+biblioteca: o receptor AM abre o ganho sem transmissão e entrega ruído, então **pino vivo
+transiciona aos milhares, sempre**.
 
 **Se for o WiFi**, as saídas em ordem de preferência: subir `REPETICOES` de 3 para 5 no
 transmissor e aceitar perda; baixar a velocidade do rádio para 1000 bps **nos dois lados**,

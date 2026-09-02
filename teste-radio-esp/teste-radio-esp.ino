@@ -13,16 +13,30 @@
       FASE 1  os primeiros 20 segundos, com o WiFi DESLIGADO
       FASE 2  dali em diante, com o WiFi LIGADO
 
-  Bata no manipulador durante as duas. O que o resultado quer dizer:
-
-      chega nas duas fases         o radio esta bem; o problema esta no
-                                   sketch do receptor, nao aqui
-      chega so na fase 1           e o WiFi comendo as interrupcoes
-      nao chega em nenhuma         e o divisor, o pino ou o nivel de 3,3V
+  Bata no manipulador durante as duas.
 
   A RH_ASK amostra o pino 8 vezes por bit -- 16 000 vezes por segundo a
   2000 bps -- por uma interrupcao de timer0. A pilha WiFi desabilita
   interrupcao em rajadas, e cada rajada perdida desalinha a amostragem.
+
+  ATENCAO AO LER "boas" E "mas". O _rxBad da RH_ASK so conta DEPOIS que ela
+  reconheceu o simbolo de inicio do quadro: ou o CRC falhou no fim, ou o byte
+  de tamanho veio absurdo. Se a amostragem estiver tao torta que o inicio
+  nunca e reconhecido, as duas contagens ficam em zero -- exatamente como se
+  nao chegasse sinal nenhum. Por isso "boas: 0  mas: 0" NAO prova que o fio
+  esta morto.
+
+  Quem separa isso e o "transicoes": uma contagem de bordas lidas direto do
+  pino, fora da RH_ASK, numa janela de 20 ms. O receptor AM entrega ruido
+  quando nao ha transmissao, entao um pino vivo transiciona muito, sempre.
+
+      transicoes perto de zero     o fio esta morto: divisor, pino errado,
+                                   alimentacao do modulo ou mau contato
+      transicoes altas, boas em 0  o sinal chega e a decodificacao falha:
+                                   e problema de tempo, nao de eletricidade
+      boas subindo nas duas fases  o radio esta bem; o problema esta no
+                                   sketch do receptor, nao aqui
+      boas subindo so na fase 1    e o WiFi comendo as interrupcoes
 
   Na fase 2 ele reconecta com WiFi.begin() sem argumentos, que reaproveita a
   rede gravada na flash pelo receptor de verdade. Por isso este sketch nao
@@ -77,6 +91,25 @@ void setup() {
   tBalanco = millis();
 }
 
+/*
+  Conta bordas no pino do radio numa janela curta, lendo direto, sem passar
+  pela RH_ASK. E a unica medida deste sketch que diz se chega ALGUMA coisa
+  eletricamente, independente de a biblioteca conseguir decodificar.
+
+  Um pino vivo transiciona aos milhares: o receptor AM abre o ganho quando
+  nao ha transmissao e entrega ruido. Um pino parado significa fio morto.
+*/
+uint32_t contaTransicoes(uint16_t ms) {
+  uint32_t n = 0;
+  int ultimo = digitalRead(PINO_RADIO);
+  unsigned long fim = millis() + ms;
+  while ((long)(millis() - fim) < 0) {
+    int nivel = digitalRead(PINO_RADIO);
+    if (nivel != ultimo) { n++; ultimo = nivel; }
+  }
+  return n;
+}
+
 void loop() {
   unsigned long agora = millis();
 
@@ -126,6 +159,8 @@ void loop() {
     Serial.print(F("   boas: "));
     Serial.print(radio.rxGood());
     Serial.print(F("   mas: "));
-    Serial.println(radio.rxBad());
+    Serial.print(radio.rxBad());
+    Serial.print(F("   transicoes/20ms: "));
+    Serial.println(contaTransicoes(20));
   }
 }
