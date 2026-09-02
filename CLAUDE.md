@@ -19,8 +19,8 @@ verificado.
 
 ## Estado em 01/09/2026
 
-Nada foi montado ainda. Tudo o que existe é código e documentação, e o que foi verificado
-foi verificado sem hardware.
+O transmissor **já está montado e funcionando na bancada**. O receptor com ESP8266 está
+montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 
 | Item | Situação |
 |---|---|
@@ -30,10 +30,36 @@ foi verificado sem hardware.
 | `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
-| **Montagem física** | **não feita** |
+| **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
+| **Receptor ESP8266 na protoboard** | montado, ainda não gravado |
+| **Receptor Uno** | não montado |
 
-**A próxima etapa é o Henrique montar na protoboard e testar.** Ele disse em 01/09/2026
-que seguiria com a montagem a partir daí.
+### O que o hardware já provou (01/09/2026)
+
+O Nano grava e o manipulador funciona. No monitor serial, com o potenciômetro no extremo
+lento, saiu:
+
+```
+Telegrafo - transmissor
+unidade: 250ms
+. = E
+[espaco]
+- = T
+```
+
+Isso comprova de uma vez o debounce, o limiar de 2 unidades entre ponto e traço, o
+fechamento de letra em 3 unidades, o espaço em 7 e a descida na árvore de morse. `E` e `T`
+são os dois nós mais rasos, então prova o caminho, não a árvore inteira — essa já tinha
+sido testada em software contra a tabela ITU.
+
+**Para gravar o Nano é preciso Tools → Processor → _ATmega328P (Old Bootloader)_.** Sem
+isso o avrdude dá `not in sync: resp=0x00` dez vezes. O clone dele fala a 57600 bauds e o
+IDE tenta 115200. Já está na tabela de problemas.
+
+**O `[espaco]` entre cada letra não é defeito.** A 250 ms por unidade o espaço de palavra
+são 1,75 s, e quem testa letra por letra pensa mais que isso entre uma e outra.
+
+**A próxima etapa é gravar o ESP8266.**
 
 ### O que existe
 
@@ -57,8 +83,13 @@ voltar a fazer sentido. Não recriar sem ele pedir.
 
 ## O que ainda não foi testado, e pode estar errado
 
-Esta é a parte que importa quando a montagem acontecer. Nada abaixo foi comprovado no
-hardware — são decisões tomadas na leitura de datasheet e no raciocínio.
+Esta é a parte que importa conforme a montagem avança. Nada abaixo foi comprovado no
+hardware — são decisões tomadas na leitura de datasheet e no raciocínio. O que passar sai
+daqui.
+
+Saiu em 01/09/2026: o **debounce de 25 ms** e a **faixa de 60 a 250 ms**, que se
+comportaram no manipulador real sem toque em dobro nem letra perdida. A faixa foi provada
+só no extremo lento — ele ainda não girou o potenciômetro.
 
 **O buzzer é mesmo ativo?** Ele tem só dois pinos, S e GND — sem VCC, quem o alimenta é o
 próprio D4, então **não há como ele ser acionado por nível baixo**: nível alto é a única
@@ -85,9 +116,6 @@ causa disso.
 **Três repetições por letra são suficientes?** Escolhido no chute educado. Se o ambiente
 dele tiver muito ruído de 433 MHz, `REPETICOES` sobe para 5. Se sobrar folga, pode descer.
 
-**Os 25 ms de debounce servem para as chaves dele?** Chave táctil comum costuma repicar
-menos que isso. Se registrar toques em dobro, sobe para 40.
-
 **O LCD aceita sinais de 3,3 V do ESP8266 com VDD em 5 V?** Pela folha de dados o
 HD44780 quer 3,5 V para nível alto. A maioria dos módulos aceita 3,3 V, mas o dele pode
 não aceitar. Se der lixo na tela, a saída é derrubar o VDD com um diodo — ou com a junção
@@ -102,9 +130,6 @@ com Uno pegava, subir `REPETICOES` para 5.
 
 **A IRAM do ESP8266 está em 93%.** Compila com folga de 4 KB. Outra biblioteca com código
 em IRAM pode não caber — se der erro de link falando em IRAM, é isso.
-
-**A faixa de 60 a 250 ms por unidade é confortável?** Chutada para cobrir de iniciante a
-razoavelmente rápido. Depois de bater morse de verdade ele vai saber se quer outra faixa.
 
 ---
 
@@ -267,8 +292,7 @@ memória `verificacao-visual-cdp`. O que vale medir: `scrollWidth` contra `clien
 A ordem que os documentos mandam seguir, e que vale a pena respeitar porque cada passo
 isola um problema:
 
-1. **O transmissor sozinho**, testado pelo monitor serial. Prova o manipulador sem
-   envolver rádio nenhum.
+1. ~~**O transmissor sozinho**, testado pelo monitor serial.~~ **Feito em 01/09/2026.**
 2. **O receptor com Uno.** Prova o rádio sem envolver WiFi, 3,3 V nem divisor.
 3. **Só então o ESP8266**, se ele quiser a parte de internet. E dentro dele: primeiro o
    LCD, depois o WiFi e a página (a bolinha fica verde sem nenhuma letra ter chegado), e

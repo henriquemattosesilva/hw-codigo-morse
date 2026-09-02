@@ -213,4 +213,7 @@ Bata uma letra no botão: o LED vermelho pisca e a letra aparece no LCD.
 | Todo toque vira traço | potenciômetro de velocidade no extremo rápido; gire para o lado lento |
 | Todo toque vira ponto | o contrário, ou o cursor do potenciômetro não está em A0 |
 | Os três LEDs piscam sem parar ao ligar | o rádio não iniciou; confira VCC e GND do módulo |
-| Upload falha no Nano | selecione o processador *ATmega328P (Old Bootloader)* |
+| Upload no Nano falha com `not in sync: resp=0x00`, dez tentativas | **confirmado em 01/09/2026:** selecione Tools → Processor → *ATmega328P (Old Bootloader)*. O clone fala a 57600 bauds e o IDE tenta 115200 |
+| Upload falha e você tem as duas placas no USB | a COM escolhida pode ser a do ESP8266, que também aparece como porta. Desconecte o ESP e veja qual porta some |
+| Toda letra sai separada por `[espaco]` | é a pausa entre as suas letras passando de 7 unidades. A 250 ms isso é 1,75 s — normal quando se testa letra por letra |
+| O serial mostra sempre `unidade: 250ms` | o valor só é impresso no `setup()`. Gire o potenciômetro e aperte o reset: se não mudar, o cursor não está no A0 |
