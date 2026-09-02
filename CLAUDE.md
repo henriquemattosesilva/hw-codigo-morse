@@ -98,8 +98,43 @@ existe `saiDaTelaInicial()`, que dá um `lcd.clear()` e invalida o `enlaceDesenh
 o WiFi entra — ou quando a primeira letra chega, o que vier antes. De brinde, a tela
 "ligando WiFi..." passou a ficar visível de verdade, e o serial imprime `WiFi conectado`.
 
-**A próxima etapa é o rádio, que nunca funcionou.** Nenhuma letra chegou ao ESP até hoje;
-o broker só recebeu o `status`.
+### O rádio, e onde a sessão parou (02/09/2026)
+
+**O enlace de rádio funciona.** O `teste-radio-uno`, ligado só ao módulo receptor e sem
+divisor nenhum, recebeu os pacotes inteiros:
+
+```
+pacote de 3 bytes: 4D 09 45   -> letra 'E', sequencia 9   (tres copias)
+pacote de 3 bytes: 4D 0A 20   -> letra '_', sequencia 10  (tres copias)
+```
+
+Isso prova de uma vez o transmissor transmitindo, os dois módulos, as antenas, o formato
+`'M'`+sequência+ASCII, as três repetições e o CRC. **Nada disso é mais suspeito.**
+
+**O que falha é só o lado do ESP8266**, e sobraram duas hipóteses:
+
+1. **O WiFi comendo as interrupções.** A `RH_ASK` no ESP8266 amostra o pino por uma
+   interrupção de **timer0**, 8 vezes por bit — 16 000 vezes por segundo a 2000 bps
+   (`RH_ASK.cpp`, bloco `RH_PLATFORM_ESP8266`, `timer0_isr_init`). A pilha WiFi desabilita
+   interrupção em rajadas, e cada rajada perdida desalinha a amostragem.
+2. **O divisor ou o nível de 3,3 V.** A fiação dele foi conferida e está certa
+   (`DATA → 10 k → nó do D2 → 10 k → 10 k → G`), então esta é a hipótese mais fraca.
+
+**A PRÓXIMA AÇÃO É GRAVAR O `teste-radio-esp` E LER O LOG.** Ele resolve as duas de uma
+vez: 20 segundos com o WiFi realmente desligado, depois ligado, no mesmo log.
+
+| O log mostra | Significa |
+|---|---|
+| chega nas duas fases | rádio e divisor bons — o problema está no `receptor-esp8266.ino` |
+| chega só na fase 1 | é o WiFi. Ver "se for o WiFi", abaixo |
+| não chega em nenhuma | é o divisor, o pino D2 ou o nível de 3,3 V |
+
+**Se for o WiFi**, as saídas em ordem de preferência: subir `REPETICOES` de 3 para 5 no
+transmissor e aceitar perda; baixar a velocidade do rádio para 1000 bps **nos dois lados**,
+o que alarga cada bit e dá folga à amostragem; ou, no limite, aceitar que o ESP8266 não
+serve para os dois papéis ao mesmo tempo e usar o Uno como receptor com o ESP só como
+ponte serial. **Não escolher antes de ver o log** — a terceira é bem mais trabalho que as
+duas primeiras.
 
 ### O que existe
 
@@ -171,9 +206,9 @@ base-emissor de um C945, que ele tem dez.
 **O `VU` da NodeMCU v3 dele entrega mesmo 5 V?** É o padrão dessa placa, mas há clones em
 que o `VU` não está ligado. Se o LCD não acender, é o primeiro a conferir.
 
-**Quanto o WiFi come de pacote de rádio?** A `RH_ASK` amostra o pino por timer0 e a pilha
-WiFi desliga interrupção de vez em quando. Não foi medido. Se faltar letra que a versão
-com Uno pegava, subir `REPETICOES` para 5.
+**Quanto o WiFi come de pacote de rádio?** Deixou de ser uma pergunta de fundo e virou
+**a hipótese principal** em 02/09/2026 — ver "O rádio, e onde a sessão parou". O
+`teste-radio-esp` existe para respondê-la e ainda não foi rodado.
 
 **A IRAM do ESP8266 está em 93%.** Compila com folga de 4 KB. Outra biblioteca com código
 em IRAM pode não caber — se der erro de link falando em IRAM, é isso.
@@ -331,19 +366,21 @@ Está documentado nos dois guias.
 
 ## Como verificar
 
-**Compilar.** O `arduino-cli` foi baixado para o scratchpad da sessão de 31/08/2026, que
-**não existe mais**. Para compilar de novo, baixar outra vez:
+**Compilar. Não baixe o `arduino-cli`** — a IDE já traz um, e ele usa a mesma configuração
+e os mesmos cores da IDE, inclusive o do ESP8266. Conferido em 02/09/2026:
 
 ```
-curl -sSL -o acli.zip https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Windows_64bit.zip
-arduino-cli core install arduino:avr
-arduino-cli compile -b arduino:avr:nano transmissor-nano
-arduino-cli compile -b arduino:avr:uno  receptor-uno
-arduino-cli compile -b esp8266:esp8266:nodemcuv2 receptor-esp8266
+ACLI="/c/Users/henri/AppData/Local/Programs/Arduino IDE/resources/app/lib/backend/resources/arduino-cli.exe"
+"$ACLI" compile -b arduino:avr:nano transmissor-nano
+"$ACLI" compile -b arduino:avr:uno  receptor-uno
+"$ACLI" compile -b arduino:avr:uno  teste-radio-uno
+"$ACLI" compile -b esp8266:esp8266:nodemcuv2 receptor-esp8266
+"$ACLI" compile -b esp8266:esp8266:nodemcuv2 teste-radio-esp
 ```
 
-O core do ESP8266 vem de uma URL extra, que precisa ser registrada antes:
-`arduino-cli config add board_manager.additional_urls https://arduino.esp8266.com/stable/package_esp8266com_index.json`
+Sessões anteriores baixaram o `arduino-cli` para o scratchpad, que morre junto com a
+sessão. Não repita: o da IDE fica num caminho estável e não precisa registrar a URL extra
+do core do ESP8266.
 
 As bibliotecas **já estão instaladas** e persistem, em
 `C:\Users\henri\Documents\Arduino\libraries`: `RadioHead` 1.143.1, `LiquidCrystal`
@@ -356,6 +393,15 @@ quaisquer — e não commitar.
 **A tabela de morse.** O teste que compara os 36 caracteres nos dois sentidos contra a
 tabela ITU não foi guardado no repositório. Se mexer na árvore, vale reescrever: é curto e
 pega inversão de ponto com traço na hora.
+
+**O que o telégrafo publicou.** Para ver o estado real do tópico sem depender da página,
+`npm i mqtt` num diretório temporário e assinar `<tópico>/#` por alguns segundos. É assim
+que se sabe se uma letra chegou de verdade ao ESP — a tela pode enganar, o broker não. Em
+02/09/2026 isso mostrou só `status = "ligado"` retida, e nenhuma `letra`, o que provou que
+o problema era o rádio e não o LCD.
+
+Detalhe do MQTT que confunde: **não existir `mensagem` retida é o normal com a fita
+vazia.** Publicar carga vazia com `retain` é justamente como se apaga uma retida.
 
 **A página ao vivo, de ponta a ponta.** Dá para testar sem hardware nenhum: `npm i mqtt`
 num diretório temporário, publicar no tópico com o cliente Node e conferir pelo CDP o que
