@@ -247,50 +247,73 @@ esp = diagrama_placa(
 # ============================== o divisor entre o rádio de 5V e o ESP de 3,3V
 def diagrama_divisor():
     """
-    A peça que não pode ser esquecida: a saída DATA do receptor entrega 5 V
-    num pino que só tolera 3,3 V.
+    O módulo inteiro, e não só a linha de dados: onde vai cada um dos quatro
+    pinos é justamente a parte que gera dúvida.
     """
-    W, H = 780, 420
-    x = 250
+    W, H = 960, 610
+    xd = 290                                   # coluna do divisor
+    pinos = [(230, "VCC"), (290, "DATA"), (350, "DATA"), (410, "GND")]
     s = io.StringIO()
     s.write(f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img" '
-            f'aria-labelledby="ddiv-t"><title id="ddiv-t">Divisor de tensão entre o '
-            f'receptor de 433 MHz e o ESP8266</title>')
+            f'aria-labelledby="ddiv-t"><title id="ddiv-t">Ligação do módulo receptor de '
+            f'433 MHz ao ESP8266, com o divisor de tensão</title>')
 
-    def caixa(cx_, cy_, larg, rot, sub, cor):
-        return (f'<rect x="{cx_ - larg / 2}" y="{cy_ - 26}" width="{larg}" height="52" rx="9" '
+    def caixa(cx_, cy_, larg, rot, sub, cor, anc="meio"):
+        x = cx_ - larg / 2 if anc == "meio" else (cx_ - larg if anc == "fim" else cx_)
+        return (f'<rect x="{x}" y="{cy_ - 25}" width="{larg}" height="50" rx="9" '
                 f'fill="{C["painel"]}" stroke="{cor}" stroke-opacity="0.7"/>'
-                + txt(cx_, cy_ - 3, rot, 13.5, C["texto"], "700")
-                + txt(cx_, cy_ + 15, sub, 11.5, cor, "600"))
+                + txt(x + larg / 2, cy_ - 2, rot, 13, C["texto"], "700")
+                + txt(x + larg / 2, cy_ + 15, sub, 11, cor, "600"))
 
-    def resistor(cy_, valor):
+    def resistor(cy_):
         faixas = ["#8B4A16", "#1A1A1A", "#E08A2E", "#D4AF37"]  # marrom preto laranja ouro
-        out = (f'<rect x="{x - 15}" y="{cy_ - 26}" width="30" height="52" rx="7" '
+        out = (f'<rect x="{xd - 15}" y="{cy_ - 25}" width="30" height="50" rx="7" '
                f'fill="#D9BD8F" stroke="#B99B6D"/>')
         for i, c in enumerate(faixas):
-            out += f'<rect x="{x - 15}" y="{cy_ - 19 + i * 10}" width="30" height="4.5" fill="{c}"/>'
-        return out + txt(x + 34, cy_ + 5, valor, 13, C["texto"], "700", "start")
+            out += (f'<rect x="{xd - 15}" y="{cy_ - 18 + i * 9.5}" width="30" height="4.5" '
+                    f'fill="{c}"/>')
+        return out + txt(xd + 30, cy_ + 5, "10 kΩ", 13, C["texto"], "700", "start")
 
-    s.write(f'<path d="M{x} 74 V346" stroke="{C["sinal"]}" stroke-width="2.6" fill="none"/>')
-    s.write(caixa(x, 48, 300, "DATA do receptor 433 MHz", "5 V — não pode ir direto", C["rx"]))
-    s.write(resistor(130, "10 kΩ"))
-    s.write(resistor(238, "10 kΩ"))
-    s.write(resistor(310, "10 kΩ"))
-    s.write(txt(x + 150, 279, "os dois em série somam 20 kΩ", 11.5,
-                C["fraco"], "500", "start"))
+    # o módulo, com os quatro pinos
+    s.write(f'<rect x="185" y="20" width="270" height="90" rx="8" fill="{C["placa"]}" '
+            f'stroke="{C["borda"]}"/>')
+    s.write(txt(320, 52, "módulo receptor", 13, C["texto"], "700"))
+    s.write(txt(320, 71, "433 MHz", 12, C["fraco"], "500"))
+    for x, nome in pinos:
+        apagado = (x == 350)
+        cor = C["apagado"] if apagado else C["sinal"]
+        s.write(f'<rect x="{x - 6}" y="110" width="12" height="16" rx="2" fill="{cor}"/>')
+        s.write(txt(x, 102, nome, 11, C["apagado"] if apagado else C["lcdtxt"], "700"))
+    s.write(txt(480, 118, "os dois DATA são o mesmo ponto", 11.5, C["fraco"], "600", "start"))
+    s.write(txt(480, 136, "por dentro da plaquinha: use um", 11.5, C["fraco"], "600", "start"))
+    s.write(txt(480, 154, "e deixe o outro livre.", 11.5, C["fraco"], "600", "start"))
 
-    # a derivação para o ESP, no meio do divisor
-    s.write(f'<path d="M{x} 186 H{x + 210}" stroke="{C["ponto"]}" stroke-width="2.6"/>')
-    s.write(f'<circle cx="{x}" cy="186" r="5.5" fill="{C["ponto"]}"/>')
-    s.write(caixa(x + 340, 186, 250, "D2 do ESP8266", "3,33 V — dentro do limite", C["ponto"]))
+    # VCC para o VU, GND para o G — os dois saem para os lados, longe do divisor
+    s.write(f'<path d="M230 126 V196 H175" stroke="{C["mais"]}" stroke-width="2.6" '
+            f'fill="none" stroke-linejoin="round"/>')
+    s.write(caixa(170, 196, 145, "VU", "o 5 V da USB", C["mais"], "fim"))
+    s.write(f'<path d="M410 126 V196 H560" stroke="{C["menos"]}" stroke-width="2.6" '
+            f'fill="none" stroke-linejoin="round"/>')
+    s.write(caixa(560, 196, 150, "G", "o terra do ESP", C["menos"], "inicio"))
 
-    # terra
+    # a linha de dados desce pelo divisor
+    s.write(f'<path d="M{xd} 126 V536" stroke="{C["sinal"]}" stroke-width="2.6" fill="none"/>')
+    s.write(resistor(250))
+    s.write(resistor(400))
+    s.write(resistor(478))
+    s.write(txt(xd + 30, 447, "os dois em série somam 20 kΩ", 11.5, C["fraco"], "500", "start"))
+
+    # a derivação, no meio do divisor
+    s.write(f'<path d="M{xd} 330 H640" stroke="{C["ponto"]}" stroke-width="2.6"/>')
+    s.write(f'<circle cx="{xd}" cy="330" r="5.5" fill="{C["ponto"]}"/>')
+    s.write(caixa(645, 330, 250, "D2 do ESP8266", "3,33 V — dentro do limite", C["ponto"], "inicio"))
+
     for i, larg in enumerate((46, 30, 15)):
-        s.write(f'<path d="M{x - larg / 2} {350 + i * 8} H{x + larg / 2}" '
+        s.write(f'<path d="M{xd - larg / 2} {540 + i * 8} H{xd + larg / 2}" '
                 f'stroke="{C["menos"]}" stroke-width="3"/>')
-    s.write(txt(x + 34, 366, "G do ESP", 12, C["menos"], "600", "start"))
+    s.write(txt(xd + 30, 556, "o mesmo G do ESP", 12, C["menos"], "600", "start"))
 
-    s.write(txt(30, 400, "5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V", 13, C["fraco"], "600", "start"))
+    s.write(txt(30, 594, "5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V", 13, C["fraco"], "600", "start"))
     s.write("</svg>")
     return s.getvalue()
 

@@ -37,10 +37,16 @@
     ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
     uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
     10 kΩ.</p>
+    <p>O módulo tem <strong>quatro pinos, mas três ligações</strong>: os dois
+    <code>DATA</code> do meio são o mesmo ponto, ligados por dentro da plaquinha — use
+    qualquer um e deixe o outro livre. O <code>VCC</code> vai no <code>VU</code> e o
+    <code>GND</code> no <code>G</code>, e é esse mesmo <code>G</code> que fecha o pé do
+    divisor: <strong>se os dois terras não forem o mesmo, a conta do divisor não
+    vale</strong>.</p>
 
     <figure class="fig">
       <div class="quadro">{{SVG_DIVISOR}}</div>
-      <figcaption>Os dois de baixo, em série, formam os 20 kΩ da conta.</figcaption>
+      <figcaption>Os dois resistores de baixo, em série, formam os 20 kΩ da conta.</figcaption>
     </figure>
 
     <div class="aviso grave">

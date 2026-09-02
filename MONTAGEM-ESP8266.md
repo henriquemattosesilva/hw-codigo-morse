@@ -18,19 +18,32 @@ A saída `DATA` do receptor de 433 MHz entrega cerca de 5 V. Os pinos do ESP8266
 não toleram isso: ligar direto vai degradar o pino com o tempo, e pode matá-lo
 de uma vez. Entre os dois vai um divisor resistivo.
 
+O módulo tem **quatro pinos, mas três ligações**: os dois `DATA` do meio são o
+mesmo ponto, ligados por dentro da plaquinha. Use qualquer um dos dois e deixe o
+outro livre.
+
 ```
-   DATA do receptor 433 MHz  (5 V)
-            │
-          [10 kΩ]
-            │
-            ├───────────────►  D2 do ESP8266   (3,33 V)
-            │
-          [10 kΩ]
-            │
-          [10 kΩ]
-            │
-           GND
+              módulo receptor 433 MHz
+        ┌────────────────────────────────────┐
+        │   VCC     DATA     DATA      GND   │
+        └────┬────────┬─────────┬────────┬───┘
+             │        │         │        │
+             │        │    (deixe livre) │
+             │        │                  │
+            VU     [10 kΩ]               G
+                      │
+                      ├──────────►  D2 do ESP8266   (3,33 V)
+                      │
+                   [10 kΩ]
+                      │
+                   [10 kΩ]
+                      │
+                      G      o mesmo terra do ESP
 ```
+
+`VCC` vai no **`VU`**, que é o 5 V da USB — não no `3V3`. `GND` vai no `G`, e é
+esse mesmo `G` que fecha o pé do divisor: se os dois terras não forem o mesmo, a
+conta do divisor não vale.
 
 Os dois resistores de baixo, em série, somam 20 kΩ:
 `5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V`. Você tem 19 resistores de 10 kΩ, e
@@ -91,10 +104,11 @@ alimentação do LCD e do módulo de rádio. Fica na fileira de baixo, entre `G`
 | LCD D5 | **D5** | 14 | |
 | LCD D6 | **D6** | 12 | |
 | LCD D7 | **D7** | 13 | |
-| DATA do rádio | **D2** | 4 | **atrás do divisor**, nunca direto |
+| DATA do rádio | **D2** | 4 | **atrás do divisor**, nunca direto. Qualquer um dos dois DATA |
+| VCC do rádio | **VU** | — | o 5 V da USB, não o `3V3` |
 | Chave de limpar | **D1** | 5 | outro terminal no `G` |
 | LED vermelho | **D0** | 16 | com resistor de 220 Ω |
-| 5 V do LCD e do rádio | **VU** | — | o 5 V da USB |
+| 5 V do LCD (pinos 2 e 15) | **VU** | — | o mesmo `VU` do rádio |
 | Terra | **G** | — | |
 
 O LCD liga igual à versão com Uno, menos a alimentação: os pinos 2 e 15 vão ao
