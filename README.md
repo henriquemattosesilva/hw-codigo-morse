@@ -88,9 +88,9 @@ símbolo que quer estiver na tela. O buzzer apita junto, para o ouvido acompanha
 
 ## A velocidade
 
-Todo o morse é medido em múltiplos de uma **unidade** de tempo, e o
-potenciômetro do transmissor define quanto ela vale — de 250 ms (bem lento, bom
-para aprender) a 60 ms (rápido).
+Todo o morse é medido em múltiplos de uma **unidade** de tempo. Aqui ela vale
+250 ms — lento, e bom para aprender. É a constante `UNIDADE`, no topo do sketch
+do transmissor: número maior deixa o morse mais lento.
 
 | Evento | Duração |
 |---|---|
@@ -101,8 +101,12 @@ para aprender) a 60 ms (rápido).
 | pausa entre palavras | 7 unidades |
 
 O código separa ponto de traço em **2 unidades**, que é o meio do caminho entre
-1 e 3. O potenciômetro só é lido com o manipulador parado, para que os limiares
-não mudem no meio de uma letra.
+1 e 3. Com 250 ms, isso quer dizer meio segundo: segurou mais que isso, virou
+traço.
+
+Não existe potenciômetro de velocidade no transmissor. Ele chegou a ter um, e
+saiu: a faixa que cobria ia até 60 ms, rápido demais para ser útil, e o extremo
+lento era o único ponto usado.
 
 ## O alfabeto
 
@@ -141,7 +145,7 @@ só aparece uma vez no display. Uma perda isolada não come nada.
 |---|---|
 | Mais alcance, aceitando lentidão | `RH_ASK radio(1000);` nos **dois** sketches |
 | Ambiente muito ruidoso | `REPETICOES` de 3 para 5, no transmissor |
-| Mudar a faixa de velocidade | `UNIDADE_LENTA` e `UNIDADE_RAPIDA`, no transmissor |
+| Morse mais lento ou mais rápido | `UNIDADE`, no transmissor. Maior é mais lento |
 | Botão registrando toques em dobro | aumente `DEBOUNCE_MS` para 40 |
 | Buzzer dá um clique em vez de apitar | ele é passivo: use `tone()` no lugar de `digitalWrite` |
 

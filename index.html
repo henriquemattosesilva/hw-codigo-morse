@@ -293,9 +293,9 @@ footer a{color:var(--fraco)}
 
       <div class="ajustes">
         <label class="ajuste">velocidade
-          <input type="range" id="vel" min="60" max="250" value="150" step="5"
+          <input type="range" id="vel" min="60" max="400" value="250" step="5"
                  aria-label="Unidade de tempo em milissegundos">
-          <span class="valor" id="vel-val">150 ms</span>
+          <span class="valor" id="vel-val">250 ms</span>
         </label>
         <label class="ajuste"><input type="checkbox" id="som"> sidetone</label>
         <button class="btn-txt" id="limpar">limpar</button>
@@ -327,7 +327,7 @@ footer a{color:var(--fraco)}
           <tr><td>Módulo receptor RF 433 MHz AM</td><td>recebe a letra</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Display LCD 16x2</td><td>mostra o morse e o texto</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Chave táctil</td><td>manipulador e limpar tela</td><td class="num">2</td><td class="num">19</td></tr>
-          <tr><td>Potenciômetro linear 10K</td><td>velocidade e contraste</td><td class="num">2</td><td class="num">3</td></tr>
+          <tr><td>Potenciômetro linear 10K</td><td>contraste do LCD</td><td class="num">1</td><td class="num">3</td></tr>
           <tr><td>LED verde 5 mm difuso</td><td>ponto e traço</td><td class="num">2</td><td class="num">10</td></tr>
           <tr><td>LED azul 5 mm difuso</td><td>letra e espaço</td><td class="num">1</td><td class="num">10</td></tr>
           <tr><td>LED vermelho 5 mm difuso</td><td>recebendo</td><td class="num">1</td><td class="num">6</td></tr>
@@ -383,8 +383,8 @@ footer a{color:var(--fraco)}
     de cada componente vão direto nas trilhas.</p>
 
     <figure class="fig">
-      <div class="quadro"><svg viewBox="0 0 880 676" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dtx-t"><title id="dtx-t">Ligacoes do transmissor</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V</text><rect x="32" y="627" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="641" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="544" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">ARDUINO NANO</text><rect x="184" y="107" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 118 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — manipulador</text><rect x="788.2" y="105" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D3</text><path d="M230 194 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="181" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 1 — ponto</text><rect x="788.2" y="181" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D4</text><path d="M230 270 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Buzzer ativo — 2 pinos</text><rect x="788.2" y="257" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D5</text><path d="M230 346 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="333" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 2 — traço</text><rect x="788.2" y="333" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="411" width="46" height="22" rx="5" fill="#48B8F5" fill-opacity="0.16" stroke="#48B8F5" stroke-opacity="0.5"/><text x="207.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#48B8F5">D6</text><path d="M230 422 H380" stroke="#48B8F5" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="409" width="68" height="26" rx="4" fill="#0E1526" stroke="#48B8F5" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#48B8F5">220 Ω</text><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED azul — espaço</text><rect x="788.2" y="409" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="487" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="503" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D12</text><path d="M230 498 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="470" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="503" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo TX 433 MHz</text><rect x="719.4" y="485" width="114.6" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="776.7" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ANT 17,3 cm</text><rect x="665.6" y="485" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="688.5" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="620.4" y="485" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="639.0" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text><rect x="184" y="563" width="46" height="22" rx="5" fill="#FFC24B" fill-opacity="0.16" stroke="#FFC24B" stroke-opacity="0.5"/><text x="207.0" y="579" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FFC24B">A0</text><path d="M230 574 H380" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="546" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="579" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Potenciômetro 10K — velocidade</text><rect x="788.2" y="561" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="743.0" y="561" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="761.6" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text></svg></div>
-      <figcaption>Transmissor: sete componentes, um fio de sinal cada.</figcaption>
+      <div class="quadro"><svg viewBox="0 0 880 600" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dtx-t"><title id="dtx-t">Ligacoes do transmissor</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V</text><rect x="32" y="551" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="565" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="468" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">ARDUINO NANO</text><rect x="184" y="107" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 118 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — manipulador</text><rect x="788.2" y="105" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D3</text><path d="M230 194 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="181" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 1 — ponto</text><rect x="788.2" y="181" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D4</text><path d="M230 270 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Buzzer ativo — 2 pinos</text><rect x="788.2" y="257" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D5</text><path d="M230 346 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="333" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 2 — traço</text><rect x="788.2" y="333" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="411" width="46" height="22" rx="5" fill="#48B8F5" fill-opacity="0.16" stroke="#48B8F5" stroke-opacity="0.5"/><text x="207.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#48B8F5">D6</text><path d="M230 422 H380" stroke="#48B8F5" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="409" width="68" height="26" rx="4" fill="#0E1526" stroke="#48B8F5" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#48B8F5">220 Ω</text><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED azul — espaço</text><rect x="788.2" y="409" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="487" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="503" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D12</text><path d="M230 498 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="470" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="503" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo TX 433 MHz</text><rect x="719.4" y="485" width="114.6" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="776.7" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ANT 17,3 cm</text><rect x="665.6" y="485" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="688.5" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="620.4" y="485" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="639.0" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text></svg></div>
+      <figcaption>Transmissor: seis componentes, um fio de sinal cada.</figcaption>
     </figure>
 
     <div class="aviso">
@@ -698,9 +698,9 @@ footer a{color:var(--fraco)}
     símbolo que quer estiver na tela. O buzzer apita junto, para o ouvido acompanhar o olho.</p>
 
     <h3>A velocidade</h3>
-    <p>Todo o morse é medido em múltiplos de uma <strong>unidade</strong> de tempo, e o
-    potenciômetro do transmissor define quanto ela vale — de 250 ms, bem lento e bom para
-    aprender, a 60 ms.</p>
+    <p>Todo o morse é medido em múltiplos de uma <strong>unidade</strong> de tempo. Aqui ela
+    vale 250 ms — lento, e bom para aprender. É a constante <code>UNIDADE</code>, no topo do
+    sketch do transmissor: número maior deixa o morse mais lento.</p>
 
     <div class="rolagem">
       <table>
@@ -715,8 +715,13 @@ footer a{color:var(--fraco)}
       </table>
     </div>
     <p>O código separa ponto de traço em <strong>2 unidades</strong>, que é o meio do
-    caminho entre 1 e 3. O potenciômetro só é lido com o manipulador parado, para que os
-    limiares não mudem no meio de uma letra.</p>
+    caminho entre 1 e 3. Com 250 ms, isso quer dizer meio segundo: segurou mais que isso,
+    virou traço.</p>
+    <p>Não existe potenciômetro de velocidade no transmissor. Ele chegou a ter um, e saiu:
+    a faixa que ele cobria ia até 60 ms, rápido demais para ser útil, e o extremo lento era
+    o único ponto usado. O <strong>manipulador aqui em cima</strong> é o lugar de descobrir
+    qual unidade combina com você — ache o valor no controle de velocidade e ponha esse
+    número em <code>UNIDADE</code>.</p>
 
     <h3>O alfabeto</h3>
     <p>Comece por <code>E</code>, <code>T</code>, <code>A</code> e <code>N</code>, que são
@@ -749,7 +754,7 @@ footer a{color:var(--fraco)}
         <tbody>
           <tr><td>Mais alcance, aceitando lentidão</td><td><code>RH_ASK radio(1000);</code> nos <strong>dois</strong> sketches</td></tr>
           <tr><td>Ambiente muito ruidoso</td><td><code>REPETICOES</code> de 3 para 5, no transmissor</td></tr>
-          <tr><td>Mudar a faixa de velocidade</td><td><code>UNIDADE_LENTA</code> e <code>UNIDADE_RAPIDA</code></td></tr>
+          <tr><td>Morse mais lento ou mais rápido</td><td><code>UNIDADE</code>, no transmissor. Maior é mais lento</td></tr>
           <tr><td>Botão registrando toques em dobro</td><td><code>DEBOUNCE_MS</code> para 40</td></tr>
           <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo: use <code>tone(PINO_BUZZER, 620)</code> e <code>noTone()</code> no lugar dos <code>digitalWrite</code></td></tr>
         </tbody>
@@ -853,13 +858,13 @@ footer a{color:var(--fraco)}
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>
           <tr><td>Botão dispara sozinho ou em dobro</td><td>você pegou o par de pinos errado da chave táctil; use os pinos na diagonal</td></tr>
           <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code></td></tr>
-          <tr><td>Todo toque vira traço</td><td>potenciômetro de velocidade no extremo rápido; gire para o lado lento</td></tr>
-          <tr><td>Todo toque vira ponto</td><td>o contrário, ou o cursor do potenciômetro não está em A0</td></tr>
+          <tr><td>Todo toque vira traço</td><td>você segura mais de 2 unidades — meio segundo, com <code>UNIDADE</code> em 250. Toques mais secos, ou aumente <code>UNIDADE</code></td></tr>
+          <tr><td>Todo toque vira ponto</td><td>o contrário: nenhum toque chega a meio segundo. Diminua <code>UNIDADE</code></td></tr>
           <tr><td>Os três LEDs piscam sem parar ao ligar</td><td>o rádio não iniciou; confira VCC e GND do módulo</td></tr>
           <tr><td>Upload no Nano falha com <code>not in sync: resp=0x00</code>, dez tentativas</td><td><strong>confirmado na bancada:</strong> Tools → Processor → <em>ATmega328P (Old Bootloader)</em>. O clone fala a 57600 bauds e o IDE tenta 115200</td></tr>
           <tr><td>Upload falha e você tem as duas placas no USB</td><td>a COM escolhida pode ser a do ESP8266, que também aparece como porta. Desconecte o ESP e veja qual porta some</td></tr>
           <tr><td>Toda letra sai separada por <code>[espaco]</code></td><td>é a pausa entre as suas letras passando de 7 unidades. A 250 ms isso é 1,75 s — normal quando se testa letra por letra</td></tr>
-          <tr><td>O serial mostra sempre <code>unidade: 250ms</code></td><td>o valor só é impresso no <code>setup()</code>. Gire o potenciômetro e aperte o reset: se não mudar, o cursor não está no A0</td></tr>
+          <tr><td>O morse está lento ou rápido demais para você</td><td><code>UNIDADE</code>, no topo do transmissor. Número maior é mais lento</td></tr>
         </tbody>
       </table>
     </div>
@@ -889,8 +894,8 @@ footer a{color:var(--fraco)}
       azul aceso        -> silencio passou de 3 unidades, a letra foi enviada
       azul piscando 2x  -> silencio passou de 7 unidades, espaco enviado
 
-  O potenciometro em A0 ajusta a unidade de tempo, de 250ms (bem lento, bom para
-  aprender) a 60ms (rapido). O buzzer apita junto com o toque, como sidetone.
+  A unidade de tempo e fixa em UNIDADE, la embaixo. Para mudar o ritmo, troque
+  esse numero e regrave. O buzzer apita junto com o toque, como sidetone.
 
   Biblioteca necessaria: RadioHead (Mike McCauley), no Library Manager.
   Placa: Arduino Nano, processador ATmega328P (Old Bootloader nos clones).
@@ -905,12 +910,13 @@ const uint8_t PINO_PONTO  = 3;   // LED verde 1 + resistor 220R
 const uint8_t PINO_BUZZER = 4;   // buzzer ativo, so S e GND
 const uint8_t PINO_TRACO  = 5;   // LED verde 2 + resistor 220R
 const uint8_t PINO_ESPACO = 6;   // LED azul    + resistor 220R
-const uint8_t PINO_POT    = A0;  // potenciometro 10K, velocidade
 // D12 e o DATA do modulo transmissor, padrao da RH_ASK no AVR.
 
 // ------------------------------------------------------------- constantes
-const uint16_t UNIDADE_LENTA  = 250;  // ms com o potenciometro no minimo
-const uint16_t UNIDADE_RAPIDA = 60;   // ms com o potenciometro no maximo
+// A unidade de tempo do morse, em ms. Tudo o mais e multiplo dela: ponto 1,
+// traco 3, pausa entre letras 3, entre palavras 7. Numero maior, morse mais
+// lento. 250 e confortavel para aprender; abaixo de 100 ja e bem rapido.
+const uint16_t UNIDADE        = 250;
 const uint8_t  DEBOUNCE_MS    = 25;   // transicoes mais rapidas que isso sao ruido
 const uint8_t  MAX_SIMBOLOS   = 6;    // pontos e tracos por letra
 const uint8_t  REPETICOES     = 3;    // copias de cada caractere no ar
@@ -937,7 +943,6 @@ unsigned long tInicio    = 0;  // inicio do toque atual
 unsigned long tSoltura   = 0;  // fim do ultimo toque
 
 bool     aguardandoEspaco = false;  // letra fechada, espaco de palavra ainda nao saiu
-uint16_t unidade = 120;
 uint8_t  sequencia = 0;
 
 uint8_t  piscaRestante = 0;
@@ -968,10 +973,9 @@ void setup() {
   }
 
   testeInicial();
-  unidade = leVelocidade();
   simbolos[0] = '\0';
   tSoltura = millis();
-  Serial.print(F("unidade: ")); Serial.print(unidade); Serial.println(F("ms"));
+  Serial.print(F("unidade: ")); Serial.print(UNIDADE); Serial.println(F("ms"));
 }
 
 // Acende os LEDs em sequencia e da um bipe. Confere a fiacao sem multimetro.
@@ -998,12 +1002,12 @@ void loop() {
 
   if (pressionado) {
     // O segundo verde acende no instante em que o toque deixa de ser um ponto.
-    if (agora - tInicio >= 2UL * unidade) digitalWrite(PINO_TRACO, HIGH);
+    if (agora - tInicio >= 2UL * UNIDADE) digitalWrite(PINO_TRACO, HIGH);
   } else {
     unsigned long silencio = agora - tSoltura;
-    if (nSimbolos > 0 && silencio >= 3UL * unidade) {
+    if (nSimbolos > 0 && silencio >= 3UL * UNIDADE) {
       fechaLetra();
-    } else if (nSimbolos == 0 && aguardandoEspaco && silencio >= 7UL * unidade) {
+    } else if (nSimbolos == 0 && aguardandoEspaco && silencio >= 7UL * UNIDADE) {
       enviaCaractere(' ');
       Serial.println(F("[espaco]"));
       aguardandoEspaco = false;
@@ -1011,9 +1015,6 @@ void loop() {
       tPisca = agora;
       digitalWrite(PINO_ESPACO, LOW);
     }
-    // O potenciometro so e relido com o manipulador parado, para que os
-    // limiares nao mudem no meio de uma letra.
-    if (nSimbolos == 0 && !aguardandoEspaco) unidade = leVelocidade();
   }
 
   atualizaPisca(agora);
@@ -1037,7 +1038,7 @@ void fimDoToque(unsigned long agora) {
   digitalWrite(PINO_PONTO, LOW);
   digitalWrite(PINO_TRACO, LOW);
   digitalWrite(PINO_BUZZER, LOW);
-  registraSimbolo(duracao >= 2UL * unidade ? '-' : '.');
+  registraSimbolo(duracao >= 2UL * UNIDADE ? '-' : '.');
 }
 
 void registraSimbolo(char s) {
@@ -1105,10 +1106,6 @@ void atualizaPisca(unsigned long agora) {
   tPisca = agora;
   piscaRestante--;
   digitalWrite(PINO_ESPACO, (piscaRestante % 2) == 1 ? HIGH : LOW);
-}
-
-uint16_t leVelocidade() {
-  return (uint16_t)map(analogRead(PINO_POT), 0, 1023, UNIDADE_LENTA, UNIDADE_RAPIDA);
 }</script>
 <script type="text/plain" id="fonte-rx">/*
   TELEGRAFO SEM FIO - RECEPTOR (Arduino Uno)

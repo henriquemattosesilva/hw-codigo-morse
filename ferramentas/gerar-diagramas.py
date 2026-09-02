@@ -139,8 +139,6 @@ tx = diagrama_placa(
          "resistor": "220 Ω", "chips": [("GND", C["menos"])]},
         {"nome": "Módulo TX 433 MHz", "pino": "D12", "cor": C["sinal"],
          "chips": [("5V", C["mais"]), ("GND", C["menos"]), ("ANT 17,3 cm", C["fraco"])]},
-        {"nome": "Potenciômetro 10K — velocidade", "pino": "A0", "cor": C["traco"],
-         "chips": [("5V", C["mais"]), ("GND", C["menos"])]},
     ], "dtx")
 
 rx = diagrama_placa(

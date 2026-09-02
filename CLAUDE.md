@@ -17,14 +17,14 @@ verificado.
 
 ---
 
-## Estado em 01/09/2026
+## Estado em 02/09/2026
 
 O transmissor **já está montado e funcionando na bancada**. O receptor com ESP8266 está
 montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 
 | Item | Situação |
 |---|---|
-| `transmissor-nano.ino` | compila para `arduino:avr:nano` — 27% de flash, 30% de RAM |
+| `transmissor-nano.ino` | compila para `arduino:avr:nano` — 26% de flash, 30% de RAM |
 | `receptor-uno.ino` | compila para `arduino:avr:uno` — 27% de flash, 32% de RAM |
 | Árvore de morse | os 36 caracteres testados nos dois sentidos contra a tabela ITU, 0 erro |
 | `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
@@ -36,8 +36,7 @@ montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 
 ### O que o hardware já provou (01/09/2026)
 
-O Nano grava e o manipulador funciona. No monitor serial, com o potenciômetro no extremo
-lento, saiu:
+O Nano grava e o manipulador funciona. No monitor serial saiu:
 
 ```
 Telegrafo - transmissor
@@ -87,9 +86,10 @@ Esta é a parte que importa conforme a montagem avança. Nada abaixo foi comprov
 hardware — são decisões tomadas na leitura de datasheet e no raciocínio. O que passar sai
 daqui.
 
-Saiu em 01/09/2026: o **debounce de 25 ms** e a **faixa de 60 a 250 ms**, que se
-comportaram no manipulador real sem toque em dobro nem letra perdida. A faixa foi provada
-só no extremo lento — ele ainda não girou o potenciômetro.
+Saiu em 01/09/2026 o **debounce de 25 ms**, que se comportou no manipulador real sem
+registrar toque em dobro. E em 02/09/2026 a **velocidade**: 250 ms por unidade é
+confortável, e o extremo rápido de 60 ms era inútil — foi o que motivou tirar o
+potenciômetro.
 
 **O buzzer é mesmo ativo?** Ele tem só dois pinos, S e GND — sem VCC, quem o alimenta é o
 próprio D4, então **não há como ele ser acionado por nível baixo**: nível alto é a única
@@ -191,14 +191,24 @@ sem como divergir. Não trocar por duas tabelas de string.
 
 **As repetições do pacote saem uma por volta do loop, em `bombeiaRadio()`.** `RH_ASK::send()`
 chama `waitPacketSent()` internamente, então mandar as três cópias em sequência travaria o
-Nano por uns 200 ms a cada letra. Na velocidade rápida um ponto dura 60 ms: o operador
-perderia toques. O `bombeiaRadio()` só chama `send()` quando `radio.mode() != RHModeTx`.
+Nano por uns 200 ms a cada letra. Com a `UNIDADE` em 250 ms isso ainda passaria, mas
+baixando a constante para 100 ms um ponto inteiro cabe dentro do travamento e o operador
+perde toques. O `bombeiaRadio()` só chama `send()` quando `radio.mode() != RHModeTx`.
 
 **O pisca duplo do LED azul é máquina de estados, não `delay()`.** Um `delay(320)` cairia
 bem no momento em que a próxima palavra pode começar.
 
-**O potenciômetro só é lido com o manipulador parado.** Reler no meio de uma letra mudaria
-os limiares entre o aperto e a soltura.
+**A velocidade é fixa na constante `UNIDADE`, e o potenciômetro do transmissor saiu**
+(02/09/2026). O projeto nasceu com um potenciômetro em A0 varrendo de 250 ms a 60 ms. Na
+bancada o Henrique girou até o extremo rápido, achou inútil e nunca saiu dos 250 ms. Um
+controle cujo curso inteiro é ruim menos uma ponta é um componente, um fio e um pino a
+troco de nada.
+
+Isso **não** quer dizer que a velocidade deixou de ser ajustável: virou um número no topo
+do sketch. O que se perdeu foi ajustar sem regravar, e ele não estava usando.
+
+Se um dia voltar, o certo é uma faixa mais lenta — algo como 400 a 150 ms — e não a que
+estava lá. O que o teste mostrou foi faixa errada, não que adiantar e atrasar seja inútil.
 
 **Os LEDs acendem antes de soltar o botão, não depois.** Um verde no toque, o segundo ao
 cruzar 2 unidades, azul ao cruzar 3 e piscando ao cruzar 7. É o ponto do projeto: mostrar os
@@ -235,7 +245,8 @@ A `RH_ASK` configura três pinos sozinha, mesmo os que o projeto não usa: **D10
 nas duas placas. Em cada lado só um deles leva fio — D12 no Nano, D11 no Uno — e os outros
 têm de ficar vazios. **D0 e D1 são a USB** e não podem ser usados em lado nenhum.
 
-Nano: D2 botão, D3 LED verde 1, D4 buzzer, D5 LED verde 2, D6 LED azul, D12 rádio, A0 pot.
+Nano: D2 botão, D3 LED verde 1, D4 buzzer, D5 LED verde 2, D6 LED azul, D12 rádio. O A0
+ficou livre quando o potenciômetro de velocidade saiu.
 Uno: D2-D7 LCD (RS, E, D4-D7), D8 LED vermelho, D9 botão limpar, D11 rádio.
 
 **No ESP8266 a regra é outra.** GPIO0 e GPIO2 precisam de nível alto no boot e GPIO15 de

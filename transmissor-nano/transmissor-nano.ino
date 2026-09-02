@@ -13,8 +13,8 @@
       azul aceso        -> silencio passou de 3 unidades, a letra foi enviada
       azul piscando 2x  -> silencio passou de 7 unidades, espaco enviado
 
-  O potenciometro em A0 ajusta a unidade de tempo, de 250ms (bem lento, bom para
-  aprender) a 60ms (rapido). O buzzer apita junto com o toque, como sidetone.
+  A unidade de tempo e fixa em UNIDADE, la embaixo. Para mudar o ritmo, troque
+  esse numero e regrave. O buzzer apita junto com o toque, como sidetone.
 
   Biblioteca necessaria: RadioHead (Mike McCauley), no Library Manager.
   Placa: Arduino Nano, processador ATmega328P (Old Bootloader nos clones).
@@ -29,12 +29,13 @@ const uint8_t PINO_PONTO  = 3;   // LED verde 1 + resistor 220R
 const uint8_t PINO_BUZZER = 4;   // buzzer ativo, so S e GND
 const uint8_t PINO_TRACO  = 5;   // LED verde 2 + resistor 220R
 const uint8_t PINO_ESPACO = 6;   // LED azul    + resistor 220R
-const uint8_t PINO_POT    = A0;  // potenciometro 10K, velocidade
 // D12 e o DATA do modulo transmissor, padrao da RH_ASK no AVR.
 
 // ------------------------------------------------------------- constantes
-const uint16_t UNIDADE_LENTA  = 250;  // ms com o potenciometro no minimo
-const uint16_t UNIDADE_RAPIDA = 60;   // ms com o potenciometro no maximo
+// A unidade de tempo do morse, em ms. Tudo o mais e multiplo dela: ponto 1,
+// traco 3, pausa entre letras 3, entre palavras 7. Numero maior, morse mais
+// lento. 250 e confortavel para aprender; abaixo de 100 ja e bem rapido.
+const uint16_t UNIDADE        = 250;
 const uint8_t  DEBOUNCE_MS    = 25;   // transicoes mais rapidas que isso sao ruido
 const uint8_t  MAX_SIMBOLOS   = 6;    // pontos e tracos por letra
 const uint8_t  REPETICOES     = 3;    // copias de cada caractere no ar
@@ -61,7 +62,6 @@ unsigned long tInicio    = 0;  // inicio do toque atual
 unsigned long tSoltura   = 0;  // fim do ultimo toque
 
 bool     aguardandoEspaco = false;  // letra fechada, espaco de palavra ainda nao saiu
-uint16_t unidade = 120;
 uint8_t  sequencia = 0;
 
 uint8_t  piscaRestante = 0;
@@ -92,10 +92,9 @@ void setup() {
   }
 
   testeInicial();
-  unidade = leVelocidade();
   simbolos[0] = '\0';
   tSoltura = millis();
-  Serial.print(F("unidade: ")); Serial.print(unidade); Serial.println(F("ms"));
+  Serial.print(F("unidade: ")); Serial.print(UNIDADE); Serial.println(F("ms"));
 }
 
 // Acende os LEDs em sequencia e da um bipe. Confere a fiacao sem multimetro.
@@ -122,12 +121,12 @@ void loop() {
 
   if (pressionado) {
     // O segundo verde acende no instante em que o toque deixa de ser um ponto.
-    if (agora - tInicio >= 2UL * unidade) digitalWrite(PINO_TRACO, HIGH);
+    if (agora - tInicio >= 2UL * UNIDADE) digitalWrite(PINO_TRACO, HIGH);
   } else {
     unsigned long silencio = agora - tSoltura;
-    if (nSimbolos > 0 && silencio >= 3UL * unidade) {
+    if (nSimbolos > 0 && silencio >= 3UL * UNIDADE) {
       fechaLetra();
-    } else if (nSimbolos == 0 && aguardandoEspaco && silencio >= 7UL * unidade) {
+    } else if (nSimbolos == 0 && aguardandoEspaco && silencio >= 7UL * UNIDADE) {
       enviaCaractere(' ');
       Serial.println(F("[espaco]"));
       aguardandoEspaco = false;
@@ -135,9 +134,6 @@ void loop() {
       tPisca = agora;
       digitalWrite(PINO_ESPACO, LOW);
     }
-    // O potenciometro so e relido com o manipulador parado, para que os
-    // limiares nao mudem no meio de uma letra.
-    if (nSimbolos == 0 && !aguardandoEspaco) unidade = leVelocidade();
   }
 
   atualizaPisca(agora);
@@ -161,7 +157,7 @@ void fimDoToque(unsigned long agora) {
   digitalWrite(PINO_PONTO, LOW);
   digitalWrite(PINO_TRACO, LOW);
   digitalWrite(PINO_BUZZER, LOW);
-  registraSimbolo(duracao >= 2UL * unidade ? '-' : '.');
+  registraSimbolo(duracao >= 2UL * UNIDADE ? '-' : '.');
 }
 
 void registraSimbolo(char s) {
@@ -229,8 +225,4 @@ void atualizaPisca(unsigned long agora) {
   tPisca = agora;
   piscaRestante--;
   digitalWrite(PINO_ESPACO, (piscaRestante % 2) == 1 ? HIGH : LOW);
-}
-
-uint16_t leVelocidade() {
-  return (uint16_t)map(analogRead(PINO_POT), 0, 1023, UNIDADE_LENTA, UNIDADE_RAPIDA);
 }

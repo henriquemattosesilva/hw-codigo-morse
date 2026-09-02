@@ -293,9 +293,9 @@ footer a{color:var(--fraco)}
 
       <div class="ajustes">
         <label class="ajuste">velocidade
-          <input type="range" id="vel" min="60" max="250" value="150" step="5"
+          <input type="range" id="vel" min="60" max="400" value="250" step="5"
                  aria-label="Unidade de tempo em milissegundos">
-          <span class="valor" id="vel-val">150 ms</span>
+          <span class="valor" id="vel-val">250 ms</span>
         </label>
         <label class="ajuste"><input type="checkbox" id="som"> sidetone</label>
         <button class="btn-txt" id="limpar">limpar</button>
@@ -327,7 +327,7 @@ footer a{color:var(--fraco)}
           <tr><td>Módulo receptor RF 433 MHz AM</td><td>recebe a letra</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Display LCD 16x2</td><td>mostra o morse e o texto</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Chave táctil</td><td>manipulador e limpar tela</td><td class="num">2</td><td class="num">19</td></tr>
-          <tr><td>Potenciômetro linear 10K</td><td>velocidade e contraste</td><td class="num">2</td><td class="num">3</td></tr>
+          <tr><td>Potenciômetro linear 10K</td><td>contraste do LCD</td><td class="num">1</td><td class="num">3</td></tr>
           <tr><td>LED verde 5 mm difuso</td><td>ponto e traço</td><td class="num">2</td><td class="num">10</td></tr>
           <tr><td>LED azul 5 mm difuso</td><td>letra e espaço</td><td class="num">1</td><td class="num">10</td></tr>
           <tr><td>LED vermelho 5 mm difuso</td><td>recebendo</td><td class="num">1</td><td class="num">6</td></tr>
@@ -384,7 +384,7 @@ footer a{color:var(--fraco)}
 
     <figure class="fig">
       <div class="quadro">{{SVG_TX}}</div>
-      <figcaption>Transmissor: sete componentes, um fio de sinal cada.</figcaption>
+      <figcaption>Transmissor: seis componentes, um fio de sinal cada.</figcaption>
     </figure>
 
     <div class="aviso">
@@ -509,9 +509,9 @@ footer a{color:var(--fraco)}
     símbolo que quer estiver na tela. O buzzer apita junto, para o ouvido acompanhar o olho.</p>
 
     <h3>A velocidade</h3>
-    <p>Todo o morse é medido em múltiplos de uma <strong>unidade</strong> de tempo, e o
-    potenciômetro do transmissor define quanto ela vale — de 250 ms, bem lento e bom para
-    aprender, a 60 ms.</p>
+    <p>Todo o morse é medido em múltiplos de uma <strong>unidade</strong> de tempo. Aqui ela
+    vale 250 ms — lento, e bom para aprender. É a constante <code>UNIDADE</code>, no topo do
+    sketch do transmissor: número maior deixa o morse mais lento.</p>
 
     <div class="rolagem">
       <table>
@@ -526,8 +526,13 @@ footer a{color:var(--fraco)}
       </table>
     </div>
     <p>O código separa ponto de traço em <strong>2 unidades</strong>, que é o meio do
-    caminho entre 1 e 3. O potenciômetro só é lido com o manipulador parado, para que os
-    limiares não mudem no meio de uma letra.</p>
+    caminho entre 1 e 3. Com 250 ms, isso quer dizer meio segundo: segurou mais que isso,
+    virou traço.</p>
+    <p>Não existe potenciômetro de velocidade no transmissor. Ele chegou a ter um, e saiu:
+    a faixa que ele cobria ia até 60 ms, rápido demais para ser útil, e o extremo lento era
+    o único ponto usado. O <strong>manipulador aqui em cima</strong> é o lugar de descobrir
+    qual unidade combina com você — ache o valor no controle de velocidade e ponha esse
+    número em <code>UNIDADE</code>.</p>
 
     <h3>O alfabeto</h3>
     <p>Comece por <code>E</code>, <code>T</code>, <code>A</code> e <code>N</code>, que são
@@ -560,7 +565,7 @@ footer a{color:var(--fraco)}
         <tbody>
           <tr><td>Mais alcance, aceitando lentidão</td><td><code>RH_ASK radio(1000);</code> nos <strong>dois</strong> sketches</td></tr>
           <tr><td>Ambiente muito ruidoso</td><td><code>REPETICOES</code> de 3 para 5, no transmissor</td></tr>
-          <tr><td>Mudar a faixa de velocidade</td><td><code>UNIDADE_LENTA</code> e <code>UNIDADE_RAPIDA</code></td></tr>
+          <tr><td>Morse mais lento ou mais rápido</td><td><code>UNIDADE</code>, no transmissor. Maior é mais lento</td></tr>
           <tr><td>Botão registrando toques em dobro</td><td><code>DEBOUNCE_MS</code> para 40</td></tr>
           <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo: use <code>tone(PINO_BUZZER, 620)</code> e <code>noTone()</code> no lugar dos <code>digitalWrite</code></td></tr>
         </tbody>
@@ -664,13 +669,13 @@ footer a{color:var(--fraco)}
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>
           <tr><td>Botão dispara sozinho ou em dobro</td><td>você pegou o par de pinos errado da chave táctil; use os pinos na diagonal</td></tr>
           <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code></td></tr>
-          <tr><td>Todo toque vira traço</td><td>potenciômetro de velocidade no extremo rápido; gire para o lado lento</td></tr>
-          <tr><td>Todo toque vira ponto</td><td>o contrário, ou o cursor do potenciômetro não está em A0</td></tr>
+          <tr><td>Todo toque vira traço</td><td>você segura mais de 2 unidades — meio segundo, com <code>UNIDADE</code> em 250. Toques mais secos, ou aumente <code>UNIDADE</code></td></tr>
+          <tr><td>Todo toque vira ponto</td><td>o contrário: nenhum toque chega a meio segundo. Diminua <code>UNIDADE</code></td></tr>
           <tr><td>Os três LEDs piscam sem parar ao ligar</td><td>o rádio não iniciou; confira VCC e GND do módulo</td></tr>
           <tr><td>Upload no Nano falha com <code>not in sync: resp=0x00</code>, dez tentativas</td><td><strong>confirmado na bancada:</strong> Tools → Processor → <em>ATmega328P (Old Bootloader)</em>. O clone fala a 57600 bauds e o IDE tenta 115200</td></tr>
           <tr><td>Upload falha e você tem as duas placas no USB</td><td>a COM escolhida pode ser a do ESP8266, que também aparece como porta. Desconecte o ESP e veja qual porta some</td></tr>
           <tr><td>Toda letra sai separada por <code>[espaco]</code></td><td>é a pausa entre as suas letras passando de 7 unidades. A 250 ms isso é 1,75 s — normal quando se testa letra por letra</td></tr>
-          <tr><td>O serial mostra sempre <code>unidade: 250ms</code></td><td>o valor só é impresso no <code>setup()</code>. Gire o potenciômetro e aperte o reset: se não mudar, o cursor não está no A0</td></tr>
+          <tr><td>O morse está lento ou rápido demais para você</td><td><code>UNIDADE</code>, no topo do transmissor. Número maior é mais lento</td></tr>
         </tbody>
       </table>
     </div>

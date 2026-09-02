@@ -49,7 +49,10 @@ do Nano na trilha vermelha (+) e o **GND** na trilha azul (−) das laterais.
 | LED **verde 2** (traço) | **D5** → resistor 220 Ω → anodo; catodo → GND (−) |
 | LED **azul** (espaço) | **D6** → resistor 220 Ω → anodo; catodo → GND (−) |
 | Módulo transmissor 433 MHz | DATA → **D12**; VCC → 5V (+); GND → GND (−) |
-| Potenciômetro 10K (velocidade) | pino da esquerda → 5V (+); **cursor (do meio) → A0**; pino da direita → GND (−) |
+
+**A velocidade é fixa, definida no código.** Não há potenciômetro neste lado. A
+constante `UNIDADE`, no topo do `transmissor-nano.ino`, vale 250 ms — lento e
+bom para aprender. Para mudar o ritmo, troque esse número e regrave.
 
 **O buzzer não tem pino de alimentação.** Com apenas S e GND, quem alimenta o
 buzzer é o próprio pino D4: ao ir para nível alto, ele fornece os 5 V e a
@@ -71,9 +74,9 @@ da plaquinha, é o da antena.
 ```
                         trilha +  (5V)
    ┌──────────────────────────────────────────────┐
-   │  [POT 10K]        [BUZZER]      [TX 433MHz]  │
-   │   │ │ │            │  │          │   │   │   │
-   │   +A0 −            D4 −         D12  +   −   │      antena: fio reto
+   │            [BUZZER]             [TX 433MHz]  │
+   │             │  │                 │   │   │   │
+   │             D4 −                D12  +   −   │      antena: fio reto
    │                                               │      de 17,3 cm no furo ANT
    │        ┌───────────────────┐                  │
    │        │   ARDUINO NANO    │                  │
@@ -84,7 +87,7 @@ da plaquinha, é o da antena.
    │            │ 220 │ 220 220                    │
    │            │  │  │  │  │                      │
    │            │ LED│ LED LED                     │
-   │            │verde amar azul                   │
+   │            │verde verde azul                  │
    └────────────┴──┴──┴──┴──┴──────────────────────┘
                         trilha −  (GND)
 ```
@@ -168,8 +171,7 @@ com a IDE.
 abra o monitor serial em **9600 baud**. Ao ligar, os três LEDs devem acender em
 sequência e o buzzer dar um bipe — isso confirma a fiação sem multímetro.
 
-Gire o potenciômetro para o lado lento e bata no botão. Cada letra fechada
-aparece no monitor assim:
+Bata no botão. Cada letra fechada aparece no monitor assim:
 
 ```
 .- = A
@@ -210,10 +212,10 @@ Bata uma letra no botão: o LED vermelho pisca e a letra aparece no LCD.
 | Chegam letras aleatórias sem você bater nada | ruído de 433 MHz de portão ou campainha; é normal que apareça pouca coisa, o CRC barra quase tudo |
 | Botão dispara sozinho ou em dobro | você pegou o par de pinos errado da chave táctil; use os pinos na diagonal |
 | Buzzer dá um clique em vez de apitar | ele é passivo, não ativo: troque os `digitalWrite` de `PINO_BUZZER` por `tone(PINO_BUZZER, 620)` e `noTone(PINO_BUZZER)` |
-| Todo toque vira traço | potenciômetro de velocidade no extremo rápido; gire para o lado lento |
-| Todo toque vira ponto | o contrário, ou o cursor do potenciômetro não está em A0 |
+| Todo toque vira traço | você está segurando mais de 2 unidades — meio segundo, com `UNIDADE` em 250. Toques mais secos, ou aumente `UNIDADE` |
+| Todo toque vira ponto | o contrário: nenhum toque chega a meio segundo. Diminua `UNIDADE` |
 | Os três LEDs piscam sem parar ao ligar | o rádio não iniciou; confira VCC e GND do módulo |
 | Upload no Nano falha com `not in sync: resp=0x00`, dez tentativas | **confirmado em 01/09/2026:** selecione Tools → Processor → *ATmega328P (Old Bootloader)*. O clone fala a 57600 bauds e o IDE tenta 115200 |
 | Upload falha e você tem as duas placas no USB | a COM escolhida pode ser a do ESP8266, que também aparece como porta. Desconecte o ESP e veja qual porta some |
 | Toda letra sai separada por `[espaco]` | é a pausa entre as suas letras passando de 7 unidades. A 250 ms isso é 1,75 s — normal quando se testa letra por letra |
-| O serial mostra sempre `unidade: 250ms` | o valor só é impresso no `setup()`. Gire o potenciômetro e aperte o reset: se não mudar, o cursor não está no A0 |
+| O morse está lento ou rápido demais para você | `UNIDADE`, no topo do `transmissor-nano.ino`. Número maior é mais lento |
