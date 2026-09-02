@@ -123,6 +123,22 @@ Isso prova de uma vez o transmissor transmitindo, os dois módulos, as antenas, 
 **A PRÓXIMA AÇÃO É GRAVAR O `teste-radio-esp` E LER O LOG.** Ele resolve as duas de uma
 vez: 20 segundos com o WiFi realmente desligado, depois ligado, no mesmo log.
 
+Como rodar, para não depender de nenhuma conversa:
+
+- **Fiação:** só o rádio precisa estar ligado, o LCD pode ficar ou sair.
+  `DATA → 10 k → nó do D2 → 10 k → 10 k → G`, `VCC → VU`, `GND → G`, antena de 17,3 cm.
+  O **Nano precisa estar alimentado**, porque é ele que transmite.
+- **IDE:** placa `NodeMCU 1.0 (ESP-12E Module)`, serial a **115200**. Cuidado com a porta:
+  as duas placas são `USB-SERIAL CH340`; a do ESP é a que o esptool identifica como
+  `ESP8266EX`.
+- **Bater no manipulador durante as duas fases**, senão a comparação não existe.
+
+Cada pacote recebido sai marcado com `[1]` ou `[2]`, e a cada 5 s vem um balanço:
+
+```
+[balanco] fase 1   wifi: off   sem wifi: 0   com wifi: 0   boas: 0   mas: 0   transicoes/20ms: 3421
+```
+
 | O log mostra | Significa |
 |---|---|
 | `transicoes` perto de zero | o fio está morto: divisor, pino D2 errado, alimentação do módulo ou mau contato |
