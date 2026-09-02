@@ -14,12 +14,10 @@
   NAO pode ir direto num pino do ESP: precisa do divisor de 10k + 20k
   descrito no MONTAGEM-ESP8266.md. Ligar direto degrada o pino com o tempo.
 
-  Os pinos GPIO0, GPIO2 e GPIO15 sao lidos no boot para decidir o modo de
-  inicializacao, e por isso levam o LCD, nao o radio: as entradas do display
-  ficam em alta impedancia ate o programa comecar, entao os resistores da
-  placa mantem o nivel que o boot exige. A saida do receptor de radio, ao
-  contrario, e ruido aleatorio enquanto nao ha transmissao — num pino desses
-  seria cara ou coroa a cada vez que voce ligasse.
+  Os pinos GPIO0, GPIO2 e GPIO15 sao lidos no boot e nao aceitam qualquer
+  coisa. A distribuicao deles esta explicada em "OS PINOS DE BOOT", logo
+  abaixo das constantes — e nao e arbitraria: uma montagem anterior nao
+  gravava por causa disso.
   ------------------------------------------------------------------------
 
   Bibliotecas: RadioHead, PubSubClient (Nick O'Leary) e LiquidCrystal.
@@ -37,15 +35,53 @@
 
 // ------------------------------------------------------------------ pinos
 // Rotulo da placa -> GPIO. O construtor da LiquidCrystal quer o GPIO.
-const uint8_t LCD_RS = 15;  // D8  · pino de boot, precisa de nivel baixo
-const uint8_t LCD_E  = 0;   // D3  · pino de boot, precisa de nivel alto
-const uint8_t LCD_D4 = 2;   // D4  · pino de boot e LED da placa: vai piscar
+//
+// Sao tres os pinos que o ESP le no boot, e cada um deles ficou com a carga
+// que empurra para o lado certo. Ver o comentario "OS PINOS DE BOOT" abaixo.
+const uint8_t LCD_RS = 5;   // D1
+const uint8_t LCD_E  = 16;  // D0 · tambem o LED da placa: vai piscar
+const uint8_t LCD_D4 = 2;   // D4 · pino de boot (alto) e LED do modulo
 const uint8_t LCD_D5 = 14;  // D5
 const uint8_t LCD_D6 = 12;  // D6
 const uint8_t LCD_D7 = 13;  // D7
 const uint8_t PINO_RADIO  = 4;   // D2 · DATA do receptor, atras do divisor
-const uint8_t PINO_LIMPAR = 5;   // D1 · chave tactil, outro terminal no GND
-const uint8_t PINO_LED_RX = 16;  // D0 · LED vermelho + resistor 220R
+const uint8_t PINO_LIMPAR = 0;   // D3 · pino de boot (alto); botao ao GND
+const uint8_t PINO_LED_RX = 15;  // D8 · pino de boot (baixo); LED ao GND
+
+/*
+  OS PINOS DE BOOT, E POR QUE ELES ESTAO ASSIM
+
+  GPIO0, GPIO2 e GPIO15 sao lidos no instante do reset para decidir o modo de
+  inicializacao. O que estiver ligado neles tem de deixar o nivel exigido:
+
+      GPIO0  (D3) alto para rodar, baixo para gravar
+      GPIO2  (D4) alto
+      GPIO15 (D8) baixo
+
+  A primeira montagem punha o LCD nos tres, no raciocinio de que as entradas
+  dele ficam em alta impedancia e nao perturbariam nada. Na bancada isso se
+  mostrou falso no GPIO15: o LCD e alimentado em 5V pelo VU, e a fuga pelos
+  diodos de protecao da entrada RS puxava o pino para cima, vencendo o resistor
+  de 12k da placa. O ESP entrava em modo SDIO e a gravacao morria em
+  "Timed out waiting for packet header".
+
+  Agora cada pino de boot tem uma carga compativel:
+
+      GPIO0  o botao de limpar, aberto no boot: o pull-up interno o deixa alto.
+             E como o proprio botao FLASH da placa e ligado.
+      GPIO2  uma linha de dados do LCD: a fuga dos 5V puxa para cima, que e
+             justamente o nivel que este pino quer.
+      GPIO15 o LED vermelho. Abaixo da tensao direta o LED e quase circuito
+             aberto, entao ele nao e um pull-down — o merito e nao brigar com
+             o resistor da placa, ao contrario do que o LCD fazia.
+
+  Efeito colateral de por o botao no GPIO0: segurar "limpar" enquanto a placa
+  reseta faz o ESP entrar em modo de gravacao. Nao segure no reset.
+
+  O radio continua fora dos tres. A saida dele e ruido aleatorio enquanto nao
+  ha transmissao — num pino de boot seria cara ou coroa a cada vez que voce
+  ligasse.
+*/
 
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 

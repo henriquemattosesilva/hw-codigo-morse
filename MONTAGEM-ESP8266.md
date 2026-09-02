@@ -52,20 +52,38 @@ esta montagem usa três.
 **Não pule esta parte nem para "só testar rápido".** É o tipo de dano que não
 aparece na hora e depois deixa você caçando um defeito que parece de software.
 
-### 2. O LCD vai nos pinos de boot, e o rádio não
+### 2. Cada pino de boot leva a peça que empurra para o lado certo
 
 O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
 inicializar: **GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
-baixo**. Com o nível errado ele não arranca, ou entra em modo de gravação.
+baixo**. Com o nível errado ele não arranca, ou não aceita gravação.
 
-Parece que a saída de dados do rádio deveria ficar longe deles, e é exatamente
-isso: enquanto não há transmissão, a saída do receptor AM é **ruído aleatório**.
-Num pino de boot, seria cara ou coroa a cada vez que você ligasse.
+Não é uma preocupação teórica. A primeira versão desta montagem punha o LCD nos
+três, no raciocínio de que as entradas dele ficam em alta impedância e não
+perturbariam nada. **Na bancada isso se mostrou falso**: o LCD é alimentado em
+5 V pelo `VU`, e a fuga pelos diodos de proteção da entrada RS puxava o GPIO15
+para cima, vencendo o resistor de 12 kΩ da placa. O ESP entrava em modo SDIO e
+a gravação morria em `Timed out waiting for packet header`. Tirar aquele fio
+único fazia gravar de novo.
 
-As entradas do LCD, ao contrário, ficam em alta impedância até o programa
-começar — não puxam para lado nenhum. Os resistores que já estão na placa
-seguram o nível que o boot precisa. Por isso o LCD é que fica nos pinos
-delicados, e o rádio num pino comum.
+Por isso os três pinos delicados agora ficam com peças compatíveis:
+
+| Pino | Precisa | O que ficou nele | Por quê |
+|---|---|---|---|
+| GPIO0 (D3) | alto | chave de limpar | botão aberto + pull-up interno = alto. É como o próprio botão FLASH da placa é ligado |
+| GPIO2 (D4) | alto | uma linha de dados do LCD | a fuga dos 5 V puxa para cima — justamente o nível que este pino quer |
+| GPIO15 (D8) | baixo | LED vermelho | o LED não puxa para lado nenhum abaixo da tensão direta dele; o mérito é **não brigar** com o resistor da placa |
+
+Repare que o LED **não é** um resistor de pull-down: abaixo de uns 2 V ele é
+praticamente circuito aberto. Quem segura o GPIO15 é o resistor que já está na
+placa. O que mudou é que agora nada disputa com ele.
+
+**O rádio continua fora dos três**, e por um motivo diferente: enquanto não há
+transmissão, a saída do receptor AM é **ruído aleatório**. Num pino de boot,
+seria cara ou coroa a cada vez que você ligasse.
+
+**Efeito colateral do botão no GPIO0:** segurar a chave de limpar enquanto a
+placa reseta faz o ESP entrar em modo de gravação. Não segure no reset.
 
 ### 3. WiFi e rádio disputam o mesmo processador
 
@@ -98,16 +116,16 @@ alimentação do LCD e do módulo de rádio. Fica na fileira de baixo, entre `G`
 
 | Função | Pino da placa | GPIO | Observação |
 |---|---|---|---|
-| LCD RS | **D8** | 15 | pino de boot, precisa de nível baixo |
-| LCD E | **D3** | 0 | pino de boot, precisa de nível alto |
-| LCD D4 | **D4** | 2 | pino de boot; é também o LED da placa, que vai piscar |
+| LCD RS | **D1** | 5 | |
+| LCD E | **D0** | 16 | é também um LED da placa, que vai piscar |
+| LCD D4 | **D4** | 2 | pino de boot; é também o LED do módulo, que vai piscar |
 | LCD D5 | **D5** | 14 | |
 | LCD D6 | **D6** | 12 | |
 | LCD D7 | **D7** | 13 | |
 | DATA do rádio | **D2** | 4 | **atrás do divisor**, nunca direto. Qualquer um dos dois DATA |
 | VCC do rádio | **VU** | — | o 5 V da USB, não o `3V3` |
-| Chave de limpar | **D1** | 5 | outro terminal no `G` |
-| LED vermelho | **D0** | 16 | com resistor de 220 Ω |
+| Chave de limpar | **D3** | 0 | outro terminal no `G`. Pino de boot — não segure no reset |
+| LED vermelho | **D8** | 15 | com resistor de 220 Ω. Pino de boot |
 | 5 V do LCD (pinos 2 e 15) | **VU** | — | o mesmo `VU` do rádio |
 | Terra | **G** | — | |
 
@@ -185,6 +203,8 @@ transmissor.
 | Sintoma | Causa provável |
 |---|---|
 | A placa não inicia, ou entra em modo de gravação sozinha | algo está segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot. O rádio não pode estar em nenhum desses |
+| `Timed out waiting for packet header` com o LCD ligado | **aconteceu de verdade:** era o RS do LCD no D8. Confira se o RS está no **D1**, e não no D8 — este projeto trocou esses pinos justamente por isso |
+| A placa entra em modo de gravação ao resetar | você segurou a chave de limpar. Ela está no GPIO0, o mesmo pino do botão FLASH |
 | `Timed out waiting for packet header` na gravação | **primeiro** confira se a porta é mesmo a do ESP: o Nano e a NodeMCU aparecem os dois como `USB-SERIAL CH340`, e a lista de portas não distingue. Desconecte o Nano e veja qual porta some |
 | `could not open port` na gravação | a porta sumiu naquele instante — quase sempre o cabo desencostou. O Windows leva alguns segundos para reenumerar |
 | Ao resetar, o serial mostra caracteres quebrados e só depois o texto | normal: o bootloader de ROM fala a 74880 bauds, taxa fixa de fábrica. O que vem depois é o seu programa, a 115200 |
@@ -195,4 +215,4 @@ transmissor.
 | Página verde mas nenhuma letra | o problema é o rádio, não a internet — teste o transmissor pelo serial |
 | Faltam letras que a versão com Uno pegava | WiFi disputando com o rádio: suba `REPETICOES` para 5 no transmissor |
 | `WiFi` conecta e cai o tempo todo | alimentação; o ESP puxa picos de corrente ao transmitir |
-| O LED da placa pisca sozinho ao escrever no LCD | é normal: GPIO2 é ao mesmo tempo o LED da placa e uma linha de dados do LCD |
+| Os LEDs da placa piscam sozinhos ao escrever no LCD | é normal: GPIO2 e GPIO16 são LEDs da placa e ao mesmo tempo linhas do LCD (D4 e E) |

@@ -54,16 +54,37 @@
       software.</p>
     </div>
 
-    <h4 class="passo">Por que o LCD vai nos pinos de boot e o rádio não</h4>
+    <h4 class="passo">Cada pino de boot leva a peça que empurra para o lado certo</h4>
     <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
     inicializar: <strong>GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
-    baixo</strong>. Com o nível errado ele não arranca, ou entra em modo de gravação.</p>
-    <p>Parece que a saída do rádio deveria ficar longe deles, e é exatamente isso: enquanto
-    não há transmissão, a saída do receptor AM é <strong>ruído aleatório</strong> — num
-    pino de boot, seria cara ou coroa a cada vez que você ligasse. As entradas do LCD, ao
-    contrário, ficam em alta impedância até o programa começar e não puxam para lado
-    nenhum, então os resistores que já estão na placa seguram o nível que o boot precisa.
-    Por isso o delicado leva o LCD, e o rádio fica num pino comum.</p>
+    baixo</strong>. Com o nível errado ele não arranca, ou não aceita gravação.</p>
+    <p>Não é preocupação teórica. A primeira versão desta montagem punha o LCD nos três, no
+    raciocínio de que as entradas dele ficam em alta impedância e não perturbariam nada.
+    <strong>Na bancada isso se mostrou falso:</strong> o LCD é alimentado em 5 V pelo
+    <code>VU</code>, e a fuga pelos diodos de proteção da entrada RS puxava o GPIO15 para
+    cima, vencendo o resistor de 12 kΩ da placa. O ESP entrava em modo SDIO e a gravação
+    morria em <code>Timed out waiting for packet header</code>. Tirar aquele fio único
+    fazia gravar de novo.</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Pino</th><th>Precisa</th><th>O que ficou nele</th><th>Por quê</th></tr></thead>
+        <tbody>
+          <tr><td class="pin">GPIO0 · D3</td><td>alto</td><td>chave de limpar</td><td>botão aberto + pull-up interno = alto. É como o próprio botão FLASH da placa é ligado</td></tr>
+          <tr><td class="pin">GPIO2 · D4</td><td>alto</td><td>uma linha de dados do LCD</td><td>a fuga dos 5 V puxa para cima — justamente o nível que este pino quer</td></tr>
+          <tr><td class="pin">GPIO15 · D8</td><td>baixo</td><td>LED vermelho</td><td>o LED não puxa para lado nenhum abaixo da tensão direta dele; o mérito é <strong>não brigar</strong> com o resistor da placa</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>O LED <strong>não é</strong> um resistor de pull-down: abaixo de uns 2 V ele é
+    praticamente circuito aberto. Quem segura o GPIO15 é o resistor que já está na placa —
+    o que mudou é que agora nada disputa com ele.</p>
+    <p><strong>O rádio continua fora dos três</strong>, e por outro motivo: enquanto não há
+    transmissão, a saída do receptor AM é <strong>ruído aleatório</strong> — num pino de
+    boot, seria cara ou coroa a cada vez que você ligasse.</p>
+    <div class="aviso">
+      <p>Efeito colateral do botão no GPIO0: <strong>segurar a chave de limpar enquanto a
+      placa reseta</strong> faz o ESP entrar em modo de gravação. Não segure no reset.</p>
+    </div>
 
     <h4 class="passo">A placa</h4>
     <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
@@ -89,15 +110,15 @@
       <table>
         <thead><tr><th>Função</th><th>Pino da placa</th><th>GPIO</th><th>Observação</th></tr></thead>
         <tbody>
-          <tr><td>LCD RS</td><td class="pin">D8</td><td class="num">15</td><td>pino de boot, precisa de nível baixo</td></tr>
-          <tr><td>LCD E</td><td class="pin">D3</td><td class="num">0</td><td>pino de boot, precisa de nível alto</td></tr>
-          <tr><td>LCD D4</td><td class="pin">D4</td><td class="num">2</td><td>pino de boot; é também o LED da placa, que vai piscar</td></tr>
+          <tr><td>LCD RS</td><td class="pin">D1</td><td class="num">5</td><td></td></tr>
+          <tr><td>LCD E</td><td class="pin">D0</td><td class="num">16</td><td>é também um LED da placa, que vai piscar</td></tr>
+          <tr><td>LCD D4</td><td class="pin">D4</td><td class="num">2</td><td>pino de boot; é também o LED do módulo, que vai piscar</td></tr>
           <tr><td>LCD D5</td><td class="pin">D5</td><td class="num">14</td><td></td></tr>
           <tr><td>LCD D6</td><td class="pin">D6</td><td class="num">12</td><td></td></tr>
           <tr><td>LCD D7</td><td class="pin">D7</td><td class="num">13</td><td></td></tr>
           <tr><td>DATA do rádio</td><td class="pin">D2</td><td class="num">4</td><td><strong>atrás do divisor</strong>, nunca direto</td></tr>
-          <tr><td>Chave de limpar</td><td class="pin">D1</td><td class="num">5</td><td>outro terminal no <code>G</code></td></tr>
-          <tr><td>LED vermelho</td><td class="pin">D0</td><td class="num">16</td><td>com resistor de 220 Ω</td></tr>
+          <tr><td>Chave de limpar</td><td class="pin">D3</td><td class="num">0</td><td>outro terminal no <code>G</code>. Pino de boot — não segure no reset</td></tr>
+          <tr><td>LED vermelho</td><td class="pin">D8</td><td class="num">15</td><td>com resistor de 220 Ω. Pino de boot</td></tr>
           <tr><td>5 V do LCD e do rádio</td><td class="pin">VU</td><td class="num">—</td><td>o 5 V da USB</td></tr>
         </tbody>
       </table>
@@ -188,7 +209,9 @@
           <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
           <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet — teste o transmissor pelo serial</td></tr>
           <tr><td>Faltam letras que a versão com Uno pegava</td><td>WiFi disputando com o rádio: suba <code>REPETICOES</code> para 5 no transmissor</td></tr>
-          <tr><td>O LED da placa pisca ao escrever no LCD</td><td>é normal: GPIO2 é ao mesmo tempo o LED da placa e uma linha de dados do LCD</td></tr>
+          <tr><td>Os LEDs da placa piscam ao escrever no LCD</td><td>é normal: GPIO2 e GPIO16 são LEDs da placa e ao mesmo tempo linhas do LCD (D4 e E)</td></tr>
+          <tr><td><code>Timed out waiting for packet header</code> com o LCD ligado</td><td><strong>aconteceu de verdade:</strong> era o RS do LCD no D8. Confira se o RS está no <strong>D1</strong> — este projeto trocou esses pinos justamente por isso</td></tr>
+          <tr><td>A placa entra em modo de gravação ao resetar</td><td>você segurou a chave de limpar. Ela está no GPIO0, o mesmo pino do botão FLASH</td></tr>
         </tbody>
       </table>
     </div>

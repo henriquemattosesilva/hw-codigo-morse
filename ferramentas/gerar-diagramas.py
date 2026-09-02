@@ -174,8 +174,8 @@ DESTINOS_UNO = [
 
 DESTINOS_ESP = [
     ("1", "VSS", "G", C["menos"]),   ("2", "VDD", "VU", C["mais"]),
-    ("3", "V0", "POT", C["traco"]),  ("4", "RS", "D8", C["lcd"]),
-    ("5", "RW", "G", C["menos"]),    ("6", "E", "D3", C["lcd"]),
+    ("3", "V0", "POT", C["traco"]),  ("4", "RS", "D1", C["lcd"]),
+    ("5", "RW", "G", C["menos"]),    ("6", "E", "D0", C["lcd"]),
     ("7", "D0", "", None),           ("8", "D1", "", None),
     ("9", "D2", "", None),           ("10", "D3", "", None),
     ("11", "D4", "D4", C["lcd"]),    ("12", "D5", "D5", C["lcd"]),
@@ -229,13 +229,13 @@ def diagrama_lcd(pinos=None, ident="dlcd", nota=None):
 # ================================================= receptor com ESP8266
 esp = diagrama_placa(
     "Ligacoes do receptor com ESP8266", "NODEMCU  ESP8266", [
-        {"nome": "LCD 16x2 — RS, E, D4 a D7", "pino": "D8,D3–D7", "cor": C["lcd"],
+        {"nome": "LCD 16x2 — RS, E, D4 a D7", "pino": "D0,D1,D4–D7", "cor": C["lcd"],
          "chips": [("ver diagrama do LCD", C["fraco"])]},
         {"nome": "Módulo RX 433 MHz", "pino": "D2", "cor": C["sinal"],
          "chips": [("DIVISOR 10k+20k", C["rx"]), ("VU", C["mais"]), ("G", C["menos"])]},
-        {"nome": "LED vermelho — recebendo", "pino": "D0", "cor": C["rx"],
+        {"nome": "LED vermelho — recebendo", "pino": "D8", "cor": C["rx"],
          "resistor": "220 Ω", "chips": [("G", C["menos"])]},
-        {"nome": "Chave táctil — limpar tela", "pino": "D1", "cor": C["sinal"],
+        {"nome": "Chave táctil — limpar tela", "pino": "D3", "cor": C["sinal"],
          "chips": [("G", C["menos"])]},
         {"nome": "Potenciômetro 10K — contraste", "pino": "LCD 3", "cor": C["traco"],
          "chips": [("VU", C["mais"]), ("G", C["menos"])]},

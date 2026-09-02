@@ -31,7 +31,7 @@ montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
-| **Receptor ESP8266 na protoboard** | grava; **WiFi e MQTT funcionando** — falta LCD e rádio |
+| **Receptor ESP8266 na protoboard** | grava; **WiFi e MQTT funcionando**. Pinos trocados em 02/09/2026: a fiação precisa ser refeita |
 | **Receptor Uno** | não montado |
 
 ### O que o hardware já provou (01/09/2026)
@@ -79,7 +79,12 @@ bauds, taxa fixa de fábrica; a 115200 ele sai como caracteres quebrados. O que 
 devolve verdadeiro sem o módulo ligado. Por isso dá para testar WiFi e página com a placa
 pelada, que é a forma mais limpa de separar rede de rádio.
 
-**A próxima etapa é o LCD, e depois o rádio com o divisor.**
+**O LCD não gravava, e os pinos foram trocados por causa disso** (02/09/2026). Com o LCD
+ligado, a gravação falhava sempre. Três testes isolaram a causa: tirar o D3 não resolvia,
+tirar o **D8** resolvia. Era o RS do LCD segurando o GPIO15 alto. Ver "Restrições de
+pinos" mais abaixo — a fiação do ESP8266 mudou, e o sketch junto.
+
+**A próxima etapa é refazer a fiação do ESP nos pinos novos, e depois o rádio.**
 
 ### O que existe
 
@@ -274,11 +279,34 @@ Nano: D2 botão, D3 LED verde 1, D4 buzzer, D5 LED verde 2, D6 LED azul, D12 rá
 ficou livre quando o potenciômetro de velocidade saiu.
 Uno: D2-D7 LCD (RS, E, D4-D7), D8 LED vermelho, D9 botão limpar, D11 rádio.
 
-**No ESP8266 a regra é outra.** GPIO0 e GPIO2 precisam de nível alto no boot e GPIO15 de
-nível baixo. O rádio **não** pode ir num desses: a saída dele é ruído aleatório sem
-transmissão, e seria cara ou coroa a cada ligada. As entradas do LCD ficam em alta
-impedância até o programa começar, então são elas que ocupam os pinos delicados.
-ESP: D8/D3/D4/D5/D6/D7 no LCD, D2 rádio (atrás do divisor), D1 botão, D0 LED, VU o 5 V.
+**No ESP8266 a regra é outra, e ela foi reaprendida na bancada em 02/09/2026.** GPIO0 e
+GPIO2 precisam de nível alto no boot e GPIO15 de nível baixo.
+
+A montagem original punha o LCD nos três, no raciocínio de que as entradas dele ficam em
+alta impedância. **Isso é falso quando o LCD é alimentado em 5 V:** a fuga pelos diodos de
+proteção da entrada RS puxava o GPIO15 para cima e vencia o resistor de 12 kΩ da placa. O
+ESP entrava em modo SDIO e a gravação morria em `Timed out waiting for packet header`.
+Tirar só o fio do D8 fazia gravar. Tirar só o D3 não fazia — GPIO0 não era o problema.
+
+A distribuição atual dá a cada pino de boot uma carga compatível:
+
+| Pino | Precisa | O que ficou nele |
+|---|---|---|
+| GPIO0 (D3) | alto | botão de limpar, ao GND — igual ao botão FLASH da placa |
+| GPIO2 (D4) | alto | linha de dados do LCD: a fuga dos 5 V puxa para o lado certo |
+| GPIO15 (D8) | baixo | LED vermelho, que **não** é pull-down mas também não briga |
+
+O LED não segura nada: abaixo da tensão direta ele é circuito aberto. Quem segura o GPIO15
+é o resistor da placa — o ganho é só ter tirado de lá quem disputava.
+
+O rádio continua **fora dos três**, por outro motivo: a saída dele é ruído aleatório sem
+transmissão, e seria cara ou coroa a cada ligada.
+
+ESP: D1 RS, D0 E, D4/D5/D6/D7 dados do LCD, D2 rádio (atrás do divisor), D3 botão,
+D8 LED, VU o 5 V. **Não trocar de volta sem repetir o teste.**
+
+Custo aceito: segurar a chave de limpar durante o reset põe o ESP em modo de gravação.
+Está documentado nos dois guias.
 
 ## Como verificar
 
