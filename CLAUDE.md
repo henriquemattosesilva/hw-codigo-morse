@@ -1,8 +1,12 @@
 # hw-codigo-morse — telégrafo sem fio em morse
 
-Manipulador de morse com um botão no Arduino Nano, rádio 433 MHz, display LCD 16x2 no
-Arduino Uno. Repositório público em `https://github.com/henriquemattosesilva/hw-codigo-morse`,
-página em `https://henriquemattosesilva.github.io/hw-codigo-morse/`.
+Manipulador de morse com um botão no Arduino Nano transmitindo por rádio 433 MHz. O
+receptor mostra a mensagem num LCD 16x2 e pode ser **uma de duas placas**: um Arduino Uno,
+mais simples, ou um ESP8266, que além do LCD publica a mensagem na internet.
+
+- repositório público: `https://github.com/henriquemattosesilva/hw-codigo-morse`
+- página do projeto: `https://henriquemattosesilva.github.io/hw-codigo-morse/`
+- monitor ao vivo: `https://henriquemattosesilva.github.io/hw-codigo-morse/ao-vivo/`
 
 Este arquivo é o documento vivo do projeto. O `README.md` e o `MONTAGEM.md` explicam o
 projeto para quem vai montar; aqui ficam as decisões, o estado e o que ainda não foi
@@ -13,7 +17,7 @@ verificado.
 
 ---
 
-## Estado em 31/08/2026
+## Estado em 01/09/2026
 
 Nada foi montado ainda. Tudo o que existe é código e documentação, e o que foi verificado
 foi verificado sem hardware.
@@ -28,8 +32,26 @@ foi verificado sem hardware.
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Montagem física** | **não feita** |
 
-**A próxima etapa é o Henrique montar na protoboard e testar.** Ele avisou que faria isso
-em outro momento.
+**A próxima etapa é o Henrique montar na protoboard e testar.** Ele disse em 01/09/2026
+que seguiria com a montagem a partir daí.
+
+### O que existe
+
+```
+transmissor-nano/     o manipulador. É sempre esta placa que transmite.
+receptor-uno/         receptor simples, só LCD
+receptor-esp8266/     receptor com WiFi: LCD + publica por MQTT
+  segredos-exemplo.h  modelo; o segredos.h de verdade está no .gitignore
+ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
+MONTAGEM.md           fiação do Nano e do receptor com Uno
+MONTAGEM-ESP8266.md   fiação do receptor com ESP8266, com o divisor
+ferramentas/          modelo.html, secao-esp8266.html e os dois geradores
+index.html            GERADO. Nunca editar à mão.
+```
+
+O suporte ao **Tinkercad foi removido em 01/09/2026** a pedido dele — seção, sketches
+adaptados, gerador e diagramas. Está no histórico do git (`git revert cb1c707`) se um dia
+voltar a fazer sentido. Não recriar sem ele pedir.
 
 ---
 
@@ -104,6 +126,25 @@ exatamente o jeito mais fácil de uma página dessas apodrecer.
 O `.gitattributes` fixa LF, então regerar a página não produz diff falso em máquina com
 outra configuração de `core.autocrlf`.
 
+### Como a página está organizada
+
+Cinco seções: componentes, montagem, como funciona, melhorias e o guia de problemas.
+
+A **montagem tem três abas**, uma por placa — `m-nano`, `m-uno` e `m-esp` — e cada uma
+termina com o código daquela placa dentro de um `<details class="dobra">`, fechado por
+padrão. **Não existe seção de código separada**: cada sketch mora junto da fiação a que
+pertence. O bloco do ESP vem de `ferramentas/secao-esp8266.html` e é injetado dentro da
+aba `m-esp`.
+
+Duas armadilhas ao mexer nisso:
+
+- **Link para dentro de uma aba.** O README aponta para `#esp8266`, que fica num painel
+  escondido. A função `abreAbaDoAlvo()` no script da página abre a aba antes de rolar. Sem
+  ela o navegador fica parado onde está, sem erro nenhum. Vale na carga e no `hashchange`.
+- **A numeração em morse das seções.** Cada `<p class="marca">` traz o número da seção em
+  morse (1 = `·−−−−`, 2 = `··−−−`, 3 = `···−−`, 4 = `····−`, 5 = `·····`). Acrescentar ou
+  remover uma seção obriga a renumerar as de baixo, à mão.
+
 **Publicar no GitHub a cada entrega, sem perguntar** (é o padrão dos projetos `hw-`).
 O Pages leva de um a três minutos para refletir o push.
 
@@ -139,6 +180,25 @@ cruzar 2 unidades, azul ao cruzar 3 e piscando ao cruzar 7. É o ponto do projet
 tempos que normalmente são invisíveis, enquanto ainda dá para corrigir. Confirmar o
 símbolo depois de solto não serviria para nada.
 
+**O caminho até a internet usa três tópicos MQTT, com papéis diferentes.** A letra sai na
+hora, em `.../letra`, e é ela que faz a página andar ao vivo. A mensagem inteira sai
+represada, no máximo duas vezes por segundo, em `.../mensagem` e **retida** — retida
+significa que o broker guarda a última, então quem abre a página depois já vê o texto que
+está lá em vez de tela vazia. E `.../status` é a *última vontade* registrada no broker: se
+o ESP perder energia ou WiFi, o próprio broker avisa a página. Publicar o texto todo a
+cada letra encheria o broker sem deixar a tela mais rápida.
+
+**O cliente MQTT da página é escrito à mão sobre WebSocket**, em vez de puxar a mqtt.js de
+uma CDN. São poucos pacotes (CONNECT, SUBSCRIBE, PUBLISH, PINGREQ) e assim a página não
+passa a depender de mais um servidor além do broker. O trecho que junta os quadros antes
+de decodificar não é enfeite: um quadro de WebSocket pode trazer meio pacote MQTT ou três
+inteiros.
+
+**O tópico tem de bater em dois lugares:** `MQTT_TOPICO_BASE` no `segredos.h` e
+`TOPICO_BASE` em `ao-vivo/index.html`. Divergindo, a página escuta um telégrafo que não é
+o dele — e não aparece erro nenhum, simplesmente nunca chega nada. É o primeiro suspeito
+quando a bolinha da página não fica verde.
+
 **O número de sequência descarta as repetições no receptor**, para a letra aparecer uma vez
 só. Ele começa em 1 no transmissor e `ultimaSequencia` começa em 0, então não colide.
 
@@ -169,16 +229,33 @@ curl -sSL -o acli.zip https://downloads.arduino.cc/arduino-cli/arduino-cli_lates
 arduino-cli core install arduino:avr
 arduino-cli compile -b arduino:avr:nano transmissor-nano
 arduino-cli compile -b arduino:avr:uno  receptor-uno
+arduino-cli compile -b esp8266:esp8266:nodemcuv2 receptor-esp8266
 ```
 
-As bibliotecas **já estão instaladas** e persistem: `RadioHead` 1.143.1 e `LiquidCrystal`
-1.0.7, em `C:\Users\henri\Documents\Arduino\libraries`. Não precisa reinstalar.
+O core do ESP8266 vem de uma URL extra, que precisa ser registrada antes:
+`arduino-cli config add board_manager.additional_urls https://arduino.esp8266.com/stable/package_esp8266com_index.json`
+
+As bibliotecas **já estão instaladas** e persistem, em
+`C:\Users\henri\Documents\Arduino\libraries`: `RadioHead` 1.143.1, `LiquidCrystal`
+1.0.7 e `PubSubClient` 2.8.0. Não precisa reinstalar.
+
+O `receptor-esp8266` **não compila sem `receptor-esp8266/segredos.h`**, que está no
+.gitignore. Para compilar, criar um a partir do `segredos-exemplo.h` com valores
+quaisquer — e não commitar.
 
 **A tabela de morse.** O teste que compara os 36 caracteres nos dois sentidos contra a
 tabela ITU não foi guardado no repositório. Se mexer na árvore, vale reescrever: é curto e
 pega inversão de ponto com traço na hora.
 
-**A página.** Conferir a renderização de verdade pelo Chrome via DevTools Protocol — ver a
+**A página ao vivo, de ponta a ponta.** Dá para testar sem hardware nenhum: `npm i mqtt`
+num diretório temporário, publicar no tópico com o cliente Node e conferir pelo CDP o que
+a página mostrou. Foi assim que se validou o cliente MQTT escrito à mão. O que vale medir:
+as mensagens retidas chegando **na assinatura** (publicar antes de abrir a página), as
+letras ao vivo com o morse certo, e o `status` mudando quando o telégrafo "cai". Usar um
+tópico próprio do teste — o broker é público — e apagar as retidas no fim, publicando
+vazio com `retain`.
+
+**A página do projeto.** Conferir a renderização de verdade pelo Chrome via DevTools Protocol — ver a
 memória `verificacao-visual-cdp`. O que vale medir: `scrollWidth` contra `clientWidth` em
 390 e 1440 px, erros de console, e o manipulador do navegador respondendo a
 `Input.dispatchKeyEvent` com os tempos de um ponto e de um traço.
@@ -187,8 +264,17 @@ memória `verificacao-visual-cdp`. O que vale medir: `scrollWidth` contra `clien
 
 ## Quando a montagem for feita
 
-O `MONTAGEM.md` manda montar o transmissor inteiro e testar pelo monitor serial **antes** de
-encostar no receptor. Vale seguir: separa o problema de manipulação do problema de rádio.
+A ordem que os documentos mandam seguir, e que vale a pena respeitar porque cada passo
+isola um problema:
+
+1. **O transmissor sozinho**, testado pelo monitor serial. Prova o manipulador sem
+   envolver rádio nenhum.
+2. **O receptor com Uno.** Prova o rádio sem envolver WiFi, 3,3 V nem divisor.
+3. **Só então o ESP8266**, se ele quiser a parte de internet. E dentro dele: primeiro o
+   LCD, depois o WiFi e a página (a bolinha fica verde sem nenhuma letra ter chegado), e
+   só por último o rádio com o divisor.
+
+Pular direto para o ESP junta quatro fontes de problema de uma vez.
 
 Conforme ele for testando, o que aparecer de diferente do previsto deve voltar para os
 documentos — principalmente para a tabela **"Quando não funciona"** do `MONTAGEM.md` e da
