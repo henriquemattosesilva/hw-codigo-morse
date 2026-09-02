@@ -629,6 +629,10 @@ footer a{color:var(--fraco)}
         <thead><tr><th>Sintoma</th><th>Causa provável</th></tr></thead>
         <tbody>
           <tr><td>A placa não inicia, ou entra em modo de gravação sozinha</td><td>algo segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot — o rádio não pode estar em nenhum desses</td></tr>
+          <tr><td><code>Timed out waiting for packet header</code> na gravação</td><td><strong>primeiro</strong> confira se a porta é a do ESP: o Nano e a NodeMCU aparecem os dois como <code>USB-SERIAL CH340</code>, e a lista de portas não distingue. Desconecte o Nano e veja qual porta some</td></tr>
+          <tr><td><code>could not open port</code> na gravação</td><td>a porta sumiu naquele instante — quase sempre o cabo desencostou. O Windows leva alguns segundos para reenumerar</td></tr>
+          <tr><td>Ao resetar, o serial mostra caracteres quebrados e só depois o texto</td><td>normal: o bootloader de ROM fala a 74880 bauds, taxa fixa de fábrica. O que vem depois é o seu programa, a 115200</td></tr>
+          <tr><td>Quer testar WiFi e página sem montar nada</td><td>pode: <code>radio.init()</code> não detecta hardware, então a placa pelada conecta igual. É a forma mais limpa de separar rede de rádio</td></tr>
           <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
           <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
           <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>

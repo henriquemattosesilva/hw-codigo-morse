@@ -185,6 +185,10 @@ transmissor.
 | Sintoma | Causa provável |
 |---|---|
 | A placa não inicia, ou entra em modo de gravação sozinha | algo está segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot. O rádio não pode estar em nenhum desses |
+| `Timed out waiting for packet header` na gravação | **primeiro** confira se a porta é mesmo a do ESP: o Nano e a NodeMCU aparecem os dois como `USB-SERIAL CH340`, e a lista de portas não distingue. Desconecte o Nano e veja qual porta some |
+| `could not open port` na gravação | a porta sumiu naquele instante — quase sempre o cabo desencostou. O Windows leva alguns segundos para reenumerar |
+| Ao resetar, o serial mostra caracteres quebrados e só depois o texto | normal: o bootloader de ROM fala a 74880 bauds, taxa fixa de fábrica. O que vem depois é o seu programa, a 115200 |
+| Quer testar WiFi e página sem montar nada | pode: `radio.init()` não detecta hardware, então a placa pelada conecta igual. É a forma mais limpa de separar rede de rádio |
 | Tela com lixo ou blocos, contraste bem ajustado | os 3,3 V do ESP estão no limite para o LCD: veja o truque do diodo acima |
 | LCD apagado e o `3V3` foi usado | o LCD precisa do `VU`; em 3,3 V ele não funciona direito |
 | A bolinha da página nunca fica verde | o tópico da página e o do `segredos.h` estão diferentes |

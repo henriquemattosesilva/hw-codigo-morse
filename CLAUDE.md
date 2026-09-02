@@ -31,7 +31,7 @@ montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
-| **Receptor ESP8266 na protoboard** | montado, ainda não gravado |
+| **Receptor ESP8266 na protoboard** | grava; **WiFi e MQTT funcionando** — falta LCD e rádio |
 | **Receptor Uno** | não montado |
 
 ### O que o hardware já provou (01/09/2026)
@@ -58,7 +58,28 @@ IDE tenta 115200. Já está na tabela de problemas.
 **O `[espaco]` entre cada letra não é defeito.** A 250 ms por unidade o espaço de palavra
 são 1,75 s, e quem testa letra por letra pensa mais que isso entre uma e outra.
 
-**A próxima etapa é gravar o ESP8266.**
+### O ESP8266 na bancada (02/09/2026)
+
+Gravou e conectou. Com a **placa pelada**, sem nenhum fio, o serial mostrou
+`Telegrafo - receptor ESP8266` e `MQTT conectado`, e um cliente MQTT externo confirmou
+`.../status = "ligado"` retida no broker. WiFi, broker e tópico estão certos.
+
+Três coisas que apareceram no caminho e valem para as próximas vezes:
+
+**As duas placas usam CH340.** O Nano clone e a NodeMCU aparecem no Windows com o mesmo
+nome — `USB-SERIAL CH340` — e não há como distinguir pela lista de portas. Gravar na porta
+errada dá `Timed out waiting for packet header`, que não diz nada sobre porta errada. Com
+as duas ligadas, desconectar uma é o único jeito de ter certeza.
+
+**O lixo no serial ao resetar é normal.** O bootloader de ROM do ESP8266 fala a 74880
+bauds, taxa fixa de fábrica; a 115200 ele sai como caracteres quebrados. O que vem depois
+é o programa e é legível.
+
+**O `radio.init()` do ESP8266 não detecta hardware** — só configura pino e timer, e
+devolve verdadeiro sem o módulo ligado. Por isso dá para testar WiFi e página com a placa
+pelada, que é a forma mais limpa de separar rede de rádio.
+
+**A próxima etapa é o LCD, e depois o rádio com o divisor.**
 
 ### O que existe
 
