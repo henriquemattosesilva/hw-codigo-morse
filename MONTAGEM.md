@@ -44,9 +44,9 @@ do Nano na trilha vermelha (+) e o **GND** na trilha azul (−) das laterais.
 | Componente | Ligação |
 |---|---|
 | Chave táctil (manipulador) | um pino → **D2**, pino na diagonal → GND (−) |
-| LED **verde** (ponto) | **D3** → resistor 220 Ω → anodo; catodo → GND (−) |
+| LED **verde 1** (ponto) | **D3** → resistor 220 Ω → anodo; catodo → GND (−) |
 | Módulo buzzer ativo | S (ou I/O) → **D4**; VCC → 5V (+); GND → GND (−) |
-| LED **amarelo** (traço) | **D5** → resistor 220 Ω → anodo; catodo → GND (−) |
+| LED **verde 2** (traço) | **D5** → resistor 220 Ω → anodo; catodo → GND (−) |
 | LED **azul** (espaço) | **D6** → resistor 220 Ω → anodo; catodo → GND (−) |
 | Módulo transmissor 433 MHz | DATA → **D12**; VCC → 5V (+); GND → GND (−) |
 | Potenciômetro 10K (velocidade) | pino da esquerda → 5V (+); **cursor (do meio) → A0**; pino da direita → GND (−) |

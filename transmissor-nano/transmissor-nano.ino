@@ -8,10 +8,10 @@
   Os tres LEDs mostram os limiares de tempo do morse, que normalmente sao
   invisiveis, e acendem ANTES de voce soltar o botao:
 
-      verde   aceso        -> o toque em curso ainda e um ponto
-      verde + amarelo      -> o toque ja passou de 2 unidades, virou traco
-      azul    aceso        -> silencio passou de 3 unidades, a letra foi enviada
-      azul    pisca 2x     -> silencio passou de 7 unidades, espaco enviado
+      um verde aceso    -> o toque em curso ainda e um ponto
+      os dois verdes    -> o toque ja passou de 2 unidades, virou traco
+      azul aceso        -> silencio passou de 3 unidades, a letra foi enviada
+      azul piscando 2x  -> silencio passou de 7 unidades, espaco enviado
 
   O potenciometro em A0 ajusta a unidade de tempo, de 250ms (bem lento, bom para
   aprender) a 60ms (rapido). O buzzer apita junto com o toque, como sidetone.
@@ -25,9 +25,9 @@
 
 // ---------------------------------------------------------------- pinos
 const uint8_t PINO_BOTAO  = 2;   // chave tactil, outro terminal no GND
-const uint8_t PINO_PONTO  = 3;   // LED verde   + resistor 220R
+const uint8_t PINO_PONTO  = 3;   // LED verde 1 + resistor 220R
 const uint8_t PINO_BUZZER = 4;   // modulo buzzer ativo
-const uint8_t PINO_TRACO  = 5;   // LED amarelo + resistor 220R
+const uint8_t PINO_TRACO  = 5;   // LED verde 2 + resistor 220R
 const uint8_t PINO_ESPACO = 6;   // LED azul    + resistor 220R
 const uint8_t PINO_POT    = A0;  // potenciometro 10K, velocidade
 // D12 e o DATA do modulo transmissor, padrao da RH_ASK no AVR.
@@ -121,7 +121,7 @@ void loop() {
   }
 
   if (pressionado) {
-    // O amarelo acende no instante em que o toque deixa de ser um ponto.
+    // O segundo verde acende no instante em que o toque deixa de ser um ponto.
     if (agora - tInicio >= 2UL * unidade) digitalWrite(PINO_TRACO, HIGH);
   } else {
     unsigned long silencio = agora - tSoltura;

@@ -15,12 +15,17 @@ PECAS = {
     # A secao entra primeiro: ela mesma traz as marcas que as linhas de baixo
     # precisam substituir depois.
     "SECAO_TINKERCAD": os.path.join(FERR, "secao-tinkercad.html"),
+    "SECAO_ESP8266": os.path.join(FERR, "secao-esp8266.html"),
     "SVG_TK_GAL":  os.path.join(FERR, "diagramas", "tk_galeria.svg"),
     "SVG_TK_LINK": os.path.join(FERR, "diagramas", "tk_link.svg"),
     "SVG_TK_TX":   os.path.join(FERR, "diagramas", "tk_tx.svg"),
     "SVG_TK_RX":   os.path.join(FERR, "diagramas", "tk_rx.svg"),
     "CODIGO_TK_TX": os.path.join(BASE, "tinkercad", "tx-tinkercad", "tx-tinkercad.ino"),
     "CODIGO_TK_RX": os.path.join(BASE, "tinkercad", "rx-tinkercad", "rx-tinkercad.ino"),
+    "SVG_DIVISOR": os.path.join(FERR, "diagramas", "svg_divisor.svg"),
+    "SVG_ESP":     os.path.join(FERR, "diagramas", "svg_esp.svg"),
+    "SVG_LCD_ESP": os.path.join(FERR, "diagramas", "svg_lcd_esp.svg"),
+    "CODIGO_ESP": os.path.join(BASE, "receptor-esp8266", "receptor-esp8266.ino"),
     "SVG_TX":  os.path.join(FERR, "diagramas", "svg_tx.svg"),
     "SVG_RX":  os.path.join(FERR, "diagramas", "svg_rx.svg"),
     "SVG_LCD": os.path.join(FERR, "diagramas", "svg_lcd.svg"),

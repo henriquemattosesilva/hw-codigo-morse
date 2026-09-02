@@ -1,7 +1,9 @@
 # Telégrafo sem fio em código morse
 
 Um manipulador de morse com um botão no Arduino Nano transmite por rádio
-433 MHz para um Arduino Uno, que mostra a mensagem decodificada num LCD 16x2.
+433 MHz para um receptor, que mostra a mensagem decodificada num LCD 16x2.
+São **dois receptores possíveis**: um Arduino Uno, mais simples, e um ESP8266,
+que além do LCD publica a mensagem na internet.
 
 O botão é uma chave telegráfica de verdade: toque curto vira ponto, toque longo
 vira traço, e as pausas separam as letras e as palavras. Você escreve qualquer
@@ -32,6 +34,9 @@ e o mesmo display do projeto real. Dá para treinar antes de montar qualquer coi
 | [MONTAGEM.md](MONTAGEM.md) | esquema de ligação, ordem de teste e o que fazer quando não funciona |
 | [transmissor-nano/](transmissor-nano/) | sketch do Nano (manipulador) |
 | [receptor-uno/](receptor-uno/) | sketch do Uno (display) |
+| [receptor-esp8266/](receptor-esp8266/) | sketch do ESP8266 (display + internet) |
+| [MONTAGEM-ESP8266.md](MONTAGEM-ESP8266.md) | montagem do receptor com ESP8266 |
+| [ao-vivo/](ao-vivo/) | a página que mostra a mensagem ao vivo |
 | [tinkercad/](tinkercad/) | os dois sketches adaptados para o simulador |
 | [ferramentas/](ferramentas/) | scripts que geram os diagramas e a página |
 | [docs/superpowers/specs/](docs/superpowers/specs/) | o projeto escrito, com as decisões e os porquês |
@@ -44,6 +49,26 @@ python ferramentas/gerar-diagramas.py   # só se mudou a fiação
 python ferramentas/gerar-tinkercad.py   # só se mudou a montagem do simulador
 python ferramentas/gerar-pagina.py      # sempre
 ```
+
+## Os dois receptores
+
+| | Arduino Uno | ESP8266 |
+|---|---|---|
+| Lógica | 5 V, liga o rádio direto | 3,3 V, **exige divisor** no DATA do rádio |
+| Pinos | qualquer um serve | três são lidos no boot e mudam quem vai onde |
+| Rádio | sozinho no processador | disputando com a pilha de WiFi |
+| Mensagem | 15 letras no LCD | 160 guardadas, 15 no LCD, e **na internet** |
+| Tinkercad | simula | não existe ESP8266 no simulador |
+
+**Comece pelo Uno.** Ele prova que o rádio funciona sem trazer junto WiFi, tensão de
+3,3 V e divisor resistivo. Trocar a placa da ponta depois é rápido.
+
+Com o telégrafo com ESP8266 ligado, a mensagem aparece ao vivo em
+**https://henriquemattosesilva.github.io/hw-codigo-morse/ao-vivo/** — a montagem está
+no [MONTAGEM-ESP8266.md](MONTAGEM-ESP8266.md).
+
+> A saída de dados do módulo de rádio entrega 5 V, e os pinos do ESP8266 não toleram
+> isso. O divisor de 10 kΩ + 20 kΩ não é opcional.
 
 ## Simular antes de montar
 
@@ -68,13 +93,13 @@ e acendem **antes** de você soltar o botão.
 
 | O que você vê | O que significa |
 |---|---|
-| verde aceso | o toque em curso ainda vale um **ponto** |
-| verde **e** amarelo acesos | o toque passou de 2 unidades, virou **traço** |
+| um verde aceso | o toque em curso ainda vale um **ponto** |
+| os **dois** verdes acesos | o toque passou de 2 unidades, virou **traço** |
 | azul aceso | o silêncio passou de 3 unidades: a **letra fechou e foi enviada** |
 | azul piscando duas vezes | o silêncio passou de 7 unidades: **espaço** enviado |
 
-Na prática você bate no botão olhando para o verde e o amarelo, e solta quando o
-símbolo que quer estiver aceso. O buzzer apita junto, para o ouvido acompanhar.
+Na prática você bate no botão contando os LEDs acesos, e solta quando o
+símbolo que quer estiver na tela. O buzzer apita junto, para o ouvido acompanhar.
 
 ## A velocidade
 

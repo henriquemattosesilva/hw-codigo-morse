@@ -1,0 +1,189 @@
+<!-- ========================================================= esp8266 -->
+<section id="esp8266">
+  <div class="env">
+    <p class="marca">····− <span>na internet</span></p>
+    <h2>Receptor com ESP8266</h2>
+    <p class="intro">Trocando o Arduino Uno da ponta por um ESP8266, o telégrafo continua
+    escrevendo no LCD e passa também a publicar a mensagem na internet. O transmissor com
+    o Nano não muda em nada.</p>
+
+    <div class="aviso">
+      <p><strong>A versão com Uno continua no projeto, e é por ela que se começa.</strong>
+      Ela prova que o rádio funciona sem trazer junto WiFi, tensão de 3,3 V e divisor
+      resistivo. Depois é só trocar a placa da ponta. Também é a única das duas que roda
+      no Tinkercad — o simulador não tem ESP8266.</p>
+    </div>
+
+    <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
+    <p><a href="ao-vivo/"><strong>→ abrir o monitor ao vivo</strong></a></p>
+
+    <h3>O que muda</h3>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Com Arduino Uno</th><th>Com ESP8266</th></tr></thead>
+        <tbody>
+          <tr><td>lógica de 5 V, liga o rádio direto</td>
+              <td class="pin">lógica de 3,3 V, exige divisor no DATA do rádio</td></tr>
+          <tr><td>qualquer pino serve</td>
+              <td class="pin">três pinos são lidos no boot e mudam quem vai onde</td></tr>
+          <tr><td>rádio sozinho no processador</td>
+              <td class="pin">rádio disputando com a pilha de WiFi</td></tr>
+          <tr><td>mostra 15 letras no LCD</td>
+              <td class="pin">guarda 160 e mostra as últimas 15</td></tr>
+          <tr><td>a mensagem morre na bancada</td>
+              <td class="pin">a mensagem vai para a internet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>O divisor, que não pode ser esquecido</h3>
+    <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
+    ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
+    uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
+    10 kΩ.</p>
+
+    <figure class="fig">
+      <div class="quadro">{{SVG_DIVISOR}}</div>
+      <figcaption>Os dois de baixo, em série, formam os 20 kΩ da conta.</figcaption>
+    </figure>
+
+    <div class="aviso grave">
+      <p><strong>Não pule esta parte nem para "só testar rápido".</strong> É o tipo de dano
+      que não aparece na hora e depois deixa você caçando um defeito que parece de
+      software.</p>
+    </div>
+
+    <h3>Por que o LCD vai nos pinos de boot e o rádio não</h3>
+    <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
+    inicializar: <strong>GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
+    baixo</strong>. Com o nível errado ele não arranca, ou entra em modo de gravação.</p>
+    <p>Parece que a saída do rádio deveria ficar longe deles, e é exatamente isso: enquanto
+    não há transmissão, a saída do receptor AM é <strong>ruído aleatório</strong> — num
+    pino de boot, seria cara ou coroa a cada vez que você ligasse. As entradas do LCD, ao
+    contrário, ficam em alta impedância até o programa começar e não puxam para lado
+    nenhum, então os resistores que já estão na placa seguram o nível que o boot precisa.
+    Por isso o delicado leva o LCD, e o rádio fica num pino comum.</p>
+
+    <h3>A placa</h3>
+    <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
+    largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
+    fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
+    deixe a placa fora e ligue por jumpers macho-fêmea nos headers dela.</p>
+    <p>O 5 V do LCD e do rádio sai do pino <code>VU</code>, que é o 5 V da USB, na fileira
+    de baixo entre <code>G</code> e <code>S3</code>. <strong>Não use o <code>3V3</code></strong>:
+    o LCD não enxerga 3,3 V como nível alto. E o <code>VIN</code> é entrada de energia, não
+    saída.</p>
+
+    <figure class="fig">
+      <div class="quadro">{{SVG_ESP}}</div>
+      <figcaption>Só os fios de sinal aparecem; as etiquetas de alimentação vão nas trilhas.</figcaption>
+    </figure>
+
+    <figure class="fig">
+      <div class="quadro">{{SVG_LCD_ESP}}</div>
+      <figcaption>O LCD liga igual à versão com Uno, menos a alimentação, que vem do VU.</figcaption>
+    </figure>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Função</th><th>Pino da placa</th><th>GPIO</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>LCD RS</td><td class="pin">D8</td><td class="num">15</td><td>pino de boot, precisa de nível baixo</td></tr>
+          <tr><td>LCD E</td><td class="pin">D3</td><td class="num">0</td><td>pino de boot, precisa de nível alto</td></tr>
+          <tr><td>LCD D4</td><td class="pin">D4</td><td class="num">2</td><td>pino de boot; é também o LED da placa, que vai piscar</td></tr>
+          <tr><td>LCD D5</td><td class="pin">D5</td><td class="num">14</td><td></td></tr>
+          <tr><td>LCD D6</td><td class="pin">D6</td><td class="num">12</td><td></td></tr>
+          <tr><td>LCD D7</td><td class="pin">D7</td><td class="num">13</td><td></td></tr>
+          <tr><td>DATA do rádio</td><td class="pin">D2</td><td class="num">4</td><td><strong>atrás do divisor</strong>, nunca direto</td></tr>
+          <tr><td>Chave de limpar</td><td class="pin">D1</td><td class="num">5</td><td>outro terminal no <code>G</code></td></tr>
+          <tr><td>LED vermelho</td><td class="pin">D0</td><td class="num">16</td><td>com resistor de 220 Ω</td></tr>
+          <tr><td>5 V do LCD e do rádio</td><td class="pin">VU</td><td class="num">—</td><td>o 5 V da USB</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aviso">
+      <p><strong>O LCD é alimentado com 5 V mas recebe sinais de 3,3 V.</strong> Pela folha
+      de dados o HD44780 quer 3,5 V para reconhecer nível alto, então 3,3 V está
+      tecnicamente abaixo. Na prática a maioria dos módulos aceita sem reclamar.</p>
+      <p>Se a tela mostrar lixo ou blocos com o contraste bem ajustado, o problema é esse:
+      um diodo em série com o pino 2 do LCD derruba 0,7 V e resolve. Você não tem diodos
+      avulsos, mas a junção base-emissor de um <strong>C945</strong> funciona como um —
+      base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
+    </div>
+
+    <h3>Como a mensagem chega na internet</h3>
+    <p>O ESP publica num broker MQTT público em três tópicos: cada letra assim que chega,
+    a mensagem inteira de meio em meio segundo, e o estado do telégrafo. A página ao vivo
+    assina os três por WebSocket e desenha o que recebe.</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Tópico</th><th>Quando sai</th><th>O que resolve</th></tr></thead>
+        <tbody>
+          <tr><td class="pin">.../letra</td><td>na hora, a cada letra</td>
+              <td>é o que faz a fita e o display da página andarem ao vivo</td></tr>
+          <tr><td class="pin">.../mensagem</td><td>no máximo duas vezes por segundo, retida</td>
+              <td>retida significa que o broker guarda a última: quem abre a página depois já vê o texto que está lá, em vez de tela vazia</td></tr>
+          <tr><td class="pin">.../status</td><td>ao conectar, e sozinho se cair</td>
+              <td>é a “última vontade” registrada no broker: se o ESP perder energia ou WiFi, o próprio broker avisa a página</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Publicar a mensagem inteira a cada letra encheria o broker sem deixar a tela mais
+    rápida — por isso a letra sozinha sai na hora e o texto todo sai represado.</p>
+
+    <div class="aviso grave">
+      <p><strong>O broker é público e não tem senha.</strong> Qualquer pessoa que saiba o
+      nome do tópico consegue ler o que você transmite, e escrever nele. Troque o sufixo do
+      tópico por algo só seu, e não mande nada que importe. Junto com o rádio 433 MHz, que
+      também não tem criptografia, este projeto inteiro é aberto de ponta a ponta.</p>
+    </div>
+
+    <h3>A senha do WiFi não entra no repositório</h3>
+    <p>Copie <code>receptor-esp8266/segredos-exemplo.h</code> para
+    <code>receptor-esp8266/segredos.h</code> e preencha ali a rede, a senha e o tópico. Esse
+    arquivo está no <code>.gitignore</code>. Sem ele o sketch não compila, e isso é de
+    propósito: assim não tem como subir a senha sem querer.</p>
+    <p>O <code>MQTT_TOPICO_BASE</code> precisa ser <strong>exatamente igual</strong> ao
+    <code>TOPICO_BASE</code> de <code>ao-vivo/index.html</code>. Se os dois não baterem, a
+    página fica escutando um telégrafo que não é o seu — sem nenhum erro na tela,
+    simplesmente nunca chega nada.</p>
+
+    <h3>O código</h3>
+    <div class="painel-cod">
+      <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E Module)</span>
+        <button class="btn-txt" data-copiar="esp">copiar</button></div>
+      <pre><code id="saida-esp"></code></pre>
+    </div>
+
+    <h3>Ordem de teste</h3>
+    <div class="cartoes">
+      <div class="cartao"><h4>1. Só a placa e o LCD</h4><p>Grave sem ligar o rádio. Gire o
+      contraste de ponta a ponta até aparecer <code>MORSE + WiFi</code>. Se não acender nada
+      em ponto nenhum do curso, pare aqui: é contraste, alimentação ou o RW solto.</p></div>
+      <div class="cartao"><h4>2. O WiFi</h4><p>O canto direito da linha 1 mostra o estado:
+      vazio sem WiFi, <code>w</code> com WiFi mas sem broker, e uma antena quando os dois
+      estão de pé. O serial em 115200 conta o resto.</p></div>
+      <div class="cartao"><h4>3. A página</h4><p>Abra o monitor ao vivo com o telégrafo
+      ligado: a bolinha tem que ficar verde mesmo sem nenhuma letra ter chegado. Isso já
+      prova o caminho inteiro até a internet, antes de envolver o rádio.</p></div>
+      <div class="cartao"><h4>4. O rádio</h4><p>Aí sim ligue o receptor, com o divisor, e
+      bata um <code>E</code> no transmissor.</p></div>
+    </div>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Sintoma</th><th>Causa provável</th></tr></thead>
+        <tbody>
+          <tr><td>A placa não inicia, ou entra em modo de gravação sozinha</td><td>algo segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot — o rádio não pode estar em nenhum desses</td></tr>
+          <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
+          <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
+          <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
+          <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet — teste o transmissor pelo serial</td></tr>
+          <tr><td>Faltam letras que a versão com Uno pegava</td><td>WiFi disputando com o rádio: suba <code>REPETICOES</code> para 5 no transmissor</td></tr>
+          <tr><td>O LED da placa pisca ao escrever no LCD</td><td>é normal: GPIO2 é ao mesmo tempo o LED da placa e uma linha de dados do LCD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

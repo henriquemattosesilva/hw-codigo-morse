@@ -7,3 +7,6 @@ build/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# a senha do WiFi nao vai para o repositorio
+receptor-esp8266/segredos.h

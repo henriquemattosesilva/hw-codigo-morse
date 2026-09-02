@@ -234,6 +234,7 @@ footer a{color:var(--fraco)}
     <a href="#componentes">componentes</a>
     <a href="#montagem">montagem</a>
     <a href="#tinkercad">tinkercad</a>
+    <a href="#esp8266">esp8266</a>
     <a href="#funcionamento">como funciona</a>
     <a href="#codigo">código</a>
     <a href="#melhorias">melhorias</a>
@@ -263,7 +264,7 @@ footer a{color:var(--fraco)}
       <div class="leds">
         <div class="led" id="led-ponto" style="--cor:var(--ponto)">
           <span class="bulbo"></span><span class="led-txt">ponto</span></div>
-        <div class="led" id="led-traco" style="--cor:var(--traco)">
+        <div class="led" id="led-traco" style="--cor:var(--ponto)">
           <span class="bulbo"></span><span class="led-txt">traço</span></div>
         <div class="led" id="led-espaco" style="--cor:var(--espaco)">
           <span class="bulbo"></span><span class="led-txt">letra · espaço</span></div>
@@ -283,7 +284,7 @@ footer a{color:var(--fraco)}
         <button class="btn-txt" id="limpar">limpar</button>
       </div>
       <p class="dica">Os LEDs acendem <em>antes</em> de você soltar: verde é ponto,
-      verde e amarelo é traço. É esse retorno ao vivo que o projeto real dá na bancada.</p>
+      os dois verdes acesos é traço. É esse retorno ao vivo que o projeto real dá na bancada.</p>
     </div>
   </div>
 </header>
@@ -310,8 +311,7 @@ footer a{color:var(--fraco)}
           <tr><td>Display LCD 16x2</td><td>mostra o morse e o texto</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Chave táctil</td><td>manipulador e limpar tela</td><td class="num">2</td><td class="num">19</td></tr>
           <tr><td>Potenciômetro linear 10K</td><td>velocidade e contraste</td><td class="num">2</td><td class="num">3</td></tr>
-          <tr><td>LED verde 5 mm difuso</td><td>ponto</td><td class="num">1</td><td class="num">10</td></tr>
-          <tr><td>LED amarelo 5 mm difuso</td><td>traço</td><td class="num">1</td><td class="num">9</td></tr>
+          <tr><td>LED verde 5 mm difuso</td><td>ponto e traço</td><td class="num">2</td><td class="num">10</td></tr>
           <tr><td>LED azul 5 mm difuso</td><td>letra e espaço</td><td class="num">1</td><td class="num">10</td></tr>
           <tr><td>LED vermelho 5 mm difuso</td><td>recebendo</td><td class="num">1</td><td class="num">6</td></tr>
           <tr><td>Resistor 220 Ω</td><td>4 LEDs e a luz de fundo do LCD</td><td class="num">5</td><td class="num">18</td></tr>
@@ -425,10 +425,12 @@ footer a{color:var(--fraco)}
 
 {{SECAO_TINKERCAD}}
 
+{{SECAO_ESP8266}}
+
 <!-- ===================================================== funcionamento -->
 <section id="funcionamento">
   <div class="env">
-    <p class="marca">····− <span>como funciona</span></p>
+    <p class="marca">····· <span>como funciona</span></p>
     <h2>Como funciona</h2>
 
     <h3>Os LEDs do transmissor</h3>
@@ -440,15 +442,15 @@ footer a{color:var(--fraco)}
       <table>
         <thead><tr><th>O que você vê</th><th>O que significa</th></tr></thead>
         <tbody>
-          <tr><td class="pin">verde aceso</td><td>o toque em curso ainda vale um <strong>ponto</strong></td></tr>
-          <tr><td class="pin">verde e amarelo</td><td>o toque passou de 2 unidades, virou <strong>traço</strong></td></tr>
+          <tr><td class="pin">um verde aceso</td><td>o toque em curso ainda vale um <strong>ponto</strong></td></tr>
+          <tr><td class="pin">os dois verdes</td><td>o toque passou de 2 unidades, virou <strong>traço</strong></td></tr>
           <tr><td class="pin">azul aceso</td><td>o silêncio passou de 3 unidades: a <strong>letra fechou e foi enviada</strong></td></tr>
           <tr><td class="pin">azul piscando 2×</td><td>o silêncio passou de 7 unidades: <strong>espaço</strong> enviado</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Na prática você bate no botão olhando para o verde e o amarelo, e solta quando o
-    símbolo que quer estiver aceso. O buzzer apita junto, para o ouvido acompanhar o olho.</p>
+    <p>Na prática você bate no botão contando os LEDs acesos, e solta quando o
+    símbolo que quer estiver na tela. O buzzer apita junto, para o ouvido acompanhar o olho.</p>
 
     <h3>A velocidade</h3>
     <p>Todo o morse é medido em múltiplos de uma <strong>unidade</strong> de tempo, e o
@@ -518,7 +520,7 @@ footer a{color:var(--fraco)}
 <!-- =========================================================== codigo -->
 <section id="codigo">
   <div class="env">
-    <p class="marca">····· <span>código</span></p>
+    <p class="marca">−···· <span>código</span></p>
     <h2>Código das placas</h2>
     <p class="intro">Um sketch por placa. Abra na IDE do Arduino, selecione a placa certa e
     envie. A única biblioteca a instalar é a RadioHead.</p>
@@ -544,7 +546,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= melhorias -->
 <section id="melhorias">
   <div class="env">
-    <p class="marca">−···· <span>melhorias</span></p>
+    <p class="marca">−−··· <span>melhorias</span></p>
     <h2>Melhorias</h2>
 
     <h4>Alcance</h4>
@@ -616,7 +618,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= problemas -->
 <section id="problemas">
   <div class="env">
-    <p class="marca">−−··· <span>não funciona?</span></p>
+    <p class="marca">−−−·· <span>não funciona?</span></p>
     <h2>Quando não funciona</h2>
     <p class="intro">Quase tudo que dá errado nesta montagem cai numa destas linhas.</p>
     <div class="rolagem">
@@ -654,6 +656,7 @@ footer a{color:var(--fraco)}
 <script type="text/plain" id="fonte-rx">{{CODIGO_RX}}</script>
 <script type="text/plain" id="fonte-tktx">{{CODIGO_TK_TX}}</script>
 <script type="text/plain" id="fonte-tkrx">{{CODIGO_TK_RX}}</script>
+<script type="text/plain" id="fonte-esp">{{CODIGO_ESP}}</script>
 
 <script>
 (() => {
@@ -860,7 +863,7 @@ const colore = (bruto) => escapa(bruto).replace(REGRAS,
   });
 
 const fontes = {};
-for (const id of ['tx', 'rx', 'tktx', 'tkrx']) {
+for (const id of ['tx', 'rx', 'tktx', 'tkrx', 'esp']) {
   const cru = document.getElementById('fonte-' + id)?.textContent ?? '';
   fontes[id] = cru.replace(/^\n/, '');
   const saida = document.getElementById('saida-' + id);

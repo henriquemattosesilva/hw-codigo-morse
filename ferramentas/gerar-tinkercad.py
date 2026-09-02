@@ -340,7 +340,7 @@ def diagrama_tx():
     """
     UX, UY = 200, 560
     usados = {"2": "#5AA9F0", "3": LED_COR["verde"][0], "4": "#E08A2E",
-              "5": LED_COR["amarelo"][0], "6": LED_COR["azul"][0],
+              "5": LED_COR["verde"][0], "6": LED_COR["azul"][0],
               "12": "#C48FE0", "A0": "#F0C020",
               "5V": CB["trilha_p"], "GND": CB["trilha_m"]}
     s = io.StringIO()
@@ -349,7 +349,7 @@ def diagrama_tx():
     s.write(botao(7, 9))                              # manipulador
     s.write(piezo(12, 14, "h"))                       # sidetone
     s.write(potenciometro(24, "h", "velocidade"))     # A0
-    for col_r, cor, nome in ((12, "verde", "ponto"), (18, "amarelo", "traço"),
+    for col_r, cor, nome in ((12, "verde", "ponto"), (18, "verde", "traço"),
                              (24, "azul", "espaço")):
         s.write(resistor(col_r, col_r + 2, "b"))
         s.write(led(col_r + 2, col_r + 4, "d", cor, nome))
@@ -361,7 +361,7 @@ def diagrama_tx():
     for pino, col, linha, cor in (("2", 7, "f", "#5AA9F0"),
                                   ("4", 12, "j", "#E08A2E"),
                                   ("3", 12, "a", LED_COR["verde"][0]),
-                                  ("5", 18, "a", LED_COR["amarelo"][0]),
+                                  ("5", 18, "a", LED_COR["verde"][0]),
                                   ("6", 24, "a", LED_COR["azul"][0]),
                                   ("A0", 25, "j", "#F0C020")):
         px, py = pino_uno(UX, UY, pino)
@@ -377,7 +377,7 @@ def diagrama_tx():
     # terra de cada peca ate a trilha mais perto
     for co, lo, cd, ld in ((9, "e", 10, "-b"),      # chave
                            (16, "b", 16, "-b"),     # LED verde
-                           (22, "b", 22, "-b"),     # LED amarelo
+                           (22, "b", 22, "-b"),     # LED verde 2
                            (28, "b", 28, "-b"),     # LED azul
                            (14, "j", 15, "-t"),     # piezo
                            (24, "j", 23, "-t")):    # potenciometro
@@ -489,7 +489,7 @@ def galeria():
     itens = [
         ("Arduino Uno R3", "2", "placa"),
         ("Placa de ensaio pequena", "2", "protoboard"),
-        ("LED", "4", "led"),
+        ("LED", "5", "led"),
         ("Resistor", "5", "resistor"),
         ("Botão", "2", "botao"),
         ("Potenciômetro", "2", "pot"),

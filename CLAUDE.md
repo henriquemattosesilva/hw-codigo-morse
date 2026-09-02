@@ -25,6 +25,8 @@ foi verificado sem hardware.
 | `tinkercad/tx-tinkercad.ino` | compila para `arduino:avr:uno` — 17% de flash, 17% de RAM |
 | `tinkercad/rx-tinkercad.ino` | compila para `arduino:avr:uno` — 15% de flash, 18% de RAM |
 | Árvore de morse | os 36 caracteres testados nos dois sentidos contra a tabela ITU, 0 erro |
+| `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
+| `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Montagem física** | **não feita** |
 
@@ -58,6 +60,21 @@ dele tiver muito ruído de 433 MHz, `REPETICOES` sobe para 5. Se sobrar folga, p
 
 **Os 25 ms de debounce servem para as chaves dele?** Chave táctil comum costuma repicar
 menos que isso. Se registrar toques em dobro, sobe para 40.
+
+**O LCD aceita sinais de 3,3 V do ESP8266 com VDD em 5 V?** Pela folha de dados o
+HD44780 quer 3,5 V para nível alto. A maioria dos módulos aceita 3,3 V, mas o dele pode
+não aceitar. Se der lixo na tela, a saída é derrubar o VDD com um diodo — ou com a junção
+base-emissor de um C945, que ele tem dez.
+
+**O `VU` da NodeMCU v3 dele entrega mesmo 5 V?** É o padrão dessa placa, mas há clones em
+que o `VU` não está ligado. Se o LCD não acender, é o primeiro a conferir.
+
+**Quanto o WiFi come de pacote de rádio?** A `RH_ASK` amostra o pino por timer0 e a pilha
+WiFi desliga interrupção de vez em quando. Não foi medido. Se faltar letra que a versão
+com Uno pegava, subir `REPETICOES` para 5.
+
+**A IRAM do ESP8266 está em 93%.** Compila com folga de 4 KB. Outra biblioteca com código
+em IRAM pode não caber — se der erro de link falando em IRAM, é isso.
 
 **A faixa de 60 a 250 ms por unidade é confortável?** Chutada para cobrir de iniciante a
 razoavelmente rápido. Depois de bater morse de verdade ele vai saber se quer outra faixa.
@@ -113,8 +130,8 @@ bem no momento em que a próxima palavra pode começar.
 **O potenciômetro só é lido com o manipulador parado.** Reler no meio de uma letra mudaria
 os limiares entre o aperto e a soltura.
 
-**Os LEDs acendem antes de soltar o botão, não depois.** Verde no toque, amarelo ao cruzar
-2 unidades, azul ao cruzar 3 e piscando ao cruzar 7. É o ponto do projeto: mostrar os
+**Os LEDs acendem antes de soltar o botão, não depois.** Um verde no toque, o segundo ao
+cruzar 2 unidades, azul ao cruzar 3 e piscando ao cruzar 7. É o ponto do projeto: mostrar os
 tempos que normalmente são invisíveis, enquanto ainda dá para corrigir. Confirmar o
 símbolo depois de solto não serviria para nada.
 
@@ -129,8 +146,14 @@ A `RH_ASK` configura três pinos sozinha, mesmo os que o projeto não usa: **D10
 nas duas placas. Em cada lado só um deles leva fio — D12 no Nano, D11 no Uno — e os outros
 têm de ficar vazios. **D0 e D1 são a USB** e não podem ser usados em lado nenhum.
 
-Nano: D2 botão, D3 LED verde, D4 buzzer, D5 LED amarelo, D6 LED azul, D12 rádio, A0 pot.
+Nano: D2 botão, D3 LED verde 1, D4 buzzer, D5 LED verde 2, D6 LED azul, D12 rádio, A0 pot.
 Uno: D2-D7 LCD (RS, E, D4-D7), D8 LED vermelho, D9 botão limpar, D11 rádio.
+
+**No ESP8266 a regra é outra.** GPIO0 e GPIO2 precisam de nível alto no boot e GPIO15 de
+nível baixo. O rádio **não** pode ir num desses: a saída dele é ruído aleatório sem
+transmissão, e seria cara ou coroa a cada ligada. As entradas do LCD ficam em alta
+impedância até o programa começar, então são elas que ocupam os pinos delicados.
+ESP: D8/D3/D4/D5/D6/D7 no LCD, D2 rádio (atrás do divisor), D1 botão, D0 LED, VU o 5 V.
 
 ---
 

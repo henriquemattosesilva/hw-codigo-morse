@@ -21,7 +21,8 @@ Todos já estão no inventário em `../Componentes`.
 | Display LCD 16x2 | 1 | receptor |
 | Chave táctil | 2 | 1 manipulador, 1 limpar tela |
 | Potenciômetro linear 10K | 2 | 1 velocidade, 1 contraste |
-| LED verde / amarelo / azul 5mm difuso | 3 | transmissor |
+| LED verde 5mm difuso | 2 | transmissor, ponto e traço |
+| LED azul 5mm difuso | 1 | transmissor, letra e espaço |
 | LED vermelho 5mm difuso | 1 | receptor |
 | Resistor 220Ω | 5 | 4 LEDs + backlight do LCD |
 | Protoboard 830 pontos | 2 | um por lado |
@@ -76,8 +77,9 @@ como `?` em vez de estourar o buffer.
 
 LEDs como limiares ao vivo, para dar retorno antes de o operador soltar:
 
-- verde acende ao tocar (o símbolo em curso é um ponto)
-- amarelo acende junto quando a duração cruza 2u (virou traço)
+- um verde acende ao tocar (o símbolo em curso é um ponto)
+- o segundo verde acende junto quando a duração cruza 2u (virou traço).
+  Dois LEDs iguais em vez de duas cores: conta-se quantos estão acesos
 - azul acende quando o silêncio cruza 3u (letra fechada e transmitida) e dá um
   pisca duplo antes de apagar quando cruza 7u (espaço de palavra transmitido)
 
@@ -134,7 +136,7 @@ aumenta a chance de perder pacotes.
 | D2 | chave táctil (INPUT_PULLUP, outro terminal ao GND) |
 | D3 | LED verde (ponto) + 220Ω |
 | D4 | módulo buzzer ativo, entrada de sinal |
-| D5 | LED amarelo (traço) + 220Ω |
+| D5 | LED verde 2 (traço) + 220Ω |
 | D6 | LED azul (espaço/letra) + 220Ω |
 | D12 | DATA do módulo transmissor RF |
 | A0 | cursor do potenciômetro 10K (velocidade) |
