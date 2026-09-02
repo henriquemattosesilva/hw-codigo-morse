@@ -234,6 +234,10 @@ inteiros.
 o dele — e não aparece erro nenhum, simplesmente nunca chega nada. É o primeiro suspeito
 quando a bolinha da página não fica verde.
 
+O sufixo foi definido em 02/09/2026 e está no `ao-vivo/index.html`, que é versionado — se
+o `segredos.h` se perder, o valor certo se lê de lá. O `segredos-exemplo.h` continua com o
+`troque-este-sufixo` de propósito: quem clonar o repositório precisa escolher o seu.
+
 **O número de sequência descarta as repetições no receptor**, para a letra aparecer uma vez
 só. Ele começa em 1 no transmissor e `ultimaSequencia` começa em 0, então não colide.
 
