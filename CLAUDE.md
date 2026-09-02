@@ -22,8 +22,6 @@ foi verificado sem hardware.
 |---|---|
 | `transmissor-nano.ino` | compila para `arduino:avr:nano` — 27% de flash, 30% de RAM |
 | `receptor-uno.ino` | compila para `arduino:avr:uno` — 27% de flash, 32% de RAM |
-| `tinkercad/tx-tinkercad.ino` | compila para `arduino:avr:uno` — 17% de flash, 17% de RAM |
-| `tinkercad/rx-tinkercad.ino` | compila para `arduino:avr:uno` — 15% de flash, 18% de RAM |
 | Árvore de morse | os 36 caracteres testados nos dois sentidos contra a tabela ITU, 0 erro |
 | `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
@@ -43,8 +41,8 @@ hardware — são decisões tomadas na leitura de datasheet e no raciocínio.
 **O buzzer é mesmo ativo?** Ele tem só dois pinos, S e GND — sem VCC, quem o alimenta é o
 próprio D4, então **não há como ele ser acionado por nível baixo**: nível alto é a única
 forma de dar energia a ele. O que resta em aberto é se tem oscilador interno. Se der um
-clique em vez de apitar, é passivo, e aí é `tone()` em vez de `digitalWrite` — igual à
-versão do Tinkercad. Está no guia de problemas.
+clique em vez de apitar, é passivo, e aí é `tone()` em vez de `digitalWrite`. Está no
+guia de problemas.
 
 **Os 20 a 30 mA do buzzer no D4 incomodam?** Com dois pinos, o pino alimenta o buzzer
 inteiro. O ATmega328 recomenda 20 mA por pino e admite 40 mA no limite absoluto, então
@@ -95,12 +93,11 @@ diagramas e dos `.ino`. Editar direto significa perder a alteração no próximo
 
 ```
 python ferramentas/gerar-diagramas.py   # só se mudou a fiação real
-python ferramentas/gerar-tinkercad.py   # só se mudou a montagem do simulador
 python ferramentas/gerar-pagina.py      # sempre, depois de mexer em qualquer sketch
 ```
 
-O `gerar-pagina.py` injeta os quatro `.ino` e os sete SVGs em `ferramentas/modelo.html` e
-em `ferramentas/secao-tinkercad.html`. **Se você mexer num sketch e não rodar o gerador, a
+O `gerar-pagina.py` injeta os três `.ino` e os seis SVGs em `ferramentas/modelo.html` e
+em `ferramentas/secao-esp8266.html`. **Se você mexer num sketch e não rodar o gerador, a
 página passa a mostrar um código diferente do que está no repositório** — que é
 exatamente o jeito mais fácil de uma página dessas apodrecer.
 
@@ -161,26 +158,6 @@ nível baixo. O rádio **não** pode ir num desses: a saída dele é ruído alea
 transmissão, e seria cara ou coroa a cada ligada. As entradas do LCD ficam em alta
 impedância até o programa começar, então são elas que ocupam os pinos delicados.
 ESP: D8/D3/D4/D5/D6/D7 no LCD, D2 rádio (atrás do divisor), D1 botão, D0 LED, VU o 5 V.
-
----
-
-## A versão do Tinkercad
-
-Existe porque o simulador não tem Arduino Nano, não tem módulo de rádio 433 MHz e não
-aceita biblioteca externa. Fica em `tinkercad/`, e as diferenças são:
-
-- Uno R3 no lugar do Nano — os pinos deste projeto são iguais nas duas placas
-- um fio de D12 a D11 no lugar dos dois módulos, **mais o GND em comum entre as placas**
-- `SoftwareSerial` no lugar da `RadioHead`, nos mesmos pinos
-- `tone()` no lugar de `digitalWrite` no buzzer: o piezo do Tinkercad é passivo
-- uma repetição por letra em vez de três, porque um fio não perde byte
-- o receptor procura a marca `'M'` para achar o início do pacote, que era o que o preâmbulo
-  da `RadioHead` fazia
-
-Isso **não** substitui o teste na bancada: o simulador não reproduz alcance, ruído de
-433 MHz, perda de pacote, repique de chave nem o comportamento real do módulo de rádio.
-
----
 
 ## Como verificar
 

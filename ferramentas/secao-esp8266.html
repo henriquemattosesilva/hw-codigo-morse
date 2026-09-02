@@ -6,8 +6,7 @@
     <div class="aviso">
       <p><strong>A versão com Uno continua no projeto, e é por ela que se começa.</strong>
       Ela prova que o rádio funciona sem trazer junto WiFi, tensão de 3,3 V e divisor
-      resistivo. Depois é só trocar a placa da ponta. Também é a única das duas que roda
-      no Tinkercad — o simulador não tem ESP8266.</p>
+      resistivo. Depois é só trocar a placa da ponta.</p>
     </div>
 
     <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
@@ -151,12 +150,14 @@
     página fica escutando um telégrafo que não é o seu — sem nenhum erro na tela,
     simplesmente nunca chega nada.</p>
 
-    <h4 class="passo">O código</h4>
-    <div class="painel-cod">
-      <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E Module)</span>
-        <button class="btn-txt" data-copiar="esp">copiar</button></div>
-      <pre><code id="saida-esp"></code></pre>
-    </div>
+    <details class="dobra">
+      <summary>o código do receptor · receptor-esp8266.ino</summary>
+      <div class="painel-cod">
+        <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E) · RadioHead, PubSubClient e LiquidCrystal</span>
+          <button class="btn-txt" data-copiar="esp">copiar</button></div>
+        <pre><code id="saida-esp"></code></pre>
+      </div>
+    </details>
 
     <h4 class="passo">Ordem de teste</h4>
     <div class="cartoes">

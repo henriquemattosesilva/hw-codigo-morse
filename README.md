@@ -37,7 +37,6 @@ e o mesmo display do projeto real. Dá para treinar antes de montar qualquer coi
 | [receptor-esp8266/](receptor-esp8266/) | sketch do ESP8266 (display + internet) |
 | [MONTAGEM-ESP8266.md](MONTAGEM-ESP8266.md) | montagem do receptor com ESP8266 |
 | [ao-vivo/](ao-vivo/) | a página que mostra a mensagem ao vivo |
-| [tinkercad/](tinkercad/) | os dois sketches adaptados para o simulador |
 | [ferramentas/](ferramentas/) | scripts que geram os diagramas e a página |
 | [docs/superpowers/specs/](docs/superpowers/specs/) | o projeto escrito, com as decisões e os porquês |
 
@@ -46,7 +45,6 @@ diagramas, rode:
 
 ```
 python ferramentas/gerar-diagramas.py   # só se mudou a fiação
-python ferramentas/gerar-tinkercad.py   # só se mudou a montagem do simulador
 python ferramentas/gerar-pagina.py      # sempre
 ```
 
@@ -58,7 +56,6 @@ python ferramentas/gerar-pagina.py      # sempre
 | Pinos | qualquer um serve | três são lidos no boot e mudam quem vai onde |
 | Rádio | sozinho no processador | disputando com a pilha de WiFi |
 | Mensagem | 15 letras no LCD | 160 guardadas, 15 no LCD, e **na internet** |
-| Tinkercad | simula | não existe ESP8266 no simulador |
 
 **Comece pelo Uno.** Ele prova que o rádio funciona sem trazer junto WiFi, tensão de
 3,3 V e divisor resistivo. Trocar a placa da ponta depois é rápido.
@@ -69,18 +66,6 @@ no [MONTAGEM-ESP8266.md](MONTAGEM-ESP8266.md).
 
 > A saída de dados do módulo de rádio entrega 5 V, e os pinos do ESP8266 não toleram
 > isso. O divisor de 10 kΩ + 20 kΩ não é opcional.
-
-## Simular antes de montar
-
-Dá para rodar o projeto inteiro no [Tinkercad](https://www.tinkercad.com/) antes de
-encostar num componente. O simulador não tem Arduino Nano, nem módulo de rádio
-433 MHz, nem aceita a RadioHead — mas o rádio já era um link serial, então os dois
-módulos viram **um fio de D12 a D11** e a RadioHead vira **SoftwareSerial**, nos
-mesmos pinos. O buzzer ativo vira um piezo passivo, que precisa de `tone()`.
-
-A montagem desenhada peça por peça, com os furos de cada perna, está na
-[seção Tinkercad da página](https://henriquemattosesilva.github.io/hw-codigo-morse/#tinkercad).
-Os sketches adaptados ficam em [tinkercad/](tinkercad/).
 
 **Comece pelo [MONTAGEM.md](MONTAGEM.md).** A única biblioteca a instalar é a
 **RadioHead**, pelo Gerenciador de Bibliotecas da IDE.

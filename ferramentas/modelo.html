@@ -177,6 +177,22 @@ td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
 .aviso p{margin:0;font-size:15px}
 .aviso p + p{margin-top:9px}
 
+/* cada aba de placa: a fiação, e o código dobrado no fim */
+.painel-placa{border-top:1px solid var(--borda);margin-top:-1px;padding-top:6px}
+.dobra{margin:34px 0 0}
+.dobra > summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:11px;
+  font-family:var(--mono);font-size:13px;font-weight:600;color:var(--fraco);
+  background:var(--painel);border:1px solid var(--borda);border-radius:11px;
+  padding:14px 18px;transition:color .12s,border-color .12s;
+}
+.dobra > summary::-webkit-details-marker{display:none}
+.dobra > summary::before{content:'+';color:var(--lcd-luz);font-size:15px;width:1ch}
+.dobra[open] > summary::before{content:'\2212'}
+.dobra > summary:hover{color:var(--texto);border-color:var(--borda-forte)}
+.dobra[open] > summary{color:var(--texto);border-radius:11px 11px 0 0;border-bottom:none}
+.dobra .painel-cod{border-radius:0 0 11px 11px}
+
 /* ---------------------------------------------------------------- abas */
 .abas{display:flex;gap:8px;margin:24px 0 0;flex-wrap:wrap}
 .aba{
@@ -237,9 +253,7 @@ footer a{color:var(--fraco)}
     <span class="nav-marca">hw-codigo-morse</span>
     <a href="#componentes">componentes</a>
     <a href="#montagem">montagem</a>
-    <a href="#tinkercad">tinkercad</a>
     <a href="#funcionamento">como funciona</a>
-    <a href="#codigo">código</a>
     <a href="#melhorias">melhorias</a>
     <a href="#problemas">não funciona?</a>
   </div>
@@ -342,9 +356,9 @@ footer a{color:var(--fraco)}
   <div class="env">
     <p class="marca">··−−− <span>montagem</span></p>
     <h2>Montagem em protoboard</h2>
-    <p class="intro">Duas protoboards independentes. A única ligação entre elas é o rádio.
-    Monte o transmissor inteiro e teste pelo monitor serial antes de encostar no receptor —
-    assim, se algo não funcionar, você já sabe de que lado está.</p>
+    <p class="intro">O transmissor é sempre o Nano. Para o receptor você escolhe entre o
+    Uno, mais simples, e o ESP8266, que publica a mensagem na internet. Cada aba abaixo traz
+    a fiação de uma placa e, no fim, o código dela.</p>
 
     <div class="aviso grave">
       <p><strong>Desligue o USB antes de mexer na fiação.</strong> Ligar um fio no lugar
@@ -355,6 +369,13 @@ footer a{color:var(--fraco)}
       em lado nenhum, que são a USB.</p>
     </div>
 
+    <div class="abas" role="tablist" aria-label="Placas do projeto">
+      <button class="aba" role="tab" aria-selected="true" aria-controls="m-nano" id="a-nano">Transmissor Nano</button>
+      <button class="aba" role="tab" aria-selected="false" aria-controls="m-uno" id="a-uno">Receptor Uno</button>
+      <button class="aba" role="tab" aria-selected="false" aria-controls="m-esp" id="a-esp">Receptor ESP8266</button>
+    </div>
+
+    <div class="painel-placa" role="tabpanel" id="m-nano" aria-labelledby="a-nano">
     <h3>Lado A — transmissor (Arduino Nano)</h3>
     <p>Encaixe o Nano atravessando o canal central da protoboard. Ligue o <code>5V</code>
     na trilha vermelha e o <code>GND</code> na azul. Só os fios de sinal aparecem
@@ -377,6 +398,17 @@ footer a{color:var(--fraco)}
       puxar corrente do 5 V em vez do D4.</p>
     </div>
 
+    <details class="dobra">
+      <summary>o código do transmissor · transmissor-nano.ino</summary>
+      <div class="painel-cod">
+        <div class="cod-topo"><span>Arduino Nano · ATmega328P · biblioteca RadioHead</span>
+          <button class="btn-txt" data-copiar="tx">copiar</button></div>
+        <pre><code id="saida-tx"></code></pre>
+      </div>
+    </details>
+    </div>
+
+    <div class="painel-placa" role="tabpanel" id="m-uno" aria-labelledby="a-uno" hidden>
     <h3>Lado B — receptor (Arduino Uno)</h3>
     <p>O Uno fica fora da protoboard, ligado por jumpers macho-fêmea. Ligue o
     <code>5V</code> e o <code>GND</code> do Uno nas trilhas antes de qualquer outra coisa.</p>
@@ -386,7 +418,7 @@ footer a{color:var(--fraco)}
       <figcaption>Receptor: o LCD tem diagrama próprio, logo abaixo.</figcaption>
     </figure>
 
-    <h3>Os 16 pinos do LCD</h3>
+    <h4 class="passo">Os 16 pinos do LCD</h4>
     <p>Numerados da esquerda para a direita, olhando a frente do display com os pinos
     na parte de cima.</p>
 
@@ -405,7 +437,19 @@ footer a{color:var(--fraco)}
       tela acende mas não aparece nada, o problema é o contraste.</p>
     </div>
 
+    <details class="dobra">
+      <summary>o código do receptor · receptor-uno.ino</summary>
+      <div class="painel-cod">
+        <div class="cod-topo"><span>Arduino Uno R3 · bibliotecas RadioHead e LiquidCrystal</span>
+          <button class="btn-txt" data-copiar="rx">copiar</button></div>
+        <pre><code id="saida-rx"></code></pre>
+      </div>
+    </details>
+    </div>
+
+    <div class="painel-placa" role="tabpanel" id="m-esp" aria-labelledby="a-esp" hidden>
 {{SECAO_ESP8266}}
+    </div>
 
     <h3>Antenas</h3>
     <p>Sem antena o alcance é de poucos centímetros — dá para testar na bancada e mais
@@ -439,12 +483,10 @@ footer a{color:var(--fraco)}
   </div>
 </section>
 
-{{SECAO_TINKERCAD}}
-
 <!-- ===================================================== funcionamento -->
 <section id="funcionamento">
   <div class="env">
-    <p class="marca">····− <span>como funciona</span></p>
+    <p class="marca">···−− <span>como funciona</span></p>
     <h2>Como funciona</h2>
 
     <h3>Os LEDs do transmissor</h3>
@@ -531,36 +573,10 @@ footer a{color:var(--fraco)}
   </div>
 </section>
 
-<!-- =========================================================== codigo -->
-<section id="codigo">
-  <div class="env">
-    <p class="marca">····· <span>código</span></p>
-    <h2>Código das placas</h2>
-    <p class="intro">Um sketch por placa. Abra na IDE do Arduino, selecione a placa certa e
-    envie. A única biblioteca a instalar é a RadioHead.</p>
-
-    <div class="abas" role="tablist" aria-label="Sketches">
-      <button class="aba" role="tab" aria-selected="true" aria-controls="p-tx" id="a-tx">transmissor-nano.ino</button>
-      <button class="aba" role="tab" aria-selected="false" aria-controls="p-rx" id="a-rx">receptor-uno.ino</button>
-    </div>
-
-    <div class="painel-cod" role="tabpanel" id="p-tx" aria-labelledby="a-tx">
-      <div class="cod-topo"><span>Arduino Nano · ATmega328P</span>
-        <button class="btn-txt" data-copiar="tx">copiar</button></div>
-      <pre><code id="saida-tx"></code></pre>
-    </div>
-    <div class="painel-cod" role="tabpanel" id="p-rx" aria-labelledby="a-rx" hidden>
-      <div class="cod-topo"><span>Arduino Uno R3</span>
-        <button class="btn-txt" data-copiar="rx">copiar</button></div>
-      <pre><code id="saida-rx"></code></pre>
-    </div>
-  </div>
-</section>
-
 <!-- ========================================================= melhorias -->
 <section id="melhorias">
   <div class="env">
-    <p class="marca">−···· <span>melhorias</span></p>
+    <p class="marca">····− <span>melhorias</span></p>
     <h2>Melhorias</h2>
 
     <h4>Alcance</h4>
@@ -632,7 +648,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= problemas -->
 <section id="problemas">
   <div class="env">
-    <p class="marca">−−··· <span>não funciona?</span></p>
+    <p class="marca">····· <span>não funciona?</span></p>
     <h2>Quando não funciona</h2>
     <p class="intro">Quase tudo que dá errado nesta montagem cai numa destas linhas.</p>
     <div class="rolagem">
@@ -647,7 +663,7 @@ footer a{color:var(--fraco)}
           <tr><td>Nada chega, mas o serial do Nano mostra as letras certas</td><td>antena faltando, ou DATA do receptor fora do D11</td></tr>
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>
           <tr><td>Botão dispara sozinho ou em dobro</td><td>você pegou o par de pinos errado da chave táctil; use os pinos na diagonal</td></tr>
-          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code>, como na versão do Tinkercad</td></tr>
+          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code></td></tr>
           <tr><td>Todo toque vira traço</td><td>potenciômetro de velocidade no extremo rápido; gire para o lado lento</td></tr>
           <tr><td>Todo toque vira ponto</td><td>o contrário, ou o cursor do potenciômetro não está em A0</td></tr>
           <tr><td>Os três LEDs piscam sem parar ao ligar</td><td>o rádio não iniciou; confira VCC e GND do módulo</td></tr>
@@ -668,8 +684,6 @@ footer a{color:var(--fraco)}
 
 <script type="text/plain" id="fonte-tx">{{CODIGO_TX}}</script>
 <script type="text/plain" id="fonte-rx">{{CODIGO_RX}}</script>
-<script type="text/plain" id="fonte-tktx">{{CODIGO_TK_TX}}</script>
-<script type="text/plain" id="fonte-tkrx">{{CODIGO_TK_RX}}</script>
 <script type="text/plain" id="fonte-esp">{{CODIGO_ESP}}</script>
 
 <script>
@@ -877,7 +891,7 @@ const colore = (bruto) => escapa(bruto).replace(REGRAS,
   });
 
 const fontes = {};
-for (const id of ['tx', 'rx', 'tktx', 'tkrx', 'esp']) {
+for (const id of ['tx', 'rx', 'esp']) {
   const cru = document.getElementById('fonte-' + id)?.textContent ?? '';
   fontes[id] = cru.replace(/^\n/, '');
   const saida = document.getElementById('saida-' + id);
@@ -886,8 +900,7 @@ for (const id of ['tx', 'rx', 'tktx', 'tkrx', 'esp']) {
 
 // Dois grupos independentes de abas: os sketches de verdade e os do simulador.
 const grupos = [
-  [['a-tx', 'p-tx'], ['a-rx', 'p-rx']],
-  [['a-tktx', 'p-tktx'], ['a-tkrx', 'p-tkrx']],
+  [['a-nano', 'm-nano'], ['a-uno', 'm-uno'], ['a-esp', 'm-esp']],
 ];
 grupos.forEach(grupo => grupo.forEach(([aid]) => {
   document.getElementById(aid)?.addEventListener('click', () => {
@@ -899,6 +912,23 @@ grupos.forEach(grupo => grupo.forEach(([aid]) => {
     });
   });
 }));
+
+/*
+  Um link para dentro de uma aba — o #esp8266 do README, por exemplo — precisa
+  abrir a aba antes de rolar. Escondido, o alvo não existe para o navegador, que
+  fica parado onde estava sem dar nenhum sinal.
+*/
+const abreAbaDoAlvo = () => {
+  if (!location.hash) return;
+  let alvo;
+  try { alvo = document.querySelector(location.hash); } catch { return; }
+  const painel = alvo?.closest('[role=tabpanel]');
+  if (!painel || !painel.hidden) return;
+  document.querySelector(`[aria-controls="${painel.id}"]`)?.click();
+  alvo.scrollIntoView();
+};
+addEventListener('hashchange', abreAbaDoAlvo);
+abreAbaDoAlvo();
 
 document.querySelectorAll('[data-copiar]').forEach(btn => {
   btn.addEventListener('click', async () => {

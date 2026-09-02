@@ -209,7 +209,7 @@ Bata uma letra no botão: o LED vermelho pisca e a letra aparece no LCD.
 | Nada chega, mas o serial do Nano mostra as letras certas | antena faltando, ou DATA do receptor fora do D11 |
 | Chegam letras aleatórias sem você bater nada | ruído de 433 MHz de portão ou campainha; é normal que apareça pouca coisa, o CRC barra quase tudo |
 | Botão dispara sozinho ou em dobro | você pegou o par de pinos errado da chave táctil; use os pinos na diagonal |
-| Buzzer dá um clique em vez de apitar | ele é passivo, não ativo: troque os `digitalWrite` de `PINO_BUZZER` por `tone(PINO_BUZZER, 620)` e `noTone(PINO_BUZZER)`, como na versão do Tinkercad |
+| Buzzer dá um clique em vez de apitar | ele é passivo, não ativo: troque os `digitalWrite` de `PINO_BUZZER` por `tone(PINO_BUZZER, 620)` e `noTone(PINO_BUZZER)` |
 | Todo toque vira traço | potenciômetro de velocidade no extremo rápido; gire para o lado lento |
 | Todo toque vira ponto | o contrário, ou o cursor do potenciômetro não está em A0 |
 | Os três LEDs piscam sem parar ao ligar | o rádio não iniciou; confira VCC e GND do módulo |
