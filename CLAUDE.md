@@ -31,7 +31,8 @@ montado mas ainda não foi gravado. O receptor com Uno não foi montado.
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
-| **Receptor ESP8266 na protoboard** | grava; **WiFi e MQTT funcionando**. Pinos trocados em 02/09/2026: a fiação precisa ser refeita |
+| **Receptor ESP8266 na protoboard** | grava com o LCD ligado; **WiFi, MQTT e LCD funcionando** |
+| **Enlace de rádio** | **nunca funcionou** — nenhuma letra chegou ao ESP até agora |
 | **Receptor Uno** | não montado |
 
 ### O que o hardware já provou (01/09/2026)
@@ -84,7 +85,19 @@ ligado, a gravação falhava sempre. Três testes isolaram a causa: tirar o D3 n
 tirar o **D8** resolvia. Era o RS do LCD segurando o GPIO15 alto. Ver "Restrições de
 pinos" mais abaixo — a fiação do ESP8266 mudou, e o sketch junto.
 
-**A próxima etapa é refazer a fiação do ESP nos pinos novos, e depois o rádio.**
+**O LCD funciona nos pinos novos** (02/09/2026). A tela de repouso apareceu certa: área do
+morse em branco, `_` de cursor na linha 2 e o desenho de antena na coluna 13, que é o
+indicador de broker conectado.
+
+Junto apareceu um defeito cosmético, corrigido no mesmo dia: o `setup()` escrevia
+`MORSE + WiFi` e logo em seguida chamava `limpaMensagem()`, que só apaga as colunas 0 a 5
+e escreve o `_` na 7. Sobravam o `+` e o `WiFi` do banner, e a tela ficava `+_WiFi`. Agora
+existe `saiDaTelaInicial()`, que dá um `lcd.clear()` e invalida o `enlaceDesenhado` quando
+o WiFi entra — ou quando a primeira letra chega, o que vier antes. De brinde, a tela
+"ligando WiFi..." passou a ficar visível de verdade, e o serial imprime `WiFi conectado`.
+
+**A próxima etapa é o rádio, que nunca funcionou.** Nenhuma letra chegou ao ESP até hoje;
+o broker só recebeu o `status`.
 
 ### O que existe
 

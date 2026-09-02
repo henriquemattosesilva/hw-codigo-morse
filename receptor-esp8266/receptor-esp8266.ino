@@ -125,6 +125,7 @@ unsigned long tIndicador = 0, tLimpar = 0, tMqtt = 0, tTexto = 0;
 bool          limparPressionado = false;
 bool          textoSujo = false;      // mudou desde a ultima publicacao
 bool          enlaceDesenhado = false;
+bool          telaInicial = true;     // ainda mostrando "ligando WiFi..."
 
 char topicoLetra[96], topicoTexto[96], topicoStatus[96];
 
@@ -163,7 +164,10 @@ void setup() {
   WiFi.begin(WIFI_SSID, WIFI_SENHA);
   mqtt.setServer(MQTT_SERVIDOR, MQTT_PORTA);
 
-  limpaMensagem(false);
+  // A tela de abertura fica ate o WiFi entrar, ou ate a primeira letra chegar.
+  // Quem troca para a tela de trabalho e o saiDaTelaInicial(), no loop.
+  mensagem[0] = '\0';
+  nMensagem = 0;
 }
 
 // ------------------------------------------------------------------- loop
@@ -172,6 +176,10 @@ void loop() {
 
   recebeRadio(agora);
   cuidaDoMqtt(agora);
+  if (telaInicial && WiFi.status() == WL_CONNECTED) {
+    Serial.println(F("WiFi conectado"));
+    saiDaTelaInicial();
+  }
   desenhaEnlace();
 
   if (indicadorAceso && (agora - tIndicador) >= INDICADOR_MS) {
@@ -205,6 +213,9 @@ void recebeRadio(unsigned long agora) {
   char c = (char)buffer[2];
   Serial.println(c);
 
+  // Se uma letra chegar antes do WiFi entrar, a tela de trabalho comeca aqui.
+  if (telaInicial) saiDaTelaInicial();
+
   acrescenta(c);
   desenhaLinha1(c);
   desenhaLinha2();
@@ -232,6 +243,18 @@ void acrescenta(char c) {
   }
   mensagem[nMensagem++] = c;
   mensagem[nMensagem] = '\0';
+}
+
+/*
+  Troca a tela de abertura pela de trabalho. Sem isto, escrever a mensagem por
+  cima do "MORSE + WiFi" deixaria pedacos do texto antigo espalhados: a
+  desenhaLinha1() so mexe nas colunas 0 a 5 e na 7, e o resto do banner fica.
+*/
+void saiDaTelaInicial() {
+  telaInicial = false;
+  lcd.clear();
+  enlaceDesenhado = false;  // a tela foi limpa, o indicador tem de ser refeito
+  limpaMensagem(false);
 }
 
 void limpaMensagem(bool publica) {
