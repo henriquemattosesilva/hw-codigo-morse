@@ -105,6 +105,9 @@ o broker só recebeu o `status`.
 transmissor-nano/     o manipulador. É sempre esta placa que transmite.
 receptor-uno/         receptor simples, só LCD
 receptor-esp8266/     receptor com WiFi: LCD + publica por MQTT
+teste-radio-uno/      FERRAMENTA, nao faz parte do telegrafo: escuta o radio
+                      no Uno e imprime rxGood/rxBad. Serve para separar
+                      problema de radio de problema do ESP8266.
   segredos-exemplo.h  modelo; o segredos.h de verdade está no .gitignore
 ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
 MONTAGEM.md           fiação do Nano e do receptor com Uno
