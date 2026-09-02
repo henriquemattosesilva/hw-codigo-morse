@@ -19,8 +19,10 @@ verificado.
 
 ## Estado em 02/09/2026
 
-O transmissor **já está montado e funcionando na bancada**. O receptor com ESP8266 está
-montado mas ainda não foi gravado. O receptor com Uno não foi montado.
+O transmissor e o receptor com ESP8266 **estão montados e funcionando**, cada um do seu
+lado: o manipulador decodifica certo no serial, e o ESP grava, conecta no WiFi, publica no
+broker e desenha no LCD. **O que nunca funcionou é o elo entre os dois** — nenhuma letra
+atravessou o rádio até agora. O receptor com Uno não foi montado.
 
 | Item | Situação |
 |---|---|
@@ -105,10 +107,10 @@ o broker só recebeu o `status`.
 transmissor-nano/     o manipulador. É sempre esta placa que transmite.
 receptor-uno/         receptor simples, só LCD
 receptor-esp8266/     receptor com WiFi: LCD + publica por MQTT
-teste-radio-uno/      FERRAMENTA, nao faz parte do telegrafo: escuta o radio
-                      no Uno e imprime rxGood/rxBad. Serve para separar
-                      problema de radio de problema do ESP8266.
   segredos-exemplo.h  modelo; o segredos.h de verdade está no .gitignore
+teste-radio-uno/      FERRAMENTA, não faz parte do telégrafo: escuta o rádio
+                      no Uno e imprime rxGood/rxBad. Separa problema de rádio
+                      de problema do ESP8266.
 ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
 MONTAGEM.md           fiação do Nano e do receptor com Uno
 MONTAGEM-ESP8266.md   fiação do receptor com ESP8266, com o divisor
