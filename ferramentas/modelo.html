@@ -135,8 +135,12 @@ h2{font-family:var(--mono);font-weight:700;letter-spacing:-.022em;
   font-size:clamp(1.55rem,4.4vw,2.4rem);margin:0 0 14px;text-transform:uppercase}
 h3{font-family:var(--mono);font-weight:600;font-size:1.06rem;letter-spacing:.01em;
   margin:38px 0 12px;color:var(--texto)}
+/* h3 com id vira alvo de link: precisa da mesma folga da barra fixa */
+h3[id]{scroll-margin-top:58px}
 h4{font-family:var(--mono);font-weight:600;font-size:.92rem;margin:26px 0 8px;
   color:var(--fraco);letter-spacing:.05em;text-transform:uppercase}
+h4.passo{font-size:1rem;text-transform:none;letter-spacing:0;color:var(--texto);
+  margin:32px 0 10px}
 p{margin:0 0 15px;max-width:74ch}
 .intro{color:var(--fraco);max-width:70ch;font-size:1.04rem}
 strong{color:#fff;font-weight:600}
@@ -234,7 +238,6 @@ footer a{color:var(--fraco)}
     <a href="#componentes">componentes</a>
     <a href="#montagem">montagem</a>
     <a href="#tinkercad">tinkercad</a>
-    <a href="#esp8266">esp8266</a>
     <a href="#funcionamento">como funciona</a>
     <a href="#codigo">código</a>
     <a href="#melhorias">melhorias</a>
@@ -315,7 +318,7 @@ footer a{color:var(--fraco)}
           <tr><td>LED azul 5 mm difuso</td><td>letra e espaço</td><td class="num">1</td><td class="num">10</td></tr>
           <tr><td>LED vermelho 5 mm difuso</td><td>recebendo</td><td class="num">1</td><td class="num">6</td></tr>
           <tr><td>Resistor 220 Ω</td><td>4 LEDs e a luz de fundo do LCD</td><td class="num">5</td><td class="num">18</td></tr>
-          <tr><td>Módulo buzzer ativo P15</td><td>sidetone do manipulador</td><td class="num">1</td><td class="num">1</td></tr>
+          <tr><td>Buzzer ativo P15 (2 pinos)</td><td>sidetone do manipulador</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Protoboard 830 pontos</td><td>uma por lado</td><td class="num">2</td><td class="num">2</td></tr>
           <tr><td>Jumper macho-macho</td><td>ligações na protoboard</td><td class="num">~25</td><td class="num">76</td></tr>
           <tr><td>Jumper macho-fêmea</td><td>Uno e LCD até a protoboard</td><td class="num">~16</td><td class="num">80</td></tr>
@@ -363,6 +366,17 @@ footer a{color:var(--fraco)}
       <figcaption>Transmissor: sete componentes, um fio de sinal cada.</figcaption>
     </figure>
 
+    <div class="aviso">
+      <p><strong>O buzzer não tem pino de alimentação.</strong> Com apenas S e GND, quem
+      alimenta o buzzer é o próprio <code>D4</code>: ao ir para nível alto, ele fornece os
+      5 V e a corrente. É assim que os buzzers de dois pinos funcionam — mas repare que são
+      uns 20 a 30 mA saindo de um pino só, e o ATmega328 recomenda 20 mA por pino (o
+      limite absoluto é 40 mA).</p>
+      <p>Funciona direto, e é como esses buzzers são usados em qualquer kit. Se quiser
+      poupar o pino, um transistor <strong>C945</strong> com 10 kΩ na base faz o buzzer
+      puxar corrente do 5 V em vez do D4.</p>
+    </div>
+
     <h3>Lado B — receptor (Arduino Uno)</h3>
     <p>O Uno fica fora da protoboard, ligado por jumpers macho-fêmea. Ligue o
     <code>5V</code> e o <code>GND</code> do Uno nas trilhas antes de qualquer outra coisa.</p>
@@ -390,6 +404,8 @@ footer a{color:var(--fraco)}
       todo. O 3 é o contraste, ajustado pelo potenciômetro. O 15 é a luz de fundo. Se a
       tela acende mas não aparece nada, o problema é o contraste.</p>
     </div>
+
+{{SECAO_ESP8266}}
 
     <h3>Antenas</h3>
     <p>Sem antena o alcance é de poucos centímetros — dá para testar na bancada e mais
@@ -425,12 +441,10 @@ footer a{color:var(--fraco)}
 
 {{SECAO_TINKERCAD}}
 
-{{SECAO_ESP8266}}
-
 <!-- ===================================================== funcionamento -->
 <section id="funcionamento">
   <div class="env">
-    <p class="marca">····· <span>como funciona</span></p>
+    <p class="marca">····− <span>como funciona</span></p>
     <h2>Como funciona</h2>
 
     <h3>Os LEDs do transmissor</h3>
@@ -506,7 +520,7 @@ footer a{color:var(--fraco)}
           <tr><td>Ambiente muito ruidoso</td><td><code>REPETICOES</code> de 3 para 5, no transmissor</td></tr>
           <tr><td>Mudar a faixa de velocidade</td><td><code>UNIDADE_LENTA</code> e <code>UNIDADE_RAPIDA</code></td></tr>
           <tr><td>Botão registrando toques em dobro</td><td><code>DEBOUNCE_MS</code> para 40</td></tr>
-          <tr><td>Buzzer invertido</td><td>troque <code>HIGH</code> por <code>LOW</code> nas linhas de <code>PINO_BUZZER</code></td></tr>
+          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo: use <code>tone(PINO_BUZZER, 620)</code> e <code>noTone()</code> no lugar dos <code>digitalWrite</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -520,7 +534,7 @@ footer a{color:var(--fraco)}
 <!-- =========================================================== codigo -->
 <section id="codigo">
   <div class="env">
-    <p class="marca">−···· <span>código</span></p>
+    <p class="marca">····· <span>código</span></p>
     <h2>Código das placas</h2>
     <p class="intro">Um sketch por placa. Abra na IDE do Arduino, selecione a placa certa e
     envie. A única biblioteca a instalar é a RadioHead.</p>
@@ -546,7 +560,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= melhorias -->
 <section id="melhorias">
   <div class="env">
-    <p class="marca">−−··· <span>melhorias</span></p>
+    <p class="marca">−···· <span>melhorias</span></p>
     <h2>Melhorias</h2>
 
     <h4>Alcance</h4>
@@ -618,7 +632,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= problemas -->
 <section id="problemas">
   <div class="env">
-    <p class="marca">−−−·· <span>não funciona?</span></p>
+    <p class="marca">−−··· <span>não funciona?</span></p>
     <h2>Quando não funciona</h2>
     <p class="intro">Quase tudo que dá errado nesta montagem cai numa destas linhas.</p>
     <div class="rolagem">
@@ -633,7 +647,7 @@ footer a{color:var(--fraco)}
           <tr><td>Nada chega, mas o serial do Nano mostra as letras certas</td><td>antena faltando, ou DATA do receptor fora do D11</td></tr>
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>
           <tr><td>Botão dispara sozinho ou em dobro</td><td>você pegou o par de pinos errado da chave táctil; use os pinos na diagonal</td></tr>
-          <tr><td>Buzzer apita parado e cala ao apertar</td><td>seu módulo é acionado por nível baixo: troque <code>HIGH</code> por <code>LOW</code></td></tr>
+          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code>, como na versão do Tinkercad</td></tr>
           <tr><td>Todo toque vira traço</td><td>potenciômetro de velocidade no extremo rápido; gire para o lado lento</td></tr>
           <tr><td>Todo toque vira ponto</td><td>o contrário, ou o cursor do potenciômetro não está em A0</td></tr>
           <tr><td>Os três LEDs piscam sem parar ao ligar</td><td>o rádio não iniciou; confira VCC e GND do módulo</td></tr>

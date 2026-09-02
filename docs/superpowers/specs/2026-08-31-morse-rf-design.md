@@ -83,7 +83,9 @@ LEDs como limiares ao vivo, para dar retorno antes de o operador soltar:
 - azul acende quando o silêncio cruza 3u (letra fechada e transmitida) e dá um
   pisca duplo antes de apagar quando cruza 7u (espaço de palavra transmitido)
 
-O buzzer ativo apita enquanto o botão está pressionado, como sidetone.
+O buzzer ativo apita enquanto o botão está pressionado, como sidetone. Ele tem
+apenas dois pinos, S e GND, então é o próprio D4 que o alimenta ao ir para
+nível alto — 20 a 30 mA num pino que recomenda 20 mA.
 
 ### Protocolo de rádio
 
@@ -135,7 +137,7 @@ aumenta a chance de perder pacotes.
 |---|---|
 | D2 | chave táctil (INPUT_PULLUP, outro terminal ao GND) |
 | D3 | LED verde (ponto) + 220Ω |
-| D4 | módulo buzzer ativo, entrada de sinal |
+| D4 | buzzer ativo de 2 pinos: S no pino, GND no terra. Sem VCC — o pino é que alimenta |
 | D5 | LED verde 2 (traço) + 220Ω |
 | D6 | LED azul (espaço/letra) + 220Ω |
 | D12 | DATA do módulo transmissor RF |

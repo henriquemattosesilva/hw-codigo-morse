@@ -45,11 +45,22 @@ do Nano na trilha vermelha (+) e o **GND** na trilha azul (−) das laterais.
 |---|---|
 | Chave táctil (manipulador) | um pino → **D2**, pino na diagonal → GND (−) |
 | LED **verde 1** (ponto) | **D3** → resistor 220 Ω → anodo; catodo → GND (−) |
-| Módulo buzzer ativo | S (ou I/O) → **D4**; VCC → 5V (+); GND → GND (−) |
+| Buzzer ativo (2 pinos) | S → **D4**; GND → GND (−). Não tem pino de VCC |
 | LED **verde 2** (traço) | **D5** → resistor 220 Ω → anodo; catodo → GND (−) |
 | LED **azul** (espaço) | **D6** → resistor 220 Ω → anodo; catodo → GND (−) |
 | Módulo transmissor 433 MHz | DATA → **D12**; VCC → 5V (+); GND → GND (−) |
 | Potenciômetro 10K (velocidade) | pino da esquerda → 5V (+); **cursor (do meio) → A0**; pino da direita → GND (−) |
+
+**O buzzer não tem pino de alimentação.** Com apenas S e GND, quem alimenta o
+buzzer é o próprio pino D4: ao ir para nível alto, ele fornece os 5 V e a
+corrente. É assim que os buzzers de dois pinos funcionam, mas repare que são uns
+20 a 30 mA saindo de um pino só. O ATmega328 recomenda 20 mA por pino e admite
+40 mA no limite absoluto, então isso fica no teto do recomendado.
+
+Funciona direto, e é como esses buzzers são usados em qualquer kit. Se quiser
+poupar o pino, um transistor **C945** com um resistor de 10 kΩ na base faz o
+buzzer puxar corrente do 5 V em vez do D4 — você tem dez transistores e dezenove
+resistores de 10 kΩ.
 
 O módulo transmissor tem só três pinos e costuma vir com a serigrafia
 `DATA / VCC / GND` (às vezes escrita `ATAD`). O furo maior sozinho, num canto
@@ -61,8 +72,8 @@ da plaquinha, é o da antena.
                         trilha +  (5V)
    ┌──────────────────────────────────────────────┐
    │  [POT 10K]        [BUZZER]      [TX 433MHz]  │
-   │   │ │ │            │  │ │        │   │   │   │
-   │   +A0 −            D4 + −       D12  +   −   │      antena: fio reto
+   │   │ │ │            │  │          │   │   │   │
+   │   +A0 −            D4 −         D12  +   −   │      antena: fio reto
    │                                               │      de 17,3 cm no furo ANT
    │        ┌───────────────────┐                  │
    │        │   ARDUINO NANO    │                  │
@@ -198,7 +209,7 @@ Bata uma letra no botão: o LED vermelho pisca e a letra aparece no LCD.
 | Nada chega, mas o serial do Nano mostra as letras certas | antena faltando, ou DATA do receptor fora do D11 |
 | Chegam letras aleatórias sem você bater nada | ruído de 433 MHz de portão ou campainha; é normal que apareça pouca coisa, o CRC barra quase tudo |
 | Botão dispara sozinho ou em dobro | você pegou o par de pinos errado da chave táctil; use os pinos na diagonal |
-| Buzzer apita parado e cala ao apertar | seu módulo é acionado por nível baixo: troque `HIGH` por `LOW` (e vice-versa) nas linhas de `PINO_BUZZER` |
+| Buzzer dá um clique em vez de apitar | ele é passivo, não ativo: troque os `digitalWrite` de `PINO_BUZZER` por `tone(PINO_BUZZER, 620)` e `noTone(PINO_BUZZER)`, como na versão do Tinkercad |
 | Todo toque vira traço | potenciômetro de velocidade no extremo rápido; gire para o lado lento |
 | Todo toque vira ponto | o contrário, ou o cursor do potenciômetro não está em A0 |
 | Os três LEDs piscam sem parar ao ligar | o rádio não iniciou; confira VCC e GND do módulo |

@@ -158,7 +158,7 @@ só aparece uma vez no display. Uma perda isolada não come nada.
 | Ambiente muito ruidoso | `REPETICOES` de 3 para 5, no transmissor |
 | Mudar a faixa de velocidade | `UNIDADE_LENTA` e `UNIDADE_RAPIDA`, no transmissor |
 | Botão registrando toques em dobro | aumente `DEBOUNCE_MS` para 40 |
-| Buzzer invertido | troque `HIGH` por `LOW` nas linhas de `PINO_BUZZER` |
+| Buzzer dá um clique em vez de apitar | ele é passivo: use `tone()` no lugar de `digitalWrite` |
 
 Se mudar a velocidade do rádio, mude **nos dois lados**. Com bitrates
 diferentes, um lado não escuta o outro e não há nenhuma mensagem de erro.

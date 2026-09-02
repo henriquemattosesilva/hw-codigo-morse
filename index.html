@@ -135,8 +135,12 @@ h2{font-family:var(--mono);font-weight:700;letter-spacing:-.022em;
   font-size:clamp(1.55rem,4.4vw,2.4rem);margin:0 0 14px;text-transform:uppercase}
 h3{font-family:var(--mono);font-weight:600;font-size:1.06rem;letter-spacing:.01em;
   margin:38px 0 12px;color:var(--texto)}
+/* h3 com id vira alvo de link: precisa da mesma folga da barra fixa */
+h3[id]{scroll-margin-top:58px}
 h4{font-family:var(--mono);font-weight:600;font-size:.92rem;margin:26px 0 8px;
   color:var(--fraco);letter-spacing:.05em;text-transform:uppercase}
+h4.passo{font-size:1rem;text-transform:none;letter-spacing:0;color:var(--texto);
+  margin:32px 0 10px}
 p{margin:0 0 15px;max-width:74ch}
 .intro{color:var(--fraco);max-width:70ch;font-size:1.04rem}
 strong{color:#fff;font-weight:600}
@@ -234,7 +238,6 @@ footer a{color:var(--fraco)}
     <a href="#componentes">componentes</a>
     <a href="#montagem">montagem</a>
     <a href="#tinkercad">tinkercad</a>
-    <a href="#esp8266">esp8266</a>
     <a href="#funcionamento">como funciona</a>
     <a href="#codigo">código</a>
     <a href="#melhorias">melhorias</a>
@@ -315,7 +318,7 @@ footer a{color:var(--fraco)}
           <tr><td>LED azul 5 mm difuso</td><td>letra e espaço</td><td class="num">1</td><td class="num">10</td></tr>
           <tr><td>LED vermelho 5 mm difuso</td><td>recebendo</td><td class="num">1</td><td class="num">6</td></tr>
           <tr><td>Resistor 220 Ω</td><td>4 LEDs e a luz de fundo do LCD</td><td class="num">5</td><td class="num">18</td></tr>
-          <tr><td>Módulo buzzer ativo P15</td><td>sidetone do manipulador</td><td class="num">1</td><td class="num">1</td></tr>
+          <tr><td>Buzzer ativo P15 (2 pinos)</td><td>sidetone do manipulador</td><td class="num">1</td><td class="num">1</td></tr>
           <tr><td>Protoboard 830 pontos</td><td>uma por lado</td><td class="num">2</td><td class="num">2</td></tr>
           <tr><td>Jumper macho-macho</td><td>ligações na protoboard</td><td class="num">~25</td><td class="num">76</td></tr>
           <tr><td>Jumper macho-fêmea</td><td>Uno e LCD até a protoboard</td><td class="num">~16</td><td class="num">80</td></tr>
@@ -359,9 +362,20 @@ footer a{color:var(--fraco)}
     de cada componente vão direto nas trilhas.</p>
 
     <figure class="fig">
-      <div class="quadro"><svg viewBox="0 0 880 676" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dtx-t"><title id="dtx-t">Ligacoes do transmissor</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V</text><rect x="32" y="627" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="641" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="544" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">ARDUINO NANO</text><rect x="184" y="107" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 118 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — manipulador</text><rect x="788.2" y="105" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D3</text><path d="M230 194 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="181" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 1 — ponto</text><rect x="788.2" y="181" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D4</text><path d="M230 270 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo buzzer ativo</text><rect x="788.2" y="257" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="743.0" y="257" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="761.6" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D5</text><path d="M230 346 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="333" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 2 — traço</text><rect x="788.2" y="333" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="411" width="46" height="22" rx="5" fill="#48B8F5" fill-opacity="0.16" stroke="#48B8F5" stroke-opacity="0.5"/><text x="207.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#48B8F5">D6</text><path d="M230 422 H380" stroke="#48B8F5" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="409" width="68" height="26" rx="4" fill="#0E1526" stroke="#48B8F5" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#48B8F5">220 Ω</text><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED azul — espaço</text><rect x="788.2" y="409" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="487" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="503" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D12</text><path d="M230 498 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="470" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="503" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo TX 433 MHz</text><rect x="719.4" y="485" width="114.6" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="776.7" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ANT 17,3 cm</text><rect x="665.6" y="485" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="688.5" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="620.4" y="485" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="639.0" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text><rect x="184" y="563" width="46" height="22" rx="5" fill="#FFC24B" fill-opacity="0.16" stroke="#FFC24B" stroke-opacity="0.5"/><text x="207.0" y="579" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FFC24B">A0</text><path d="M230 574 H380" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="546" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="579" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Potenciômetro 10K — velocidade</text><rect x="788.2" y="561" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="743.0" y="561" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="761.6" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text></svg></div>
+      <div class="quadro"><svg viewBox="0 0 880 676" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dtx-t"><title id="dtx-t">Ligacoes do transmissor</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V</text><rect x="32" y="627" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="641" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="544" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">ARDUINO NANO</text><rect x="184" y="107" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 118 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — manipulador</text><rect x="788.2" y="105" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D3</text><path d="M230 194 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="181" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 1 — ponto</text><rect x="788.2" y="181" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D4</text><path d="M230 270 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Buzzer ativo — 2 pinos</text><rect x="788.2" y="257" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#45D964" fill-opacity="0.16" stroke="#45D964" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#45D964">D5</text><path d="M230 346 H380" stroke="#45D964" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="333" width="68" height="26" rx="4" fill="#0E1526" stroke="#45D964" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#45D964">220 Ω</text><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED verde 2 — traço</text><rect x="788.2" y="333" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="411" width="46" height="22" rx="5" fill="#48B8F5" fill-opacity="0.16" stroke="#48B8F5" stroke-opacity="0.5"/><text x="207.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#48B8F5">D6</text><path d="M230 422 H380" stroke="#48B8F5" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="409" width="68" height="26" rx="4" fill="#0E1526" stroke="#48B8F5" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#48B8F5">220 Ω</text><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED azul — espaço</text><rect x="788.2" y="409" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="184" y="487" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="503" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D12</text><path d="M230 498 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="470" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="503" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo TX 433 MHz</text><rect x="719.4" y="485" width="114.6" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="776.7" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ANT 17,3 cm</text><rect x="665.6" y="485" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="688.5" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="620.4" y="485" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="639.0" y="502.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text><rect x="184" y="563" width="46" height="22" rx="5" fill="#FFC24B" fill-opacity="0.16" stroke="#FFC24B" stroke-opacity="0.5"/><text x="207.0" y="579" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FFC24B">A0</text><path d="M230 574 H380" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="546" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="579" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Potenciômetro 10K — velocidade</text><rect x="788.2" y="561" width="45.8" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="811.1" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">GND</text><rect x="743.0" y="561" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="761.6" y="578.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">5V</text></svg></div>
       <figcaption>Transmissor: sete componentes, um fio de sinal cada.</figcaption>
     </figure>
+
+    <div class="aviso">
+      <p><strong>O buzzer não tem pino de alimentação.</strong> Com apenas S e GND, quem
+      alimenta o buzzer é o próprio <code>D4</code>: ao ir para nível alto, ele fornece os
+      5 V e a corrente. É assim que os buzzers de dois pinos funcionam — mas repare que são
+      uns 20 a 30 mA saindo de um pino só, e o ATmega328 recomenda 20 mA por pino (o
+      limite absoluto é 40 mA).</p>
+      <p>Funciona direto, e é como esses buzzers são usados em qualquer kit. Se quiser
+      poupar o pino, um transistor <strong>C945</strong> com 10 kΩ na base faz o buzzer
+      puxar corrente do 5 V em vez do D4.</p>
+    </div>
 
     <h3>Lado B — receptor (Arduino Uno)</h3>
     <p>O Uno fica fora da protoboard, ligado por jumpers macho-fêmea. Ligue o
@@ -389,6 +403,190 @@ footer a{color:var(--fraco)}
       <p><strong>Pino 3 e pino 15 fazem coisas diferentes</strong> e são confundidos o tempo
       todo. O 3 é o contraste, ajustado pelo potenciômetro. O 15 é a luz de fundo. Se a
       tela acende mas não aparece nada, o problema é o contraste.</p>
+    </div>
+
+    <h3 id="esp8266">Lado B — receptor (ESP8266)</h3>
+    <p class="intro">Trocando o Arduino Uno da ponta por um ESP8266, o telégrafo continua
+    escrevendo no LCD e passa também a publicar a mensagem na internet. O transmissor com
+    o Nano não muda em nada.</p>
+
+    <div class="aviso">
+      <p><strong>A versão com Uno continua no projeto, e é por ela que se começa.</strong>
+      Ela prova que o rádio funciona sem trazer junto WiFi, tensão de 3,3 V e divisor
+      resistivo. Depois é só trocar a placa da ponta. Também é a única das duas que roda
+      no Tinkercad — o simulador não tem ESP8266.</p>
+    </div>
+
+    <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
+    <p><a href="ao-vivo/"><strong>→ abrir o monitor ao vivo</strong></a></p>
+
+    <h4 class="passo">O que muda</h4>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Com Arduino Uno</th><th>Com ESP8266</th></tr></thead>
+        <tbody>
+          <tr><td>lógica de 5 V, liga o rádio direto</td>
+              <td class="pin">lógica de 3,3 V, exige divisor no DATA do rádio</td></tr>
+          <tr><td>qualquer pino serve</td>
+              <td class="pin">três pinos são lidos no boot e mudam quem vai onde</td></tr>
+          <tr><td>rádio sozinho no processador</td>
+              <td class="pin">rádio disputando com a pilha de WiFi</td></tr>
+          <tr><td>mostra 15 letras no LCD</td>
+              <td class="pin">guarda 160 e mostra as últimas 15</td></tr>
+          <tr><td>a mensagem morre na bancada</td>
+              <td class="pin">a mensagem vai para a internet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="passo">O divisor, que não pode ser esquecido</h4>
+    <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
+    ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
+    uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
+    10 kΩ.</p>
+
+    <figure class="fig">
+      <div class="quadro"><svg viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ddiv-t"><title id="ddiv-t">Divisor de tensão entre o receptor de 433 MHz e o ESP8266</title><path d="M250 74 V346" stroke="#5AA9F0" stroke-width="2.6" fill="none"/><rect x="100.0" y="22" width="300" height="52" rx="9" fill="#0E1526" stroke="#FF5B52" stroke-opacity="0.7"/><text x="250.0" y="45.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="700" fill="#D6E2F2">DATA do receptor 433 MHz</text><text x="250.0" y="63.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="600" fill="#FF5B52">5 V — não pode ir direto</text><rect x="235" y="104" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="111" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="121" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="131" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="141" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="135.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><rect x="235" y="212" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="219" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="229" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="239" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="249" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="243.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><rect x="235" y="284" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="291" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="301" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="311" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="321" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="315.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><text x="400.0" y="279.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="500" fill="#7E90AC">os dois em série somam 20 kΩ</text><path d="M250 186 H460" stroke="#45D964" stroke-width="2.6"/><circle cx="250" cy="186" r="5.5" fill="#45D964"/><rect x="465.0" y="160" width="250" height="52" rx="9" fill="#0E1526" stroke="#45D964" stroke-opacity="0.7"/><text x="590.0" y="183.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="700" fill="#D6E2F2">D2 do ESP8266</text><text x="590.0" y="201.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="600" fill="#45D964">3,33 V — dentro do limite</text><path d="M227.0 350 H273.0" stroke="#8CA0BE" stroke-width="3"/><path d="M235.0 358 H265.0" stroke="#8CA0BE" stroke-width="3"/><path d="M242.5 366 H257.5" stroke="#8CA0BE" stroke-width="3"/><text x="284.0" y="366.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#8CA0BE">G do ESP</text><text x="30.0" y="400.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="600" fill="#7E90AC">5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V</text></svg></div>
+      <figcaption>Os dois de baixo, em série, formam os 20 kΩ da conta.</figcaption>
+    </figure>
+
+    <div class="aviso grave">
+      <p><strong>Não pule esta parte nem para "só testar rápido".</strong> É o tipo de dano
+      que não aparece na hora e depois deixa você caçando um defeito que parece de
+      software.</p>
+    </div>
+
+    <h4 class="passo">Por que o LCD vai nos pinos de boot e o rádio não</h4>
+    <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
+    inicializar: <strong>GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
+    baixo</strong>. Com o nível errado ele não arranca, ou entra em modo de gravação.</p>
+    <p>Parece que a saída do rádio deveria ficar longe deles, e é exatamente isso: enquanto
+    não há transmissão, a saída do receptor AM é <strong>ruído aleatório</strong> — num
+    pino de boot, seria cara ou coroa a cada vez que você ligasse. As entradas do LCD, ao
+    contrário, ficam em alta impedância até o programa começar e não puxam para lado
+    nenhum, então os resistores que já estão na placa seguram o nível que o boot precisa.
+    Por isso o delicado leva o LCD, e o rádio fica num pino comum.</p>
+
+    <h4 class="passo">A placa</h4>
+    <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
+    largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
+    fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
+    deixe a placa fora e ligue por jumpers macho-fêmea nos headers dela.</p>
+    <p>O 5 V do LCD e do rádio sai do pino <code>VU</code>, que é o 5 V da USB, na fileira
+    de baixo entre <code>G</code> e <code>S3</code>. <strong>Não use o <code>3V3</code></strong>:
+    o LCD não enxerga 3,3 V como nível alto. E o <code>VIN</code> é entrada de energia, não
+    saída.</p>
+
+    <figure class="fig">
+      <div class="quadro"><svg viewBox="0 0 880 524" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="desp-t"><title id="desp-t">Ligacoes do receptor com ESP8266</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V, tirada do VU</text><rect x="32" y="475" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="489" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="392" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">NODEMCU  ESP8266</text><rect x="184" y="107" width="81.2" height="22" rx="5" fill="#1554B8" fill-opacity="0.16" stroke="#1554B8" stroke-opacity="0.5"/><text x="224.6" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#1554B8">D8,D3–D7</text><path d="M265.2 118 H380" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LCD 16x2 — RS, E, D4 a D7</text><rect x="650.6" y="105" width="183.4" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="742.3" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ver diagrama do LCD</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 194 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo RX 433 MHz</text><rect x="805.4" y="181" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="760.2" y="181" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="778.8" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text><rect x="603.2" y="181" width="149.0" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="677.7" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">DIVISOR 10k+20k</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#FF5B52" fill-opacity="0.16" stroke="#FF5B52" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FF5B52">D0</text><path d="M230 270 H380" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="257" width="68" height="26" rx="4" fill="#0E1526" stroke="#FF5B52" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#FF5B52">220 Ω</text><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED vermelho — recebendo</text><rect x="805.4" y="257" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D1</text><path d="M230 346 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — limpar tela</text><rect x="805.4" y="333" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="184" y="411" width="56.0" height="22" rx="5" fill="#FFC24B" fill-opacity="0.16" stroke="#FFC24B" stroke-opacity="0.5"/><text x="212.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FFC24B">LCD 3</text><path d="M240.0 422 H380" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Potenciômetro 10K — contraste</text><rect x="805.4" y="409" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="760.2" y="409" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="778.8" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text></svg></div>
+      <figcaption>Só os fios de sinal aparecem; as etiquetas de alimentação vão nas trilhas.</figcaption>
+    </figure>
+
+    <figure class="fig">
+      <div class="quadro"><svg viewBox="0 0 1004 302" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dlcdesp-t"><title id="dlcdesp-t">Pinos do LCD 16x2</title><rect x="46" y="18" width="912" height="92" rx="8" fill="#1554B8" fill-opacity="0.9"/><text x="64" y="54" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="19" font-weight="500" fill="#CFE6FF" letter-spacing="0.22em">·−··  L</text><text x="64" y="84" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="19" font-weight="500" fill="#CFE6FF" letter-spacing="0.22em">CHAMANDO_</text><rect x="69.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="74.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">1</text><text x="74.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">VSS</text><path d="M74.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="60.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="74.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="126.5" y="110" width="10" height="16" rx="2" fill="#FF5B52" fill-opacity="0.9"/><text x="131.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">2</text><text x="131.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">VDD</text><path d="M131.5 178 V218" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.7"/><rect x="112.9" y="220" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="131.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text><rect x="183.5" y="110" width="10" height="16" rx="2" fill="#FFC24B" fill-opacity="0.9"/><text x="188.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">3</text><text x="188.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">V0</text><path d="M188.5 178 V218" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.7"/><rect x="165.6" y="220" width="45.8" height="26" rx="13" fill="#FFC24B" fill-opacity="0.14" stroke="#FFC24B" stroke-opacity="0.55"/><text x="188.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FFC24B">POT</text><rect x="240.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="245.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">4</text><text x="245.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">RS</text><path d="M245.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="226.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="245.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D8</text><rect x="297.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="302.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">5</text><text x="302.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">RW</text><path d="M302.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="288.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="302.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="354.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="359.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">6</text><text x="359.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">E</text><path d="M359.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="340.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="359.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D3</text><rect x="411.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="416.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">7</text><text x="416.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D0</text><text x="416.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="468.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="473.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">8</text><text x="473.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D1</text><text x="473.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="525.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="530.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">9</text><text x="530.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D2</text><text x="530.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="582.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="587.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">10</text><text x="587.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D3</text><text x="587.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="639.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="644.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">11</text><text x="644.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D4</text><path d="M644.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="625.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="644.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D4</text><rect x="696.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="701.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">12</text><text x="701.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D5</text><path d="M701.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="682.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="701.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D5</text><rect x="753.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="758.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">13</text><text x="758.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D6</text><path d="M758.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="739.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="758.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D6</text><rect x="810.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="815.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">14</text><text x="815.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D7</text><path d="M815.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="796.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="815.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D7</text><rect x="867.5" y="110" width="10" height="16" rx="2" fill="#FF5B52" fill-opacity="0.9"/><text x="872.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">15</text><text x="872.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">A</text><path d="M872.5 178 V218" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.7"/><rect x="845.3" y="220" width="54.4" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="872.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU *</text><rect x="924.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="929.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">16</text><text x="929.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">K</text><path d="M929.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="915.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="929.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><text x="46" y="278" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" fill="#7E90AC">* o pino 15 vai ao VU através de um resistor de 220 Ω. VU é o 5V da USB, não o 3V3: o LCD não enxerga 3,3 V como nível alto. Pinos 7 a 10 sem ligação.</text></svg></div>
+      <figcaption>O LCD liga igual à versão com Uno, menos a alimentação, que vem do VU.</figcaption>
+    </figure>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Função</th><th>Pino da placa</th><th>GPIO</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>LCD RS</td><td class="pin">D8</td><td class="num">15</td><td>pino de boot, precisa de nível baixo</td></tr>
+          <tr><td>LCD E</td><td class="pin">D3</td><td class="num">0</td><td>pino de boot, precisa de nível alto</td></tr>
+          <tr><td>LCD D4</td><td class="pin">D4</td><td class="num">2</td><td>pino de boot; é também o LED da placa, que vai piscar</td></tr>
+          <tr><td>LCD D5</td><td class="pin">D5</td><td class="num">14</td><td></td></tr>
+          <tr><td>LCD D6</td><td class="pin">D6</td><td class="num">12</td><td></td></tr>
+          <tr><td>LCD D7</td><td class="pin">D7</td><td class="num">13</td><td></td></tr>
+          <tr><td>DATA do rádio</td><td class="pin">D2</td><td class="num">4</td><td><strong>atrás do divisor</strong>, nunca direto</td></tr>
+          <tr><td>Chave de limpar</td><td class="pin">D1</td><td class="num">5</td><td>outro terminal no <code>G</code></td></tr>
+          <tr><td>LED vermelho</td><td class="pin">D0</td><td class="num">16</td><td>com resistor de 220 Ω</td></tr>
+          <tr><td>5 V do LCD e do rádio</td><td class="pin">VU</td><td class="num">—</td><td>o 5 V da USB</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aviso">
+      <p><strong>O LCD é alimentado com 5 V mas recebe sinais de 3,3 V.</strong> Pela folha
+      de dados o HD44780 quer 3,5 V para reconhecer nível alto, então 3,3 V está
+      tecnicamente abaixo. Na prática a maioria dos módulos aceita sem reclamar.</p>
+      <p>Se a tela mostrar lixo ou blocos com o contraste bem ajustado, o problema é esse:
+      um diodo em série com o pino 2 do LCD derruba 0,7 V e resolve. Você não tem diodos
+      avulsos, mas a junção base-emissor de um <strong>C945</strong> funciona como um —
+      base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
+    </div>
+
+    <h4 class="passo">Como a mensagem chega na internet</h4>
+    <p>O ESP publica num broker MQTT público em três tópicos: cada letra assim que chega,
+    a mensagem inteira de meio em meio segundo, e o estado do telégrafo. A página ao vivo
+    assina os três por WebSocket e desenha o que recebe.</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Tópico</th><th>Quando sai</th><th>O que resolve</th></tr></thead>
+        <tbody>
+          <tr><td class="pin">.../letra</td><td>na hora, a cada letra</td>
+              <td>é o que faz a fita e o display da página andarem ao vivo</td></tr>
+          <tr><td class="pin">.../mensagem</td><td>no máximo duas vezes por segundo, retida</td>
+              <td>retida significa que o broker guarda a última: quem abre a página depois já vê o texto que está lá, em vez de tela vazia</td></tr>
+          <tr><td class="pin">.../status</td><td>ao conectar, e sozinho se cair</td>
+              <td>é a “última vontade” registrada no broker: se o ESP perder energia ou WiFi, o próprio broker avisa a página</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Publicar a mensagem inteira a cada letra encheria o broker sem deixar a tela mais
+    rápida — por isso a letra sozinha sai na hora e o texto todo sai represado.</p>
+
+    <div class="aviso grave">
+      <p><strong>O broker é público e não tem senha.</strong> Qualquer pessoa que saiba o
+      nome do tópico consegue ler o que você transmite, e escrever nele. Troque o sufixo do
+      tópico por algo só seu, e não mande nada que importe. Junto com o rádio 433 MHz, que
+      também não tem criptografia, este projeto inteiro é aberto de ponta a ponta.</p>
+    </div>
+
+    <h4 class="passo">A senha do WiFi não entra no repositório</h4>
+    <p>Copie <code>receptor-esp8266/segredos-exemplo.h</code> para
+    <code>receptor-esp8266/segredos.h</code> e preencha ali a rede, a senha e o tópico. Esse
+    arquivo está no <code>.gitignore</code>. Sem ele o sketch não compila, e isso é de
+    propósito: assim não tem como subir a senha sem querer.</p>
+    <p>O <code>MQTT_TOPICO_BASE</code> precisa ser <strong>exatamente igual</strong> ao
+    <code>TOPICO_BASE</code> de <code>ao-vivo/index.html</code>. Se os dois não baterem, a
+    página fica escutando um telégrafo que não é o seu — sem nenhum erro na tela,
+    simplesmente nunca chega nada.</p>
+
+    <h4 class="passo">O código</h4>
+    <div class="painel-cod">
+      <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E Module)</span>
+        <button class="btn-txt" data-copiar="esp">copiar</button></div>
+      <pre><code id="saida-esp"></code></pre>
+    </div>
+
+    <h4 class="passo">Ordem de teste</h4>
+    <div class="cartoes">
+      <div class="cartao"><h4>1. Só a placa e o LCD</h4><p>Grave sem ligar o rádio. Gire o
+      contraste de ponta a ponta até aparecer <code>MORSE + WiFi</code>. Se não acender nada
+      em ponto nenhum do curso, pare aqui: é contraste, alimentação ou o RW solto.</p></div>
+      <div class="cartao"><h4>2. O WiFi</h4><p>O canto direito da linha 1 mostra o estado:
+      vazio sem WiFi, <code>w</code> com WiFi mas sem broker, e uma antena quando os dois
+      estão de pé. O serial em 115200 conta o resto.</p></div>
+      <div class="cartao"><h4>3. A página</h4><p>Abra o monitor ao vivo com o telégrafo
+      ligado: a bolinha tem que ficar verde mesmo sem nenhuma letra ter chegado. Isso já
+      prova o caminho inteiro até a internet, antes de envolver o rádio.</p></div>
+      <div class="cartao"><h4>4. O rádio</h4><p>Aí sim ligue o receptor, com o divisor, e
+      bata um <code>E</code> no transmissor.</p></div>
+    </div>
+
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Sintoma</th><th>Causa provável</th></tr></thead>
+        <tbody>
+          <tr><td>A placa não inicia, ou entra em modo de gravação sozinha</td><td>algo segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot — o rádio não pode estar em nenhum desses</td></tr>
+          <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
+          <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
+          <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
+          <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet — teste o transmissor pelo serial</td></tr>
+          <tr><td>Faltam letras que a versão com Uno pegava</td><td>WiFi disputando com o rádio: suba <code>REPETICOES</code> para 5 no transmissor</td></tr>
+          <tr><td>O LED da placa pisca ao escrever no LCD</td><td>é normal: GPIO2 é ao mesmo tempo o LED da placa e uma linha de dados do LCD</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <h3>Antenas</h3>
@@ -587,200 +785,10 @@ footer a{color:var(--fraco)}
   </div>
 </section>
 
-<!-- ========================================================= esp8266 -->
-<section id="esp8266">
-  <div class="env">
-    <p class="marca">····− <span>na internet</span></p>
-    <h2>Receptor com ESP8266</h2>
-    <p class="intro">Trocando o Arduino Uno da ponta por um ESP8266, o telégrafo continua
-    escrevendo no LCD e passa também a publicar a mensagem na internet. O transmissor com
-    o Nano não muda em nada.</p>
-
-    <div class="aviso">
-      <p><strong>A versão com Uno continua no projeto, e é por ela que se começa.</strong>
-      Ela prova que o rádio funciona sem trazer junto WiFi, tensão de 3,3 V e divisor
-      resistivo. Depois é só trocar a placa da ponta. Também é a única das duas que roda
-      no Tinkercad — o simulador não tem ESP8266.</p>
-    </div>
-
-    <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
-    <p><a href="ao-vivo/"><strong>→ abrir o monitor ao vivo</strong></a></p>
-
-    <h3>O que muda</h3>
-    <div class="rolagem">
-      <table>
-        <thead><tr><th>Com Arduino Uno</th><th>Com ESP8266</th></tr></thead>
-        <tbody>
-          <tr><td>lógica de 5 V, liga o rádio direto</td>
-              <td class="pin">lógica de 3,3 V, exige divisor no DATA do rádio</td></tr>
-          <tr><td>qualquer pino serve</td>
-              <td class="pin">três pinos são lidos no boot e mudam quem vai onde</td></tr>
-          <tr><td>rádio sozinho no processador</td>
-              <td class="pin">rádio disputando com a pilha de WiFi</td></tr>
-          <tr><td>mostra 15 letras no LCD</td>
-              <td class="pin">guarda 160 e mostra as últimas 15</td></tr>
-          <tr><td>a mensagem morre na bancada</td>
-              <td class="pin">a mensagem vai para a internet</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>O divisor, que não pode ser esquecido</h3>
-    <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
-    ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
-    uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
-    10 kΩ.</p>
-
-    <figure class="fig">
-      <div class="quadro"><svg viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ddiv-t"><title id="ddiv-t">Divisor de tensão entre o receptor de 433 MHz e o ESP8266</title><path d="M250 74 V346" stroke="#5AA9F0" stroke-width="2.6" fill="none"/><rect x="100.0" y="22" width="300" height="52" rx="9" fill="#0E1526" stroke="#FF5B52" stroke-opacity="0.7"/><text x="250.0" y="45.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="700" fill="#D6E2F2">DATA do receptor 433 MHz</text><text x="250.0" y="63.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="600" fill="#FF5B52">5 V — não pode ir direto</text><rect x="235" y="104" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="111" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="121" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="131" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="141" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="135.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><rect x="235" y="212" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="219" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="229" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="239" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="249" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="243.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><rect x="235" y="284" width="30" height="52" rx="7" fill="#D9BD8F" stroke="#B99B6D"/><rect x="235" y="291" width="30" height="4.5" fill="#8B4A16"/><rect x="235" y="301" width="30" height="4.5" fill="#1A1A1A"/><rect x="235" y="311" width="30" height="4.5" fill="#E08A2E"/><rect x="235" y="321" width="30" height="4.5" fill="#D4AF37"/><text x="284.0" y="315.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2">10 kΩ</text><text x="400.0" y="279.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="500" fill="#7E90AC">os dois em série somam 20 kΩ</text><path d="M250 186 H460" stroke="#45D964" stroke-width="2.6"/><circle cx="250" cy="186" r="5.5" fill="#45D964"/><rect x="465.0" y="160" width="250" height="52" rx="9" fill="#0E1526" stroke="#45D964" stroke-opacity="0.7"/><text x="590.0" y="183.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="700" fill="#D6E2F2">D2 do ESP8266</text><text x="590.0" y="201.0" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="11.5" font-weight="600" fill="#45D964">3,33 V — dentro do limite</text><path d="M227.0 350 H273.0" stroke="#8CA0BE" stroke-width="3"/><path d="M235.0 358 H265.0" stroke="#8CA0BE" stroke-width="3"/><path d="M242.5 366 H257.5" stroke="#8CA0BE" stroke-width="3"/><text x="284.0" y="366.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#8CA0BE">G do ESP</text><text x="30.0" y="400.0" text-anchor="start" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="600" fill="#7E90AC">5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V</text></svg></div>
-      <figcaption>Os dois de baixo, em série, formam os 20 kΩ da conta.</figcaption>
-    </figure>
-
-    <div class="aviso grave">
-      <p><strong>Não pule esta parte nem para "só testar rápido".</strong> É o tipo de dano
-      que não aparece na hora e depois deixa você caçando um defeito que parece de
-      software.</p>
-    </div>
-
-    <h3>Por que o LCD vai nos pinos de boot e o rádio não</h3>
-    <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
-    inicializar: <strong>GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
-    baixo</strong>. Com o nível errado ele não arranca, ou entra em modo de gravação.</p>
-    <p>Parece que a saída do rádio deveria ficar longe deles, e é exatamente isso: enquanto
-    não há transmissão, a saída do receptor AM é <strong>ruído aleatório</strong> — num
-    pino de boot, seria cara ou coroa a cada vez que você ligasse. As entradas do LCD, ao
-    contrário, ficam em alta impedância até o programa começar e não puxam para lado
-    nenhum, então os resistores que já estão na placa seguram o nível que o boot precisa.
-    Por isso o delicado leva o LCD, e o rádio fica num pino comum.</p>
-
-    <h3>A placa</h3>
-    <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
-    largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
-    fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
-    deixe a placa fora e ligue por jumpers macho-fêmea nos headers dela.</p>
-    <p>O 5 V do LCD e do rádio sai do pino <code>VU</code>, que é o 5 V da USB, na fileira
-    de baixo entre <code>G</code> e <code>S3</code>. <strong>Não use o <code>3V3</code></strong>:
-    o LCD não enxerga 3,3 V como nível alto. E o <code>VIN</code> é entrada de energia, não
-    saída.</p>
-
-    <figure class="fig">
-      <div class="quadro"><svg viewBox="0 0 880 524" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="desp-t"><title id="desp-t">Ligacoes do receptor com ESP8266</title><rect x="32" y="43" width="816" height="18" rx="9" fill="#FF5B52" fill-opacity="0.12" stroke="#FF5B52" stroke-opacity="0.4"/><text x="48" y="57" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52" letter-spacing="0.06em">trilha +   5V, tirada do VU</text><rect x="32" y="475" width="816" height="18" rx="9" fill="#8CA0BE" fill-opacity="0.12" stroke="#8CA0BE" stroke-opacity="0.4"/><text x="48" y="489" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE" letter-spacing="0.06em">trilha −   GND</text><rect x="32" y="74" width="152" height="392" rx="10" fill="#132038" stroke="#22304E"/><text x="108.0" y="100" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13" font-weight="700" fill="#D6E2F2" letter-spacing="0.08em">NODEMCU  ESP8266</text><rect x="184" y="107" width="81.2" height="22" rx="5" fill="#1554B8" fill-opacity="0.16" stroke="#1554B8" stroke-opacity="0.5"/><text x="224.6" y="123" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#1554B8">D8,D3–D7</text><path d="M265.2 118 H380" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="90" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="123" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LCD 16x2 — RS, E, D4 a D7</text><rect x="650.6" y="105" width="183.4" height="26" rx="13" fill="#7E90AC" fill-opacity="0.14" stroke="#7E90AC" stroke-opacity="0.55"/><text x="742.3" y="122.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#7E90AC">ver diagrama do LCD</text><rect x="184" y="183" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="199" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D2</text><path d="M230 194 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="166" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="199" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Módulo RX 433 MHz</text><rect x="805.4" y="181" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="760.2" y="181" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="778.8" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text><rect x="603.2" y="181" width="149.0" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="677.7" y="198.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">DIVISOR 10k+20k</text><rect x="184" y="259" width="46" height="22" rx="5" fill="#FF5B52" fill-opacity="0.16" stroke="#FF5B52" stroke-opacity="0.5"/><text x="207.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FF5B52">D0</text><path d="M230 270 H380" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="271.0" y="257" width="68" height="26" rx="4" fill="#0E1526" stroke="#FF5B52" stroke-opacity="0.75" stroke-width="1.5"/><text x="305.0" y="275" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="600" fill="#FF5B52">220 Ω</text><rect x="380" y="242" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="275" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">LED vermelho — recebendo</text><rect x="805.4" y="257" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="274.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="184" y="335" width="46" height="22" rx="5" fill="#5AA9F0" fill-opacity="0.16" stroke="#5AA9F0" stroke-opacity="0.5"/><text x="207.0" y="351" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#5AA9F0">D1</text><path d="M230 346 H380" stroke="#5AA9F0" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="318" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="351" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Chave táctil — limpar tela</text><rect x="805.4" y="333" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="350.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="184" y="411" width="56.0" height="22" rx="5" fill="#FFC24B" fill-opacity="0.16" stroke="#FFC24B" stroke-opacity="0.5"/><text x="212.0" y="427" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="700" fill="#FFC24B">LCD 3</text><path d="M240.0 422 H380" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.75" fill="none"/><rect x="380" y="394" width="468" height="56" rx="8" fill="#0E1526" stroke="#22304E"/><text x="396" y="427" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="13.5" font-weight="600" fill="#D6E2F2">Potenciômetro 10K — contraste</text><rect x="805.4" y="409" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="819.7" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="760.2" y="409" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="778.8" y="426.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text></svg></div>
-      <figcaption>Só os fios de sinal aparecem; as etiquetas de alimentação vão nas trilhas.</figcaption>
-    </figure>
-
-    <figure class="fig">
-      <div class="quadro"><svg viewBox="0 0 1004 302" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="dlcdesp-t"><title id="dlcdesp-t">Pinos do LCD 16x2</title><rect x="46" y="18" width="912" height="92" rx="8" fill="#1554B8" fill-opacity="0.9"/><text x="64" y="54" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="19" font-weight="500" fill="#CFE6FF" letter-spacing="0.22em">·−··  L</text><text x="64" y="84" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="19" font-weight="500" fill="#CFE6FF" letter-spacing="0.22em">CHAMANDO_</text><rect x="69.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="74.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">1</text><text x="74.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">VSS</text><path d="M74.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="60.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="74.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="126.5" y="110" width="10" height="16" rx="2" fill="#FF5B52" fill-opacity="0.9"/><text x="131.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">2</text><text x="131.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">VDD</text><path d="M131.5 178 V218" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.7"/><rect x="112.9" y="220" width="37.2" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="131.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU</text><rect x="183.5" y="110" width="10" height="16" rx="2" fill="#FFC24B" fill-opacity="0.9"/><text x="188.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">3</text><text x="188.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">V0</text><path d="M188.5 178 V218" stroke="#FFC24B" stroke-width="2.2" stroke-opacity="0.7"/><rect x="165.6" y="220" width="45.8" height="26" rx="13" fill="#FFC24B" fill-opacity="0.14" stroke="#FFC24B" stroke-opacity="0.55"/><text x="188.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FFC24B">POT</text><rect x="240.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="245.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">4</text><text x="245.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">RS</text><path d="M245.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="226.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="245.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D8</text><rect x="297.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="302.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">5</text><text x="302.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">RW</text><path d="M302.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="288.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="302.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><rect x="354.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="359.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">6</text><text x="359.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">E</text><path d="M359.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="340.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="359.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D3</text><rect x="411.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="416.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">7</text><text x="416.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D0</text><text x="416.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="468.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="473.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">8</text><text x="473.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D1</text><text x="473.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="525.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="530.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">9</text><text x="530.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D2</text><text x="530.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="582.5" y="110" width="10" height="16" rx="2" fill="#3A4A66" fill-opacity="0.4"/><text x="587.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">10</text><text x="587.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#3A4A66">D3</text><text x="587.5" y="228" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="15" fill="#3A4A66">—</text><rect x="639.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="644.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">11</text><text x="644.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D4</text><path d="M644.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="625.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="644.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D4</text><rect x="696.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="701.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">12</text><text x="701.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D5</text><path d="M701.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="682.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="701.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D5</text><rect x="753.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="758.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">13</text><text x="758.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D6</text><path d="M758.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="739.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="758.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D6</text><rect x="810.5" y="110" width="10" height="16" rx="2" fill="#1554B8" fill-opacity="0.9"/><text x="815.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">14</text><text x="815.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">D7</text><path d="M815.5 178 V218" stroke="#1554B8" stroke-width="2.2" stroke-opacity="0.7"/><rect x="796.9" y="220" width="37.2" height="26" rx="13" fill="#1554B8" fill-opacity="0.14" stroke="#1554B8" stroke-opacity="0.55"/><text x="815.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#1554B8">D7</text><rect x="867.5" y="110" width="10" height="16" rx="2" fill="#FF5B52" fill-opacity="0.9"/><text x="872.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">15</text><text x="872.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">A</text><path d="M872.5 178 V218" stroke="#FF5B52" stroke-width="2.2" stroke-opacity="0.7"/><rect x="845.3" y="220" width="54.4" height="26" rx="13" fill="#FF5B52" fill-opacity="0.14" stroke="#FF5B52" stroke-opacity="0.55"/><text x="872.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#FF5B52">VU *</text><rect x="924.5" y="110" width="10" height="16" rx="2" fill="#8CA0BE" fill-opacity="0.9"/><text x="929.5" y="146" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12" font-weight="700" fill="#7E90AC">16</text><text x="929.5" y="166" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#D6E2F2">K</text><path d="M929.5 178 V218" stroke="#8CA0BE" stroke-width="2.2" stroke-opacity="0.7"/><rect x="915.2" y="220" width="28.6" height="26" rx="13" fill="#8CA0BE" fill-opacity="0.14" stroke="#8CA0BE" stroke-opacity="0.55"/><text x="929.5" y="237.5" text-anchor="middle" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" font-weight="600" fill="#8CA0BE">G</text><text x="46" y="278" font-family="'IBM Plex Mono','SFMono-Regular',ui-monospace,monospace" font-size="12.5" fill="#7E90AC">* o pino 15 vai ao VU através de um resistor de 220 Ω. VU é o 5V da USB, não o 3V3: o LCD não enxerga 3,3 V como nível alto. Pinos 7 a 10 sem ligação.</text></svg></div>
-      <figcaption>O LCD liga igual à versão com Uno, menos a alimentação, que vem do VU.</figcaption>
-    </figure>
-
-    <div class="rolagem">
-      <table>
-        <thead><tr><th>Função</th><th>Pino da placa</th><th>GPIO</th><th>Observação</th></tr></thead>
-        <tbody>
-          <tr><td>LCD RS</td><td class="pin">D8</td><td class="num">15</td><td>pino de boot, precisa de nível baixo</td></tr>
-          <tr><td>LCD E</td><td class="pin">D3</td><td class="num">0</td><td>pino de boot, precisa de nível alto</td></tr>
-          <tr><td>LCD D4</td><td class="pin">D4</td><td class="num">2</td><td>pino de boot; é também o LED da placa, que vai piscar</td></tr>
-          <tr><td>LCD D5</td><td class="pin">D5</td><td class="num">14</td><td></td></tr>
-          <tr><td>LCD D6</td><td class="pin">D6</td><td class="num">12</td><td></td></tr>
-          <tr><td>LCD D7</td><td class="pin">D7</td><td class="num">13</td><td></td></tr>
-          <tr><td>DATA do rádio</td><td class="pin">D2</td><td class="num">4</td><td><strong>atrás do divisor</strong>, nunca direto</td></tr>
-          <tr><td>Chave de limpar</td><td class="pin">D1</td><td class="num">5</td><td>outro terminal no <code>G</code></td></tr>
-          <tr><td>LED vermelho</td><td class="pin">D0</td><td class="num">16</td><td>com resistor de 220 Ω</td></tr>
-          <tr><td>5 V do LCD e do rádio</td><td class="pin">VU</td><td class="num">—</td><td>o 5 V da USB</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="aviso">
-      <p><strong>O LCD é alimentado com 5 V mas recebe sinais de 3,3 V.</strong> Pela folha
-      de dados o HD44780 quer 3,5 V para reconhecer nível alto, então 3,3 V está
-      tecnicamente abaixo. Na prática a maioria dos módulos aceita sem reclamar.</p>
-      <p>Se a tela mostrar lixo ou blocos com o contraste bem ajustado, o problema é esse:
-      um diodo em série com o pino 2 do LCD derruba 0,7 V e resolve. Você não tem diodos
-      avulsos, mas a junção base-emissor de um <strong>C945</strong> funciona como um —
-      base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
-    </div>
-
-    <h3>Como a mensagem chega na internet</h3>
-    <p>O ESP publica num broker MQTT público em três tópicos: cada letra assim que chega,
-    a mensagem inteira de meio em meio segundo, e o estado do telégrafo. A página ao vivo
-    assina os três por WebSocket e desenha o que recebe.</p>
-    <div class="rolagem">
-      <table>
-        <thead><tr><th>Tópico</th><th>Quando sai</th><th>O que resolve</th></tr></thead>
-        <tbody>
-          <tr><td class="pin">.../letra</td><td>na hora, a cada letra</td>
-              <td>é o que faz a fita e o display da página andarem ao vivo</td></tr>
-          <tr><td class="pin">.../mensagem</td><td>no máximo duas vezes por segundo, retida</td>
-              <td>retida significa que o broker guarda a última: quem abre a página depois já vê o texto que está lá, em vez de tela vazia</td></tr>
-          <tr><td class="pin">.../status</td><td>ao conectar, e sozinho se cair</td>
-              <td>é a “última vontade” registrada no broker: se o ESP perder energia ou WiFi, o próprio broker avisa a página</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>Publicar a mensagem inteira a cada letra encheria o broker sem deixar a tela mais
-    rápida — por isso a letra sozinha sai na hora e o texto todo sai represado.</p>
-
-    <div class="aviso grave">
-      <p><strong>O broker é público e não tem senha.</strong> Qualquer pessoa que saiba o
-      nome do tópico consegue ler o que você transmite, e escrever nele. Troque o sufixo do
-      tópico por algo só seu, e não mande nada que importe. Junto com o rádio 433 MHz, que
-      também não tem criptografia, este projeto inteiro é aberto de ponta a ponta.</p>
-    </div>
-
-    <h3>A senha do WiFi não entra no repositório</h3>
-    <p>Copie <code>receptor-esp8266/segredos-exemplo.h</code> para
-    <code>receptor-esp8266/segredos.h</code> e preencha ali a rede, a senha e o tópico. Esse
-    arquivo está no <code>.gitignore</code>. Sem ele o sketch não compila, e isso é de
-    propósito: assim não tem como subir a senha sem querer.</p>
-    <p>O <code>MQTT_TOPICO_BASE</code> precisa ser <strong>exatamente igual</strong> ao
-    <code>TOPICO_BASE</code> de <code>ao-vivo/index.html</code>. Se os dois não baterem, a
-    página fica escutando um telégrafo que não é o seu — sem nenhum erro na tela,
-    simplesmente nunca chega nada.</p>
-
-    <h3>O código</h3>
-    <div class="painel-cod">
-      <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E Module)</span>
-        <button class="btn-txt" data-copiar="esp">copiar</button></div>
-      <pre><code id="saida-esp"></code></pre>
-    </div>
-
-    <h3>Ordem de teste</h3>
-    <div class="cartoes">
-      <div class="cartao"><h4>1. Só a placa e o LCD</h4><p>Grave sem ligar o rádio. Gire o
-      contraste de ponta a ponta até aparecer <code>MORSE + WiFi</code>. Se não acender nada
-      em ponto nenhum do curso, pare aqui: é contraste, alimentação ou o RW solto.</p></div>
-      <div class="cartao"><h4>2. O WiFi</h4><p>O canto direito da linha 1 mostra o estado:
-      vazio sem WiFi, <code>w</code> com WiFi mas sem broker, e uma antena quando os dois
-      estão de pé. O serial em 115200 conta o resto.</p></div>
-      <div class="cartao"><h4>3. A página</h4><p>Abra o monitor ao vivo com o telégrafo
-      ligado: a bolinha tem que ficar verde mesmo sem nenhuma letra ter chegado. Isso já
-      prova o caminho inteiro até a internet, antes de envolver o rádio.</p></div>
-      <div class="cartao"><h4>4. O rádio</h4><p>Aí sim ligue o receptor, com o divisor, e
-      bata um <code>E</code> no transmissor.</p></div>
-    </div>
-
-    <div class="rolagem">
-      <table>
-        <thead><tr><th>Sintoma</th><th>Causa provável</th></tr></thead>
-        <tbody>
-          <tr><td>A placa não inicia, ou entra em modo de gravação sozinha</td><td>algo segurando GPIO0, GPIO2 ou GPIO15 no nível errado no boot — o rádio não pode estar em nenhum desses</td></tr>
-          <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
-          <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
-          <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
-          <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet — teste o transmissor pelo serial</td></tr>
-          <tr><td>Faltam letras que a versão com Uno pegava</td><td>WiFi disputando com o rádio: suba <code>REPETICOES</code> para 5 no transmissor</td></tr>
-          <tr><td>O LED da placa pisca ao escrever no LCD</td><td>é normal: GPIO2 é ao mesmo tempo o LED da placa e uma linha de dados do LCD</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
 <!-- ===================================================== funcionamento -->
 <section id="funcionamento">
   <div class="env">
-    <p class="marca">····· <span>como funciona</span></p>
+    <p class="marca">····− <span>como funciona</span></p>
     <h2>Como funciona</h2>
 
     <h3>Os LEDs do transmissor</h3>
@@ -856,7 +864,7 @@ footer a{color:var(--fraco)}
           <tr><td>Ambiente muito ruidoso</td><td><code>REPETICOES</code> de 3 para 5, no transmissor</td></tr>
           <tr><td>Mudar a faixa de velocidade</td><td><code>UNIDADE_LENTA</code> e <code>UNIDADE_RAPIDA</code></td></tr>
           <tr><td>Botão registrando toques em dobro</td><td><code>DEBOUNCE_MS</code> para 40</td></tr>
-          <tr><td>Buzzer invertido</td><td>troque <code>HIGH</code> por <code>LOW</code> nas linhas de <code>PINO_BUZZER</code></td></tr>
+          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo: use <code>tone(PINO_BUZZER, 620)</code> e <code>noTone()</code> no lugar dos <code>digitalWrite</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -870,7 +878,7 @@ footer a{color:var(--fraco)}
 <!-- =========================================================== codigo -->
 <section id="codigo">
   <div class="env">
-    <p class="marca">−···· <span>código</span></p>
+    <p class="marca">····· <span>código</span></p>
     <h2>Código das placas</h2>
     <p class="intro">Um sketch por placa. Abra na IDE do Arduino, selecione a placa certa e
     envie. A única biblioteca a instalar é a RadioHead.</p>
@@ -896,7 +904,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= melhorias -->
 <section id="melhorias">
   <div class="env">
-    <p class="marca">−−··· <span>melhorias</span></p>
+    <p class="marca">−···· <span>melhorias</span></p>
     <h2>Melhorias</h2>
 
     <h4>Alcance</h4>
@@ -968,7 +976,7 @@ footer a{color:var(--fraco)}
 <!-- ========================================================= problemas -->
 <section id="problemas">
   <div class="env">
-    <p class="marca">−−−·· <span>não funciona?</span></p>
+    <p class="marca">−−··· <span>não funciona?</span></p>
     <h2>Quando não funciona</h2>
     <p class="intro">Quase tudo que dá errado nesta montagem cai numa destas linhas.</p>
     <div class="rolagem">
@@ -983,7 +991,7 @@ footer a{color:var(--fraco)}
           <tr><td>Nada chega, mas o serial do Nano mostra as letras certas</td><td>antena faltando, ou DATA do receptor fora do D11</td></tr>
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>
           <tr><td>Botão dispara sozinho ou em dobro</td><td>você pegou o par de pinos errado da chave táctil; use os pinos na diagonal</td></tr>
-          <tr><td>Buzzer apita parado e cala ao apertar</td><td>seu módulo é acionado por nível baixo: troque <code>HIGH</code> por <code>LOW</code></td></tr>
+          <tr><td>Buzzer dá um clique em vez de apitar</td><td>ele é passivo, não ativo: troque os <code>digitalWrite</code> por <code>tone(PINO_BUZZER, 620)</code> e <code>noTone(PINO_BUZZER)</code>, como na versão do Tinkercad</td></tr>
           <tr><td>Todo toque vira traço</td><td>potenciômetro de velocidade no extremo rápido; gire para o lado lento</td></tr>
           <tr><td>Todo toque vira ponto</td><td>o contrário, ou o cursor do potenciômetro não está em A0</td></tr>
           <tr><td>Os três LEDs piscam sem parar ao ligar</td><td>o rádio não iniciou; confira VCC e GND do módulo</td></tr>
@@ -1030,7 +1038,7 @@ footer a{color:var(--fraco)}
 // ---------------------------------------------------------------- pinos
 const uint8_t PINO_BOTAO  = 2;   // chave tactil, outro terminal no GND
 const uint8_t PINO_PONTO  = 3;   // LED verde 1 + resistor 220R
-const uint8_t PINO_BUZZER = 4;   // modulo buzzer ativo
+const uint8_t PINO_BUZZER = 4;   // buzzer ativo, so S e GND
 const uint8_t PINO_TRACO  = 5;   // LED verde 2 + resistor 220R
 const uint8_t PINO_ESPACO = 6;   // LED azul    + resistor 220R
 const uint8_t PINO_POT    = A0;  // potenciometro 10K, velocidade

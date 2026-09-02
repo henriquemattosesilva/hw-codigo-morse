@@ -1,8 +1,4 @@
-<!-- ========================================================= esp8266 -->
-<section id="esp8266">
-  <div class="env">
-    <p class="marca">····− <span>na internet</span></p>
-    <h2>Receptor com ESP8266</h2>
+    <h3 id="esp8266">Lado B — receptor (ESP8266)</h3>
     <p class="intro">Trocando o Arduino Uno da ponta por um ESP8266, o telégrafo continua
     escrevendo no LCD e passa também a publicar a mensagem na internet. O transmissor com
     o Nano não muda em nada.</p>
@@ -17,7 +13,7 @@
     <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
     <p><a href="ao-vivo/"><strong>→ abrir o monitor ao vivo</strong></a></p>
 
-    <h3>O que muda</h3>
+    <h4 class="passo">O que muda</h4>
     <div class="rolagem">
       <table>
         <thead><tr><th>Com Arduino Uno</th><th>Com ESP8266</th></tr></thead>
@@ -36,7 +32,7 @@
       </table>
     </div>
 
-    <h3>O divisor, que não pode ser esquecido</h3>
+    <h4 class="passo">O divisor, que não pode ser esquecido</h4>
     <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
     ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
     uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
@@ -53,7 +49,7 @@
       software.</p>
     </div>
 
-    <h3>Por que o LCD vai nos pinos de boot e o rádio não</h3>
+    <h4 class="passo">Por que o LCD vai nos pinos de boot e o rádio não</h4>
     <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
     inicializar: <strong>GPIO0 e GPIO2 têm que estar em nível alto, e GPIO15 em nível
     baixo</strong>. Com o nível errado ele não arranca, ou entra em modo de gravação.</p>
@@ -64,7 +60,7 @@
     nenhum, então os resistores que já estão na placa seguram o nível que o boot precisa.
     Por isso o delicado leva o LCD, e o rádio fica num pino comum.</p>
 
-    <h3>A placa</h3>
+    <h4 class="passo">A placa</h4>
     <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
     largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
     fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
@@ -112,7 +108,7 @@
       base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
     </div>
 
-    <h3>Como a mensagem chega na internet</h3>
+    <h4 class="passo">Como a mensagem chega na internet</h4>
     <p>O ESP publica num broker MQTT público em três tópicos: cada letra assim que chega,
     a mensagem inteira de meio em meio segundo, e o estado do telégrafo. A página ao vivo
     assina os três por WebSocket e desenha o que recebe.</p>
@@ -139,7 +135,7 @@
       também não tem criptografia, este projeto inteiro é aberto de ponta a ponta.</p>
     </div>
 
-    <h3>A senha do WiFi não entra no repositório</h3>
+    <h4 class="passo">A senha do WiFi não entra no repositório</h4>
     <p>Copie <code>receptor-esp8266/segredos-exemplo.h</code> para
     <code>receptor-esp8266/segredos.h</code> e preencha ali a rede, a senha e o tópico. Esse
     arquivo está no <code>.gitignore</code>. Sem ele o sketch não compila, e isso é de
@@ -149,14 +145,14 @@
     página fica escutando um telégrafo que não é o seu — sem nenhum erro na tela,
     simplesmente nunca chega nada.</p>
 
-    <h3>O código</h3>
+    <h4 class="passo">O código</h4>
     <div class="painel-cod">
       <div class="cod-topo"><span>NodeMCU 1.0 (ESP-12E Module)</span>
         <button class="btn-txt" data-copiar="esp">copiar</button></div>
       <pre><code id="saida-esp"></code></pre>
     </div>
 
-    <h3>Ordem de teste</h3>
+    <h4 class="passo">Ordem de teste</h4>
     <div class="cartoes">
       <div class="cartao"><h4>1. Só a placa e o LCD</h4><p>Grave sem ligar o rádio. Gire o
       contraste de ponta a ponta até aparecer <code>MORSE + WiFi</code>. Se não acender nada
@@ -185,5 +181,3 @@
         </tbody>
       </table>
     </div>
-  </div>
-</section>

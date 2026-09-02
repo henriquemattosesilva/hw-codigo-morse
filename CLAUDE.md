@@ -40,9 +40,16 @@ em outro momento.
 Esta é a parte que importa quando a montagem acontecer. Nada abaixo foi comprovado no
 hardware — são decisões tomadas na leitura de datasheet e no raciocínio.
 
-**O buzzer é acionado por nível alto?** O código assume que sim (`digitalWrite HIGH` liga).
-Vários módulos de buzzer ativo são acionados por nível baixo. Se ele apitar parado e calar
-ao apertar, é só inverter os `HIGH`/`LOW` de `PINO_BUZZER`. Está no guia de problemas.
+**O buzzer é mesmo ativo?** Ele tem só dois pinos, S e GND — sem VCC, quem o alimenta é o
+próprio D4, então **não há como ele ser acionado por nível baixo**: nível alto é a única
+forma de dar energia a ele. O que resta em aberto é se tem oscilador interno. Se der um
+clique em vez de apitar, é passivo, e aí é `tone()` em vez de `digitalWrite` — igual à
+versão do Tinkercad. Está no guia de problemas.
+
+**Os 20 a 30 mA do buzzer no D4 incomodam?** Com dois pinos, o pino alimenta o buzzer
+inteiro. O ATmega328 recomenda 20 mA por pino e admite 40 mA no limite absoluto, então
+está no teto do recomendado. Funciona, mas se ele quiser poupar o pino, um C945 com
+10 kΩ na base resolve.
 
 **A serigrafia dos módulos RF bate com o assumido?** O transmissor foi assumido como
 `DATA / VCC / GND` e o receptor como `VCC / DATA / DATA / GND`. Existem versões com a ordem

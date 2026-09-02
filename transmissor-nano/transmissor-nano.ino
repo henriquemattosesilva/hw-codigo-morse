@@ -26,7 +26,7 @@
 // ---------------------------------------------------------------- pinos
 const uint8_t PINO_BOTAO  = 2;   // chave tactil, outro terminal no GND
 const uint8_t PINO_PONTO  = 3;   // LED verde 1 + resistor 220R
-const uint8_t PINO_BUZZER = 4;   // modulo buzzer ativo
+const uint8_t PINO_BUZZER = 4;   // buzzer ativo, so S e GND
 const uint8_t PINO_TRACO  = 5;   // LED verde 2 + resistor 220R
 const uint8_t PINO_ESPACO = 6;   // LED azul    + resistor 220R
 const uint8_t PINO_POT    = A0;  // potenciometro 10K, velocidade
