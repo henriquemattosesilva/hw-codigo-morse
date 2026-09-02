@@ -108,9 +108,12 @@ transmissor-nano/     o manipulador. É sempre esta placa que transmite.
 receptor-uno/         receptor simples, só LCD
 receptor-esp8266/     receptor com WiFi: LCD + publica por MQTT
   segredos-exemplo.h  modelo; o segredos.h de verdade está no .gitignore
-teste-radio-uno/      FERRAMENTA, não faz parte do telégrafo: escuta o rádio
-                      no Uno e imprime rxGood/rxBad. Separa problema de rádio
-                      de problema do ESP8266.
+teste-radio-uno/      FERRAMENTA: escuta o rádio no Uno e imprime
+                      rxGood/rxBad. Separa problema de rádio de problema do
+                      ESP8266. Em 02/09/2026 provou que o rádio funciona.
+teste-radio-esp/      FERRAMENTA: o mesmo no ESP8266, com 20 s de WiFi
+                      desligado e depois ligado, no mesmo log. Separa a
+                      disputa WiFi × rádio do divisor e do nível de 3,3 V.
 ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
 MONTAGEM.md           fiação do Nano e do receptor com Uno
 MONTAGEM-ESP8266.md   fiação do receptor com ESP8266, com o divisor
