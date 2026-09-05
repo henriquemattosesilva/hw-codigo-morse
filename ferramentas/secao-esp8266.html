@@ -207,7 +207,9 @@
           <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
           <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
           <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
-          <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet — teste o transmissor pelo serial</td></tr>
+          <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet. <strong>Antes de qualquer teoria, confira a alimentação do módulo:</strong> o <code>VCC</code> dele tem de estar no <code>VU</code>, e no pino certo da plaquinha</td></tr>
+          <tr><td>Nada chega, e o transmissor está comprovadamente certo</td><td><strong>aconteceu de verdade, duas vezes seguidas:</strong> o módulo estava sem 5 V. Uma vez porque o fio do <code>VU</code> estava num dos <code>DATA</code>, outra porque a linha <code>+</code> da protoboard vinha do <code>3V</code></td></tr>
+          <tr><td>A ordem dos pinos do módulo não bate com o diagrama</td><td>acontece: <strong>no módulo desta bancada o <code>GND</code> é o primeiro pino e o <code>VCC</code> o quarto</strong>, invertido em relação ao desenho. Vá pela serigrafia, não pela figura</td></tr>
           <tr><td>Faltam letras que a versão com Uno pegava</td><td>WiFi disputando com o rádio: suba <code>REPETICOES</code> para 5 no transmissor</td></tr>
           <tr><td>Os LEDs da placa piscam ao escrever no LCD</td><td>é normal: GPIO2 e GPIO16 são LEDs da placa e ao mesmo tempo linhas do LCD (D4 e E)</td></tr>
           <tr><td><code>Timed out waiting for packet header</code> com o LCD ligado</td><td><strong>aconteceu de verdade:</strong> era o RS do LCD no D8. Confira se o RS está no <strong>D1</strong> — este projeto trocou esses pinos justamente por isso</td></tr>

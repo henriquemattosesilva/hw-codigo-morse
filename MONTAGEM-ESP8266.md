@@ -41,9 +41,16 @@ outro livre.
                       G      o mesmo terra do ESP
 ```
 
-`VCC` vai no **`VU`**, que é o 5 V da USB — não no `3V3`. `GND` vai no `G`, e é
-esse mesmo `G` que fecha o pé do divisor: se os dois terras não forem o mesmo, a
-conta do divisor não vale.
+**A ordem dos pinos varia entre fabricantes — confira a serigrafia da sua plaquinha.**
+No módulo desta bancada ela é o inverso do desenho acima: `GND` no primeiro pino e `VCC`
+no quarto. Ligar pela figura, sem olhar a plaquinha, foi o que segurou este projeto por
+duas sessões.
+
+`VCC` vai no **`VU`**, que é o 5 V da USB — **nunca no `3V3`**. Este receptor é
+superregenerativo e não estabelece ganho em 3,3 V: fica mudo, sem nenhum aviso, e o
+sintoma é idêntico ao de um módulo queimado. `GND` vai no `G`, e é esse mesmo `G` que
+fecha o pé do divisor: se os dois terras não forem o mesmo, a conta do divisor não
+vale.
 
 Os dois resistores de baixo, em série, somam 20 kΩ:
 `5 V × 20 kΩ ÷ (10 kΩ + 20 kΩ) = 3,33 V`. Você tem 19 resistores de 10 kΩ, e
@@ -212,7 +219,9 @@ transmissor.
 | Tela com lixo ou blocos, contraste bem ajustado | os 3,3 V do ESP estão no limite para o LCD: veja o truque do diodo acima |
 | LCD apagado e o `3V3` foi usado | o LCD precisa do `VU`; em 3,3 V ele não funciona direito |
 | A bolinha da página nunca fica verde | o tópico da página e o do `segredos.h` estão diferentes |
-| Página verde mas nenhuma letra | o problema é o rádio, não a internet — teste o transmissor pelo serial |
+| Página verde mas nenhuma letra | o problema é o rádio, não a internet. **Antes de qualquer teoria, confira a alimentação do módulo:** o `VCC` dele tem de estar no `VU`, e no pino certo da plaquinha |
+| Nada chega, e o transmissor está comprovadamente certo | **aconteceu de verdade, duas vezes seguidas:** o módulo estava sem 5 V. Uma vez porque o fio do `VU` estava num dos `DATA`, outra porque a linha `+` da protoboard vinha do `3V` |
+| A ordem dos pinos do módulo não bate com o diagrama | acontece: **no módulo desta bancada o `GND` é o primeiro pino e o `VCC` o quarto**, invertido em relação ao desenho. Vá pela serigrafia, não pela figura |
 | Faltam letras que a versão com Uno pegava | WiFi disputando com o rádio: suba `REPETICOES` para 5 no transmissor |
 | `WiFi` conecta e cai o tempo todo | alimentação; o ESP puxa picos de corrente ao transmitir |
 | Os LEDs da placa piscam sozinhos ao escrever no LCD | é normal: GPIO2 e GPIO16 são LEDs da placa e ao mesmo tempo linhas do LCD (D4 e E) |

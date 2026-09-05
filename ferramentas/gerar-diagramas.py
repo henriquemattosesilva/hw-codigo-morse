@@ -282,9 +282,10 @@ def diagrama_divisor():
         cor = C["apagado"] if apagado else C["sinal"]
         s.write(f'<rect x="{x - 6}" y="110" width="12" height="16" rx="2" fill="{cor}"/>')
         s.write(txt(x, 102, nome, 11, C["apagado"] if apagado else C["lcdtxt"], "700"))
-    s.write(txt(480, 118, "os dois DATA são o mesmo ponto", 11.5, C["fraco"], "600", "start"))
-    s.write(txt(480, 136, "por dentro da plaquinha: use um", 11.5, C["fraco"], "600", "start"))
-    s.write(txt(480, 154, "e deixe o outro livre.", 11.5, C["fraco"], "600", "start"))
+    s.write(txt(480, 62, "a ordem varia entre fabricantes:", 11.5, C["rx"], "700", "start"))
+    s.write(txt(480, 80, "confira a serigrafia da plaquinha.", 11.5, C["rx"], "700", "start"))
+    s.write(txt(480, 106, "os dois DATA são o mesmo ponto por", 11.5, C["fraco"], "600", "start"))
+    s.write(txt(480, 124, "dentro: use um, deixe o outro livre.", 11.5, C["fraco"], "600", "start"))
 
     # VCC para o VU, GND para o G — os dois saem para os lados, longe do divisor
     s.write(f'<path d="M230 126 V196 H175" stroke="{C["mais"]}" stroke-width="2.6" '

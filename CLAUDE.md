@@ -17,12 +17,12 @@ verificado.
 
 ---
 
-## Estado em 02/09/2026
+## Estado em 04/09/2026
 
-O transmissor e o receptor com ESP8266 **estão montados e funcionando**, cada um do seu
-lado: o manipulador decodifica certo no serial, e o ESP grava, conecta no WiFi, publica no
-broker e desenha no LCD. **O que nunca funcionou é o elo entre os dois** — nenhuma letra
-atravessou o rádio até agora. O receptor com Uno não foi montado.
+**O telégrafo funciona de ponta a ponta.** O manipulador no Nano transmite, o ESP8266
+recebe pelo rádio, escreve no LCD e publica no broker — tudo isso com o WiFi ligado ao
+mesmo tempo. O receptor com Uno continua não montado, e é a única parte do projeto que
+nunca rodou.
 
 | Item | Situação |
 |---|---|
@@ -33,8 +33,8 @@ atravessou o rádio até agora. O receptor com Uno não foi montado.
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
-| **Receptor ESP8266 na protoboard** | grava com o LCD ligado; **WiFi, MQTT e LCD funcionando** |
-| **Enlace de rádio** | **nunca funcionou** — nenhuma letra chegou ao ESP até agora |
+| **Receptor ESP8266 na protoboard** | **funcionando** — rádio, LCD, WiFi e MQTT ao mesmo tempo |
+| **Enlace de rádio** | **funcionando** — a letra sai do Nano e chega ao ESP |
 | **Receptor Uno** | não montado |
 
 ### O que o hardware já provou (01/09/2026)
@@ -98,7 +98,7 @@ existe `saiDaTelaInicial()`, que dá um `lcd.clear()` e invalida o `enlaceDesenh
 o WiFi entra — ou quando a primeira letra chega, o que vier antes. De brinde, a tela
 "ligando WiFi..." passou a ficar visível de verdade, e o serial imprime `WiFi conectado`.
 
-### O rádio, e onde a sessão parou (02/09/2026)
+### O rádio, e as duas alimentações erradas (02 a 04/09/2026)
 
 **O enlace de rádio funciona.** O `teste-radio-uno`, ligado só ao módulo receptor e sem
 divisor nenhum, recebeu os pacotes inteiros:
@@ -108,58 +108,34 @@ pacote de 3 bytes: 4D 09 45   -> letra 'E', sequencia 9   (tres copias)
 pacote de 3 bytes: 4D 0A 20   -> letra '_', sequencia 10  (tres copias)
 ```
 
-Isso prova de uma vez o transmissor transmitindo, os dois módulos, as antenas, o formato
-`'M'`+sequência+ASCII, as três repetições e o CRC. **Nada disso é mais suspeito.**
+Isso provou de uma vez o transmissor transmitindo, os dois módulos, as antenas, o formato
+`'M'`+sequência+ASCII, as três repetições e o CRC.
 
-**O que falha é só o lado do ESP8266**, e sobraram duas hipóteses:
+O que faltava era só o lado do ESP8266, e **eram dois erros de alimentação empilhados,
+nenhum deles de software**:
 
-1. **O WiFi comendo as interrupções.** A `RH_ASK` no ESP8266 amostra o pino por uma
-   interrupção de **timer0**, 8 vezes por bit — 16 000 vezes por segundo a 2000 bps
-   (`RH_ASK.cpp`, bloco `RH_PLATFORM_ESP8266`, `timer0_isr_init`). A pilha WiFi desabilita
-   interrupção em rajadas, e cada rajada perdida desalinha a amostragem.
-2. **O divisor ou o nível de 3,3 V.** A fiação dele foi conferida e está certa
-   (`DATA → 10 k → nó do D2 → 10 k → 10 k → G`), então esta é a hipótese mais fraca.
+1. **O fio do `VU` estava num dos pinos `DATA` do módulo**, não no de alimentação — o
+   receptor desta bancada tem o `GND` no primeiro pino e o `VCC` no quarto, o inverso do
+   que os diagramas desenhavam. O módulo nunca teve energia, e de quebra os 5 V entravam
+   pelo pé do divisor: o D2 vivia parado em 3,33 V.
+2. **Corrigido isso, a linha `+` da protoboard estava no `3V`, não no `VU`.** O receptor
+   de 433 MHz é superregenerativo e não estabelece ganho em 3,3 V — fica mudo, sem aviso
+   nenhum. E mesmo que entregasse sinal, o divisor cortaria uma saída de 3,3 V para
+   ~2,2 V, abaixo do limiar do ESP8266 (0,75 × VDD ≈ 2,5 V). Estava errado nas duas
+   pontas ao mesmo tempo.
 
-**A PRÓXIMA AÇÃO É GRAVAR O `teste-radio-esp` E LER O LOG.** Ele resolve as duas de uma
-vez: 20 segundos com o WiFi realmente desligado, depois ligado, no mesmo log.
+Passar a linha `+` para o `VU` fez funcionar na hora.
 
-Como rodar, para não depender de nenhuma conversa:
+**A hipótese do WiFi comendo as interrupções estava errada**, e o `teste-radio-esp` nunca
+chegou a ser rodado. Ele fica no repositório porque a pergunta volta se um dia aparecer
+perda de letra — mas hoje não há nada que a sustente: o ESP recebe com a rede ligada e
+publicando.
 
-- **Fiação:** só o rádio precisa estar ligado, o LCD pode ficar ou sair.
-  `DATA → 10 k → nó do D2 → 10 k → 10 k → G`, `VCC → VU`, `GND → G`, antena de 17,3 cm.
-  O **Nano precisa estar alimentado**, porque é ele que transmite.
-- **IDE:** placa `NodeMCU 1.0 (ESP-12E Module)`, serial a **115200**. Cuidado com a porta:
-  as duas placas são `USB-SERIAL CH340`; a do ESP é a que o esptool identifica como
-  `ESP8266EX`.
-- **Bater no manipulador durante as duas fases**, senão a comparação não existe.
-
-Cada pacote recebido sai marcado com `[1]` ou `[2]`, e a cada 5 s vem um balanço:
-
-```
-[balanco] fase 1   wifi: off   sem wifi: 0   com wifi: 0   boas: 0   mas: 0   transicoes/20ms: 3421
-```
-
-| O log mostra | Significa |
-|---|---|
-| `transicoes` perto de zero | o fio está morto: divisor, pino D2 errado, alimentação do módulo ou mau contato |
-| `transicoes` altas e `boas` em 0 | o sinal chega e a decodificação falha — problema de tempo, não de eletricidade |
-| `boas` subindo nas duas fases | rádio e divisor bons — o problema está no `receptor-esp8266.ino` |
-| `boas` subindo só na fase 1 | é o WiFi. Ver "se for o WiFi", abaixo |
-
-**Não leia `boas: 0  mas: 0` como "não chega sinal".** O `_rxBad` da `RH_ASK` só conta
-depois que ela reconheceu o símbolo de início do quadro — CRC falhando no fim, ou byte de
-tamanho absurdo (`RH_ASK.cpp`, `validateRxBuf` e o bloco do `_rxCount`). Com a amostragem
-muito torta, o início nunca é reconhecido e as duas contagens ficam zeradas, idêntico ao
-caso de fio morto. Quem separa os dois é o `transicoes`, que lê o pino direto, fora da
-biblioteca: o receptor AM abre o ganho sem transmissão e entrega ruído, então **pino vivo
-transiciona aos milhares, sempre**.
-
-**Se for o WiFi**, as saídas em ordem de preferência: subir `REPETICOES` de 3 para 5 no
-transmissor e aceitar perda; baixar a velocidade do rádio para 1000 bps **nos dois lados**,
-o que alarga cada bit e dá folga à amostragem; ou, no limite, aceitar que o ESP8266 não
-serve para os dois papéis ao mesmo tempo e usar o Uno como receptor com o ESP só como
-ponte serial. **Não escolher antes de ver o log** — a terceira é bem mais trabalho que as
-duas primeiras.
+A lição vale mais que o conserto. Tela vazia e `boas: 0 / mas: 0` **parecem** problema de
+temporização, e a teoria bonita da disputa por interrupção — com citação de linha da
+`RH_ASK` e tudo — chegou antes de alguém conferir de que pino do módulo saía a
+alimentação. **Conferir a alimentação e a serigrafia do módulo antes de qualquer teoria
+de tempo.**
 
 ### O que existe
 
@@ -198,6 +174,10 @@ registrar toque em dobro. E em 02/09/2026 a **velocidade**: 250 ms por unidade �
 confortável, e o extremo rápido de 60 ms era inútil — foi o que motivou tirar o
 potenciômetro.
 
+Saíram em 04/09/2026, quando o enlace fechou: o **`VU` entrega mesmo 5 V** — é ele que
+alimenta o módulo de rádio e o LCD; o **LCD aceita os sinais de 3,3 V** do ESP8266 sem
+precisar do diodo; e o **WiFi não atrapalha a recepção**.
+
 **O buzzer é mesmo ativo?** Ele tem só dois pinos, S e GND — sem VCC, quem o alimenta é o
 próprio D4, então **não há como ele ser acionado por nível baixo**: nível alto é a única
 forma de dar energia a ele. O que resta em aberto é se tem oscilador interno. Se der um
@@ -209,9 +189,12 @@ inteiro. O ATmega328 recomenda 20 mA por pino e admite 40 mA no limite absoluto,
 está no teto do recomendado. Funciona, mas se ele quiser poupar o pino, um C945 com
 10 kΩ na base resolve.
 
-**A serigrafia dos módulos RF bate com o assumido?** O transmissor foi assumido como
-`DATA / VCC / GND` e o receptor como `VCC / DATA / DATA / GND`. Existem versões com a ordem
-invertida. Conferir na plaquinha antes de ligar.
+**A serigrafia dos módulos RF bate com o assumido?** **Não — e foi isso que segurou o
+projeto por duas sessões.** O receptor desta bancada tem o `GND` no primeiro pino e o
+`VCC` no quarto, o inverso do `VCC / DATA / DATA / GND` que estava documentado. Os
+diagramas e o `MONTAGEM-ESP8266.md` agora avisam disso. O transmissor foi assumido como
+`DATA / VCC / GND` e funciona, então a ordem dele está certa. **Conferir na plaquinha
+antes de ligar** continua valendo para quem montar com outro módulo.
 
 **A `RH_ASK` e a `LiquidCrystal` convivem no Uno sem perder pacote?** A `RH_ASK` roda numa
 interrupção de Timer1 a 16 kHz e as escritas no LCD são lentas. O raciocínio foi que
@@ -222,18 +205,6 @@ causa disso.
 
 **Três repetições por letra são suficientes?** Escolhido no chute educado. Se o ambiente
 dele tiver muito ruído de 433 MHz, `REPETICOES` sobe para 5. Se sobrar folga, pode descer.
-
-**O LCD aceita sinais de 3,3 V do ESP8266 com VDD em 5 V?** Pela folha de dados o
-HD44780 quer 3,5 V para nível alto. A maioria dos módulos aceita 3,3 V, mas o dele pode
-não aceitar. Se der lixo na tela, a saída é derrubar o VDD com um diodo — ou com a junção
-base-emissor de um C945, que ele tem dez.
-
-**O `VU` da NodeMCU v3 dele entrega mesmo 5 V?** É o padrão dessa placa, mas há clones em
-que o `VU` não está ligado. Se o LCD não acender, é o primeiro a conferir.
-
-**Quanto o WiFi come de pacote de rádio?** Deixou de ser uma pergunta de fundo e virou
-**a hipótese principal** em 02/09/2026 — ver "O rádio, e onde a sessão parou". O
-`teste-radio-esp` existe para respondê-la e ainda não foi rodado.
 
 **A IRAM do ESP8266 está em 93%.** Compila com folga de 4 KB. Outra biblioteca com código
 em IRAM pode não caber — se der erro de link falando em IRAM, é isso.
@@ -449,12 +420,13 @@ A ordem que os documentos mandam seguir, e que vale a pena respeitar porque cada
 isola um problema:
 
 1. ~~**O transmissor sozinho**, testado pelo monitor serial.~~ **Feito em 01/09/2026.**
-2. **O receptor com Uno.** Prova o rádio sem envolver WiFi, 3,3 V nem divisor.
-3. **Só então o ESP8266**, se ele quiser a parte de internet. E dentro dele: primeiro o
-   LCD, depois o WiFi e a página (a bolinha fica verde sem nenhuma letra ter chegado), e
-   só por último o rádio com o divisor.
+2. **O receptor com Uno.** Prova o rádio sem envolver WiFi, 3,3 V nem divisor. **Não foi
+   montado** — quem fez esse papel em 02/09/2026 foi o `teste-radio-uno`.
+3. ~~**Só então o ESP8266.**~~ **Feito em 04/09/2026**, e na ordem certa: primeiro o LCD,
+   depois o WiFi e a página, e só por último o rádio com o divisor.
 
-Pular direto para o ESP junta quatro fontes de problema de uma vez.
+Pular direto para o ESP junta quatro fontes de problema de uma vez — e mesmo tendo
+seguido a ordem, os dois erros que sobraram foram elétricos e custaram duas sessões.
 
 Conforme ele for testando, o que aparecer de diferente do previsto deve voltar para os
 documentos — principalmente para a tabela **"Quando não funciona"** do `MONTAGEM.md` e da
