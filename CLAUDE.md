@@ -192,7 +192,8 @@ está no teto do recomendado. Funciona, mas se ele quiser poupar o pino, um C945
 **A serigrafia dos módulos RF bate com o assumido?** **Não — e foi isso que segurou o
 projeto por duas sessões.** O receptor desta bancada tem o `GND` no primeiro pino e o
 `VCC` no quarto, o inverso do `VCC / DATA / DATA / GND` que estava documentado. Os
-diagramas e o `MONTAGEM-ESP8266.md` agora avisam disso. O transmissor foi assumido como
+diagramas e os dois guias de montagem já desenham a ordem certa, e avisam que ela varia
+entre fabricantes. O transmissor foi assumido como
 `DATA / VCC / GND` e funciona, então a ordem dele está certa. **Conferir na plaquinha
 antes de ligar** continua valendo para quem montar com outro módulo.
 

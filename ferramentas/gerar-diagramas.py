@@ -250,7 +250,9 @@ def diagrama_divisor():
     """
     W, H = 960, 610
     xd = 290                                   # coluna do divisor
-    pinos = [(230, "VCC"), (290, "DATA"), (350, "DATA"), (410, "GND")]
+    # a ordem e a da plaquinha desta bancada: GND primeiro, VCC no quarto pino.
+    # Existem versoes invertidas, e o desenho avisa disso ao lado dos pinos.
+    pinos = [(230, "GND"), (290, "DATA"), (350, "DATA"), (410, "VCC")]
     s = io.StringIO()
     s.write(f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img" '
             f'aria-labelledby="ddiv-t"><title id="ddiv-t">Ligação do módulo receptor de '
@@ -287,13 +289,13 @@ def diagrama_divisor():
     s.write(txt(480, 106, "os dois DATA são o mesmo ponto por", 11.5, C["fraco"], "600", "start"))
     s.write(txt(480, 124, "dentro: use um, deixe o outro livre.", 11.5, C["fraco"], "600", "start"))
 
-    # VCC para o VU, GND para o G — os dois saem para os lados, longe do divisor
-    s.write(f'<path d="M230 126 V196 H175" stroke="{C["mais"]}" stroke-width="2.6" '
+    # GND para o G, VCC para o VU — os dois saem para os lados, longe do divisor
+    s.write(f'<path d="M230 126 V196 H175" stroke="{C["menos"]}" stroke-width="2.6" '
             f'fill="none" stroke-linejoin="round"/>')
-    s.write(caixa(170, 196, 145, "VU", "o 5 V da USB", C["mais"], "fim"))
-    s.write(f'<path d="M410 126 V196 H560" stroke="{C["menos"]}" stroke-width="2.6" '
+    s.write(caixa(170, 196, 150, "G", "o terra do ESP", C["menos"], "fim"))
+    s.write(f'<path d="M410 126 V196 H560" stroke="{C["mais"]}" stroke-width="2.6" '
             f'fill="none" stroke-linejoin="round"/>')
-    s.write(caixa(560, 196, 150, "G", "o terra do ESP", C["menos"], "inicio"))
+    s.write(caixa(560, 196, 145, "VU", "o 5 V da USB", C["mais"], "inicio"))
 
     # a linha de dados desce pelo divisor
     s.write(f'<path d="M{xd} 126 V536" stroke="{C["sinal"]}" stroke-width="2.6" fill="none"/>')

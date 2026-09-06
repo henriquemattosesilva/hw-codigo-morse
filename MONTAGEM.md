@@ -140,9 +140,11 @@ contraste, no pino 3.
 | Chave táctil (limpar tela) | um pino → **D9**, pino na diagonal → GND (−) |
 
 O módulo receptor tem quatro pinos, e os **dois do meio são o mesmo DATA**,
-ligados internamente. Use qualquer um dos dois. A ordem costuma ser
-`VCC / DATA / DATA / GND`, mas confira a serigrafia da sua plaquinha, porque
-existem versões com a ordem invertida.
+ligados internamente. Use qualquer um dos dois. **A ordem varia entre
+fabricantes:** no módulo desta bancada é `GND / DATA / DATA / VCC`, e existem
+versões com o `VCC` no primeiro pino. Confira a serigrafia da sua plaquinha —
+alimentar o módulo pelo pino errado o deixa mudo, e o sintoma é idêntico ao de
+um rádio quebrado.
 
 ---
 
