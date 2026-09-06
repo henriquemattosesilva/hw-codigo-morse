@@ -667,6 +667,8 @@ footer a{color:var(--fraco)}
           <tr><td>Ao resetar, o serial mostra caracteres quebrados e só depois o texto</td><td>normal: o bootloader de ROM fala a 74880 bauds, taxa fixa de fábrica. O que vem depois é o seu programa, a 115200</td></tr>
           <tr><td>Quer testar WiFi e página sem montar nada</td><td>pode: <code>radio.init()</code> não detecta hardware, então a placa pelada conecta igual. É a forma mais limpa de separar rede de rádio</td></tr>
           <tr><td>Tela com lixo ou blocos, contraste bem ajustado</td><td>os 3,3 V no limite do LCD: veja o truque do diodo acima</td></tr>
+          <tr><td>Quadrados pretos e o contraste não muda nada</td><td><strong>aconteceu de verdade em 06/09/2026:</strong> o pino 5 (RW) estava num ponto do trilho negativo que não era o terra da placa. O LCD acende, mas não executa comando nenhum. Ligue o RW direto no <code>G</code> do ESP</td></tr>
+          <tr><td>Uma peça não funciona e a fiação confere</td><td><strong>a mesma causa, na forma geral:</strong> o trilho de alimentação da protoboard é partido no meio em muitas placas, e as duas metades não se falam. Olhe a linha pintada de ponta a ponta e una as metades com um jumper</td></tr>
           <tr><td>LCD apagado e você usou o <code>3V3</code></td><td>o LCD precisa do <code>VU</code>; em 3,3 V ele não funciona direito</td></tr>
           <tr><td>A bolinha da página nunca fica verde</td><td>o tópico da página e o do <code>segredos.h</code> estão diferentes</td></tr>
           <tr><td>Página verde mas nenhuma letra</td><td>o problema é o rádio, não a internet. <strong>Antes de qualquer teoria, confira a alimentação do módulo:</strong> o <code>VCC</code> dele tem de estar no <code>VU</code>, e no pino certo da plaquinha</td></tr>
@@ -891,9 +893,11 @@ footer a{color:var(--fraco)}
         <thead><tr><th>Sintoma</th><th>Causa provável</th></tr></thead>
         <tbody>
           <tr><td>LCD aceso, tela em branco</td><td>contraste: gire o potenciômetro ligado ao pino 3</td></tr>
-          <tr><td>Fileira de blocos pretos no LCD</td><td>mesma coisa, contraste no extremo errado</td></tr>
+          <tr><td>Fileira de blocos pretos no LCD</td><td>contraste no extremo errado — <strong>ou</strong> o display não está recebendo comando nenhum; veja duas linhas abaixo</td></tr>
           <tr><td>LCD totalmente apagado</td><td>luz de fundo: confira o resistor no pino 15 e o pino 16 no GND</td></tr>
           <tr><td>Tela em branco e o contraste não resolve</td><td>pino 5 (RW) solto — precisa ir ao GND</td></tr>
+          <tr><td>Quadrados pretos e o contraste não muda nada</td><td><strong>aconteceu de verdade em 06/09/2026:</strong> o LCD tem energia mas não executa comando. Na ordem: pino 5 (RW) no terra, pino 6 (E) ligado, e o terra do LCD sendo <strong>o mesmo</strong> da placa</td></tr>
+          <tr><td>Uma peça não funciona e a fiação confere</td><td>o trilho de alimentação da protoboard é partido no meio em muitas placas, e as duas metades não se falam. Olhe a linha pintada de ponta a ponta procurando a interrupção, e una as metades com um jumper</td></tr>
           <tr><td>Letras embaralhadas no LCD</td><td>inverta os fios de D4 a D7 do LCD, é fácil trocar a ordem</td></tr>
           <tr><td>Nada chega, mas o serial do Nano mostra as letras certas</td><td>antena faltando, ou DATA do receptor fora do D11</td></tr>
           <tr><td>Chegam letras aleatórias sem você bater nada</td><td>ruído de 433 MHz de portão ou campainha; pouca coisa passa, o CRC barra quase tudo</td></tr>

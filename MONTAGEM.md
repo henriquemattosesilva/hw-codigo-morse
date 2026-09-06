@@ -206,9 +206,11 @@ Bata uma letra no botão: o LED vermelho pisca e a letra aparece no LCD.
 | Sintoma | Causa provável |
 |---|---|
 | LCD aceso, tela em branco | contraste: gire o potenciômetro ligado ao pino 3 |
-| LCD com uma fileira de quadrados pretos | mesma coisa, contraste no extremo errado |
+| LCD com uma fileira de quadrados pretos | contraste no extremo errado — **ou** o display não está recebendo comando nenhum; veja duas linhas abaixo |
 | LCD totalmente apagado | luz de fundo: confira o resistor no pino 15 e o pino 16 no GND |
 | Tela em branco e contraste não resolve | pino 5 (RW) solto — precisa ir ao GND |
+| Quadrados pretos e o contraste não muda nada | o LCD tem energia mas não executa comando nenhum. Na ordem: pino 5 (RW) no terra, pino 6 (E) ligado, e o terra do LCD sendo **o mesmo** da placa |
+| Uma peça não funciona e a fiação confere | **aconteceu de verdade em 06/09/2026:** o trilho de alimentação da protoboard é partido no meio em muitas placas, e as duas metades não se falam. Olhe a linha pintada de ponta a ponta procurando a interrupção, e una as metades com um jumper |
 | Letras erradas ou embaralhadas no LCD | inverta os fios de D4–D7 do LCD, é fácil trocar a ordem |
 | Nada chega, mas o serial do Nano mostra as letras certas | antena faltando, ou DATA do receptor fora do D11 |
 | Chegam letras aleatórias sem você bater nada | ruído de 433 MHz de portão ou campainha; é normal que apareça pouca coisa, o CRC barra quase tudo |

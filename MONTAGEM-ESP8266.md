@@ -221,6 +221,8 @@ transmissor.
 | Ao resetar, o serial mostra caracteres quebrados e só depois o texto | normal: o bootloader de ROM fala a 74880 bauds, taxa fixa de fábrica. O que vem depois é o seu programa, a 115200 |
 | Quer testar WiFi e página sem montar nada | pode: `radio.init()` não detecta hardware, então a placa pelada conecta igual. É a forma mais limpa de separar rede de rádio |
 | Tela com lixo ou blocos, contraste bem ajustado | os 3,3 V do ESP estão no limite para o LCD: veja o truque do diodo acima |
+| Quadrados pretos e o contraste não muda nada | **aconteceu de verdade em 06/09/2026:** o pino 5 (RW) estava num ponto do trilho negativo que não era o terra da placa. O LCD acende, mas não executa comando nenhum. Ligue o RW direto no `G` do ESP e veja a linha do trilho partido, abaixo |
+| Uma peça não funciona e a fiação confere | **aconteceu de verdade em 06/09/2026:** o trilho de alimentação da protoboard é partido no meio em muitas placas, e as duas metades não se falam. Olhe a linha pintada de ponta a ponta procurando a interrupção, e una as metades com um jumper |
 | LCD apagado e o `3V3` foi usado | o LCD precisa do `VU`; em 3,3 V ele não funciona direito |
 | A bolinha da página nunca fica verde | o tópico da página e o do `segredos.h` estão diferentes |
 | Página verde mas nenhuma letra | o problema é o rádio, não a internet. **Antes de qualquer teoria, confira a alimentação do módulo:** o `VCC` dele tem de estar no `VU`, e no pino certo da plaquinha |

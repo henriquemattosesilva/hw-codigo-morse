@@ -101,6 +101,32 @@ existe `saiDaTelaInicial()`, que dá um `lcd.clear()` e invalida o `enlaceDesenh
 o WiFi entra — ou quando a primeira letra chega, o que vier antes. De brinde, a tela
 "ligando WiFi..." passou a ficar visível de verdade, e o serial imprime `WiFi conectado`.
 
+### O trilho que não era o terra (06/09/2026)
+
+Depois de remontar a protoboard, o LCD passou a mostrar só quadrados pretos e o contraste
+não mudava nada. **A causa foi o pino 5 (RW) num ponto do trilho negativo que não era o
+terra do ESP** — ligado direto no `G` da placa, o display voltou na hora.
+
+Duas coisas que valem para a próxima:
+
+**Quadrado preto uniforme não é contraste.** Ele é o estado de um HD44780 que tem
+alimentação e contraste mas nunca recebeu comando de inicialização. Se o contraste não
+muda nada, o problema é de controle: RW, `E`, ou o terra do display não ser o mesmo da
+placa. A tabela de problemas dizia "contraste no extremo errado" para esse sintoma, o que
+mandava para o lado errado; foi corrigida.
+
+**O trilho de alimentação da protoboard pode ser partido no meio.** Muita placa divide as
+duas linhas em metades independentes, e a marca é só uma interrupção discreta na linha
+pintada. Quem está de um lado não fala com quem está do outro, e o sintoma é sempre "a
+fiação confere e mesmo assim não funciona".
+
+Junto apareceu uma gravação que morreu em `Timed out waiting for packet header` **depois
+do stub rodando**, em `Configuring flash size...`. Isso é diferente do caso já
+documentado: falhar em `Connecting...` é modo de boot, falhar depois do stub é o enlace
+serial caindo no meio da escrita. Gravar com a placa pelada resolveu. E cuidado com a
+ordem de causa: a gravação incompleta deixa a flash pela metade, e aí o LCD sem
+inicializar é consequência disso, não um defeito à parte.
+
 ### O rádio, e as duas alimentações erradas (02 a 04/09/2026)
 
 **O enlace de rádio funciona.** O `teste-radio-uno`, ligado só ao módulo receptor e sem
