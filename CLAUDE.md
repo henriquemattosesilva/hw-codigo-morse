@@ -186,6 +186,36 @@ se lê `GND DATA DATA VCC` — é essa a ordem dos diagramas desta página. Vist
 é como o Fritzing desenha, a mesma plaquinha é `VCC DATA DATA GND`. As duas estão certas;
 o que engana é comparar uma com a outra sem lembrar de que lado se está olhando.
 
+#### O sketch tem quatro erros, e nenhum foi corrigido ainda
+
+Conferido em 06/09/2026 extraindo a netlist do `.fzz` e comparando com os sketches e com
+a fiação documentada. **O hardware da bancada está certo — quem discorda é o desenho.**
+
+| # | O que está errado | O que deveria ser |
+|---|---|---|
+| 1 | o `VCC` do transmissor sai do **`VIN`** do Nano, e o pino `5V` não vai a lugar nenhum | `5V`. O `VIN` é a **entrada** do regulador: com o Nano na USB não há tensão ali, e o módulo não liga |
+| 2 | **D4 e D5 trocados**: D4 no LED verde 2 e D5 no buzzer | o firmware é o contrário — `PINO_BUZZER = 4` e `PINO_TRACO = 5` |
+| 3 | o **pino 15 do LCD** (luz de fundo) vai direto nos 5 V | com resistor. O `MONTAGEM.md` diz que ele não é opcional, e o desenho faz o que o documento proíbe |
+| 4 | a peça do ESP é a **NodeMCU Amica**, não a LoLin v3 | os 5 V estão no 3º pino da fileira de baixo: na LoLin isso é o `VU`, certo; na Amica é `RSV`, reservado. Certo para a placa dele, errado para a peça desenhada |
+
+Os três primeiros são arrastar fio; o quarto é trocar a peça. **Depois de corrigir,
+reexportar o PNG e o PDF** — eles são feitos à mão, ver acima.
+
+O que foi conferido e está certo: o divisor inteiro (`DATA → 10k → nó do D2 → 10k → 10k →
+GND`, os três valores lidos no XML), todo o LCD com os pinos 7 a 10 soltos para o modo de
+4 bits, o botão de limpar no D3, o LED vermelho no D8 com 220 Ω, e o rádio receptor. Uma
+diferença que **não** é erro: o potenciômetro de contraste é alimentado pelo `3V3` e não
+pelos 5 V — funciona, porque o V0 quer algo perto de 0,5 V, mas diverge do receptor com
+Uno.
+
+**Como refazer essa conferência.** Os `.fzp` das peças de núcleo não vêm dentro do `.fzz`,
+então não existe mapa de `connectorNN` para nome de pino. O caminho que funcionou foi
+recuperar a identidade pela posição: cada pino está enfiado num furo, a ordem dos furos ao
+longo da placa é a ordem física do header, e daí os nomes voltam. Duas armadilhas: as
+colunas `A`-`E` e `F`-`J` são nós separados, e o `.fz` **não** liga as duas pontas de um
+fio entre si — só diz em que furo cada ponta está. Sem unir as pontas, a netlist sai toda
+picada e parece que nada está conectado.
+
 O suporte ao **Tinkercad foi removido em 01/09/2026** a pedido dele — seção, sketches
 adaptados, gerador e diagramas. Está no histórico do git (`git revert cb1c707`) se um dia
 voltar a fazer sentido. Não recriar sem ele pedir.
