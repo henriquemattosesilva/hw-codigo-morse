@@ -240,6 +240,11 @@ padrão. **Não existe seção de código separada**: cada sketch mora junto da 
 pertence. O bloco do ESP vem de `ferramentas/secao-esp8266.html` e é injetado dentro da
 aba `m-esp`.
 
+**Dentro de cada aba a ordem é sempre a mesma: placa, LCD, módulo de rádio.** A aba do
+ESP começava pelo divisor e foi reordenada em 06/09/2026. Também saíram de lá a tabela
+"o que muda" e o aviso de que se começa pelo Uno: a versão com ESP é uma segunda opção,
+não precisa se justificar contra a primeira.
+
 Duas armadilhas ao mexer nisso:
 
 - **Link para dentro de uma aba.** O README aponta para `#esp8266`, que fica num painel

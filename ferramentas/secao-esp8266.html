@@ -3,56 +3,24 @@
     escrevendo no LCD e passa também a publicar a mensagem na internet. O transmissor com
     o Nano não muda em nada.</p>
 
-    <div class="aviso">
-      <p><strong>A versão com Uno continua no projeto, e é por ela que se começa.</strong>
-      Ela prova que o rádio funciona sem trazer junto WiFi, tensão de 3,3 V e divisor
-      resistivo. Depois é só trocar a placa da ponta.</p>
-    </div>
+    <a class="cta" href="ao-vivo/">abrir o monitor ao vivo</a>
+    <p class="cta-nota">Com o telégrafo ligado, a mensagem aparece ali, letra por letra, de
+    qualquer lugar.</p>
 
-    <p>Com o telégrafo ligado, a mensagem aparece aqui, ao vivo, de qualquer lugar:</p>
-    <p><a href="ao-vivo/"><strong>→ abrir o monitor ao vivo</strong></a></p>
-
-    <h4 class="passo">O que muda</h4>
-    <div class="rolagem">
-      <table>
-        <thead><tr><th>Com Arduino Uno</th><th>Com ESP8266</th></tr></thead>
-        <tbody>
-          <tr><td>lógica de 5 V, liga o rádio direto</td>
-              <td class="pin">lógica de 3,3 V, exige divisor no DATA do rádio</td></tr>
-          <tr><td>qualquer pino serve</td>
-              <td class="pin">três pinos são lidos no boot e mudam quem vai onde</td></tr>
-          <tr><td>rádio sozinho no processador</td>
-              <td class="pin">rádio disputando com a pilha de WiFi</td></tr>
-          <tr><td>mostra 15 letras no LCD</td>
-              <td class="pin">guarda 160 e mostra as últimas 15</td></tr>
-          <tr><td>a mensagem morre na bancada</td>
-              <td class="pin">a mensagem vai para a internet</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h4 class="passo">O divisor, que não pode ser esquecido</h4>
-    <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
-    ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
-    uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
-    10 kΩ.</p>
-    <p>O módulo tem <strong>quatro pinos, mas três ligações</strong>: os dois
-    <code>DATA</code> do meio são o mesmo ponto, ligados por dentro da plaquinha — use
-    qualquer um e deixe o outro livre. O <code>VCC</code> vai no <code>VU</code> e o
-    <code>GND</code> no <code>G</code>, e é esse mesmo <code>G</code> que fecha o pé do
-    divisor: <strong>se os dois terras não forem o mesmo, a conta do divisor não
-    vale</strong>.</p>
+    <h4 class="passo">A placa</h4>
+    <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
+    largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
+    fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
+    deixe a placa fora e ligue por jumpers macho-fêmea nos headers dela.</p>
+    <p>O 5 V do LCD e do rádio sai do pino <code>VU</code>, que é o 5 V da USB, na fileira
+    de baixo entre <code>G</code> e <code>S3</code>. <strong>Não use o <code>3V3</code></strong>:
+    nem o LCD enxerga 3,3 V como nível alto, nem o receptor de 433 MHz funciona nessa
+    tensão. E o <code>VIN</code> é entrada de energia, não saída.</p>
 
     <figure class="fig">
-      <div class="quadro">{{SVG_DIVISOR}}</div>
-      <figcaption>Os dois resistores de baixo, em série, formam os 20 kΩ da conta.</figcaption>
+      <div class="quadro">{{SVG_ESP}}</div>
+      <figcaption>Só os fios de sinal aparecem; as etiquetas de alimentação vão nas trilhas.</figcaption>
     </figure>
-
-    <div class="aviso grave">
-      <p><strong>Não pule esta parte nem para "só testar rápido".</strong> É o tipo de dano
-      que não aparece na hora e depois deixa você caçando um defeito que parece de
-      software.</p>
-    </div>
 
     <h4 class="passo">Cada pino de boot leva a peça que empurra para o lado certo</h4>
     <p>O ESP8266 lê o nível de três pinos no instante em que liga, para decidir como
@@ -86,26 +54,56 @@
       placa reseta</strong> faz o ESP entrar em modo de gravação. Não segure no reset.</p>
     </div>
 
-    <h4 class="passo">A placa</h4>
-    <p>A NodeMCU v3 (LoLin), de PCB preto e conversor CH340G, tem <strong>25,5 mm de
-    largura</strong>: encaixada na protoboard ela cobre o canal central e quase todas as
-    fileiras dos dois lados, sobrando no máximo uma coluna de furos. Não vale a pena —
-    deixe a placa fora e ligue por jumpers macho-fêmea nos headers dela.</p>
-    <p>O 5 V do LCD e do rádio sai do pino <code>VU</code>, que é o 5 V da USB, na fileira
-    de baixo entre <code>G</code> e <code>S3</code>. <strong>Não use o <code>3V3</code></strong>:
-    o LCD não enxerga 3,3 V como nível alto. E o <code>VIN</code> é entrada de energia, não
-    saída.</p>
-
-    <figure class="fig">
-      <div class="quadro">{{SVG_ESP}}</div>
-      <figcaption>Só os fios de sinal aparecem; as etiquetas de alimentação vão nas trilhas.</figcaption>
-    </figure>
+    <h4 class="passo">O LCD</h4>
+    <p>Liga igual à versão com Uno, menos a alimentação: os pinos 2 e 15 vão ao
+    <code>VU</code>, e não a um pino de 5 V do Arduino. O pino 5 (RW) continua
+    obrigatoriamente no terra, e o contraste continua no potenciômetro pelo pino 3.</p>
 
     <figure class="fig">
       <div class="quadro">{{SVG_LCD_ESP}}</div>
       <figcaption>O LCD liga igual à versão com Uno, menos a alimentação, que vem do VU.</figcaption>
     </figure>
 
+    <div class="aviso">
+      <p><strong>O LCD é alimentado com 5 V mas recebe sinais de 3,3 V.</strong> Pela folha
+      de dados o HD44780 quer 3,5 V para reconhecer nível alto, então 3,3 V está
+      tecnicamente abaixo. Na prática a maioria dos módulos aceita sem reclamar, e o desta
+      bancada aceitou.</p>
+      <p>Se a tela mostrar lixo ou blocos com o contraste bem ajustado, o problema é esse:
+      um diodo em série com o pino 2 do LCD derruba 0,7 V e resolve. Você não tem diodos
+      avulsos, mas a junção base-emissor de um <strong>C945</strong> funciona como um —
+      base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
+    </div>
+
+    <h4 class="passo">O módulo receptor, e o divisor que não pode ser esquecido</h4>
+    <p>A saída <code>DATA</code> do receptor de 433 MHz entrega cerca de 5 V. Os pinos do
+    ESP8266 não toleram isso: ligar direto degrada o pino com o tempo, e pode matá-lo de
+    uma vez. Entre os dois vai um divisor resistivo, feito com três dos seus resistores de
+    10 kΩ.</p>
+    <p>O módulo tem <strong>quatro pinos, mas três ligações</strong>: os dois
+    <code>DATA</code> do meio são o mesmo ponto, ligados por dentro da plaquinha — use
+    qualquer um e deixe o outro livre. O <code>VCC</code> vai no <code>VU</code> e o
+    <code>GND</code> no <code>G</code>, e é esse mesmo <code>G</code> que fecha o pé do
+    divisor: <strong>se os dois terras não forem o mesmo, a conta do divisor não
+    vale</strong>.</p>
+
+    <figure class="fig">
+      <div class="quadro">{{SVG_DIVISOR}}</div>
+      <figcaption>Os dois resistores de baixo, em série, formam os 20 kΩ da conta.</figcaption>
+    </figure>
+
+    <div class="aviso grave">
+      <p><strong>A ordem dos pinos varia entre fabricantes.</strong> O desenho segue a
+      plaquinha desta bancada — <code>GND</code> no primeiro pino e <code>VCC</code> no
+      quarto — e existem versões com o <code>VCC</code> na frente. Confira a serigrafia
+      antes de ligar: alimentar pelo pino errado deixa o módulo mudo, e o sintoma é
+      idêntico ao de um rádio quebrado.</p>
+      <p><strong>Não pule o divisor nem para "só testar rápido".</strong> É o tipo de dano
+      que não aparece na hora e depois deixa você caçando um defeito que parece de
+      software.</p>
+    </div>
+
+    <h4 class="passo">A fiação inteira</h4>
     <div class="rolagem">
       <table>
         <thead><tr><th>Função</th><th>Pino da placa</th><th>GPIO</th><th>Observação</th></tr></thead>
@@ -122,16 +120,6 @@
           <tr><td>5 V do LCD e do rádio</td><td class="pin">VU</td><td class="num">—</td><td>o 5 V da USB</td></tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="aviso">
-      <p><strong>O LCD é alimentado com 5 V mas recebe sinais de 3,3 V.</strong> Pela folha
-      de dados o HD44780 quer 3,5 V para reconhecer nível alto, então 3,3 V está
-      tecnicamente abaixo. Na prática a maioria dos módulos aceita sem reclamar.</p>
-      <p>Se a tela mostrar lixo ou blocos com o contraste bem ajustado, o problema é esse:
-      um diodo em série com o pino 2 do LCD derruba 0,7 V e resolve. Você não tem diodos
-      avulsos, mas a junção base-emissor de um <strong>C945</strong> funciona como um —
-      base e coletor juntos são o anodo, o emissor é o catodo. Você tem dez.</p>
     </div>
 
     <h4 class="passo">Como a mensagem chega na internet</h4>
