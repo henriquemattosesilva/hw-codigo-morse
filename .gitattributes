@@ -3,3 +3,5 @@
 # inteiro apareceria como alterado a cada vez que a pagina fosse regerada.
 * text=auto eol=lf
 *.png binary
+*.pdf binary
+*.fzz binary

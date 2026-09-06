@@ -150,12 +150,38 @@ teste-radio-uno/      FERRAMENTA: escuta o rádio no Uno e imprime
 teste-radio-esp/      FERRAMENTA: o mesmo no ESP8266, com 20 s de WiFi
                       desligado e depois ligado, no mesmo log. Separa a
                       disputa WiFi × rádio do divisor e do nível de 3,3 V.
+fritzing/             o sketch de protoboard e as exportacoes em PNG e PDF
 ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
 MONTAGEM.md           fiação do Nano e do receptor com Uno
 MONTAGEM-ESP8266.md   fiação do receptor com ESP8266, com o divisor
 ferramentas/          modelo.html, secao-esp8266.html e os dois geradores
 index.html            GERADO. Nunca editar à mão.
 ```
+
+### O sketch do Fritzing
+
+`fritzing/` guarda o desenho de protoboard das duas montagens numa prancha só: em cima o
+transmissor com o Nano, embaixo o receptor com o ESP8266, o LCD e o divisor.
+
+| Arquivo | O que é |
+|---|---|
+| `sketch-codigo-morse.fzz` | a fonte, aberta no Fritzing |
+| `sketch-codigo-morse_bb.png` | a vista de protoboard exportada |
+| `sketch-codigo-morse_bb.pdf` | a mesma vista, vetorial |
+
+**O `.fzz` depende de duas peças que o Fritzing não traz:** o transmissor FS1000A e o
+receptor MX-05V. Elas moram no `hw-laboratorio`, em `fritzing/`, com os ids `rf433-tx` e
+`rf433-rx`, e se instalam com `python fritzing/instalar.py` de lá, com o Fritzing fechado.
+Sem isso o sketch abre com as peças faltando.
+
+**As exportações são feitas à mão, pelo Fritzing — não há script.** Mexeu no `.fzz`,
+reexporte o PNG e o PDF, senão eles passam a mostrar uma fiação que não existe mais. É a
+mesma armadilha do `index.html` gerado, só que sem ninguém para avisar.
+
+**Cuidado com a face ao comparar a pinagem do receptor.** A serigrafia fica no verso, onde
+se lê `GND DATA DATA VCC` — é essa a ordem dos diagramas desta página. Visto de cima, que
+é como o Fritzing desenha, a mesma plaquinha é `VCC DATA DATA GND`. As duas estão certas;
+o que engana é comparar uma com a outra sem lembrar de que lado se está olhando.
 
 O suporte ao **Tinkercad foi removido em 01/09/2026** a pedido dele — seção, sketches
 adaptados, gerador e diagramas. Está no histórico do git (`git revert cb1c707`) se um dia

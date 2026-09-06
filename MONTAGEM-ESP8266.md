@@ -41,10 +41,14 @@ outro livre.
                       G      o mesmo terra do ESP
 ```
 
-**A ordem dos pinos varia entre fabricantes — confira a serigrafia da sua plaquinha.**
-O desenho acima é a do módulo desta bancada: `GND` no primeiro pino e `VCC` no quarto.
-Existem versões com a ordem invertida, e ligar pela figura sem olhar a plaquinha foi o
-que segurou este projeto por duas sessões.
+**O desenho acima é a vista da serigrafia, que fica no verso da plaquinha:** `GND` no
+primeiro pino e `VCC` no quarto. **Virando o módulo para cima a ordem espelha** — de cima
+o `VCC` é que vem primeiro, e é assim que o sketch do Fritzing o desenha. As duas leituras
+estão certas; o que engana é comparar uma com a outra sem lembrar de que lado se está
+olhando.
+
+A ordem também varia entre fabricantes, então confira a sua plaquinha de qualquer jeito.
+Ligar pela figura sem olhar foi o que segurou este projeto por duas sessões.
 
 `VCC` vai no **`VU`**, que é o 5 V da USB — **nunca no `3V3`**. Este receptor é
 superregenerativo e não estabelece ganho em 3,3 V: fica mudo, sem nenhum aviso, e o
