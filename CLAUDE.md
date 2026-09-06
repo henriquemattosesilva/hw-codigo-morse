@@ -12,8 +12,10 @@ Este arquivo é o documento vivo do projeto. O `README.md` e o `MONTAGEM.md` exp
 projeto para quem vai montar; aqui ficam as decisões, o estado e o que ainda não foi
 verificado.
 
-> Para este arquivo ser carregado automaticamente, abra a sessão **dentro desta pasta**.
-> Começando em `c:\HENRIQUE\Claude` ele não entra no contexto sozinho.
+> Para este arquivo ser carregado automaticamente, abra a sessão **dentro desta pasta**:
+> `c:\HENRIQUE\Claude\Arduino\projetos\codigo-morse`. Começando de fora ele não entra no
+> contexto sozinho. A pasta saiu da raiz de `Arduino\` em 06/09/2026 e foi para
+> `projetos\`, ao lado do `backlog.yaml` do `hw-laboratorio` que lista os projetos.
 
 ---
 
@@ -32,6 +34,7 @@ nunca rodou.
 | `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
+| `fritzing/` | as duas montagens numa prancha só, com as exportações em PNG e PDF |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
 | **Receptor ESP8266 na protoboard** | **funcionando** — rádio, LCD, WiFi e MQTT ao mesmo tempo |
 | **Enlace de rádio** | **funcionando** — a letra sai do Nano e chega ao ESP |
