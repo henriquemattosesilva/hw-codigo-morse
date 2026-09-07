@@ -34,7 +34,7 @@ nunca rodou.
 | `receptor-esp8266.ino` | compila para `esp8266:esp8266:nodemcuv2` — 24% de flash, 36% de RAM, **IRAM em 93%** |
 | `ao-vivo/index.html` | testado de ponta a ponta contra o broker real: retidas, letras ao vivo e queda do telégrafo |
 | `index.html` | renderização conferida por CDP: sem estouro em 390 e 1440 px, 0 erro de console |
-| `fritzing/` | as duas montagens numa prancha só, com as exportações em PNG e PDF |
+| `fritzing/` | um sketch por placa, conferidos por netlist contra a fiação documentada |
 | **Transmissor na protoboard** | **funcionando** — grava e o serial decodifica certo |
 | **Receptor ESP8266 na protoboard** | **funcionando** — rádio, LCD, WiFi e MQTT ao mesmo tempo |
 | **Enlace de rádio** | **funcionando** — a letra sai do Nano e chega ao ESP |
@@ -179,7 +179,7 @@ teste-radio-uno/      FERRAMENTA: escuta o rádio no Uno e imprime
 teste-radio-esp/      FERRAMENTA: o mesmo no ESP8266, com 20 s de WiFi
                       desligado e depois ligado, no mesmo log. Separa a
                       disputa WiFi × rádio do divisor e do nível de 3,3 V.
-fritzing/             o sketch de protoboard e as exportacoes em PNG e PDF
+fritzing/             um sketch de protoboard por placa, e o PDF de cada um
 ao-vivo/index.html    o monitor ao vivo, publicado no GitHub Pages
 MONTAGEM.md           fiação do Nano e do receptor com Uno
 MONTAGEM-ESP8266.md   fiação do receptor com ESP8266, com o divisor
@@ -187,60 +187,58 @@ ferramentas/          modelo.html, secao-esp8266.html e os dois geradores
 index.html            GERADO. Nunca editar à mão.
 ```
 
-### O sketch do Fritzing
+### Os sketches do Fritzing
 
-`fritzing/` guarda o desenho de protoboard das duas montagens numa prancha só: em cima o
-transmissor com o Nano, embaixo o receptor com o ESP8266, o LCD e o divisor.
+`fritzing/` guarda o desenho de protoboard, **um arquivo por placa**. Até 06/09/2026 as
+duas montagens dividiam uma prancha só, no `sketch-codigo-morse.fzz`; foram separadas
+porque quem monta trabalha em uma de cada vez.
 
 | Arquivo | O que é |
 |---|---|
-| `sketch-codigo-morse.fzz` | a fonte, aberta no Fritzing |
-| `sketch-codigo-morse_bb.png` | a vista de protoboard exportada |
-| `sketch-codigo-morse_bb.pdf` | a mesma vista, vetorial |
+| `transmissor-nano.fzz` | o manipulador: Nano, chave, três LEDs, buzzer e o módulo TX |
+| `receptor-esp8266.fzz` | o receptor: NodeMCU, LCD, módulo RX com o divisor, LED e chave |
+| `transmissor-nano.pdf`, `receptor-esp8266.pdf` | a vista de protoboard de cada um |
 
-**O `.fzz` depende de duas peças que o Fritzing não traz:** o transmissor FS1000A e o
-receptor MX-05V. Elas moram no `hw-laboratorio`, em `fritzing/`, com os ids `rf433-tx` e
-`rf433-rx`, e se instalam com `python fritzing/instalar.py` de lá, com o Fritzing fechado.
-Sem isso o sketch abre com as peças faltando.
+**Os sketches dependem de peças que o Fritzing não traz:** os dois módulos de 433 MHz, o
+buzzer ativo e a própria NodeMCU LoLin v3. Todas moram no `hw-laboratorio`, em `fritzing/`,
+e se instalam de lá. Sem isso o sketch abre com as peças faltando.
 
-**As exportações são feitas à mão, pelo Fritzing — não há script.** Mexeu no `.fzz`,
-reexporte o PNG e o PDF, senão eles passam a mostrar uma fiação que não existe mais. É a
-mesma armadilha do `index.html` gerado, só que sem ninguém para avisar.
+**As exportações são feitas à mão, pelo Fritzing — não há script.** Mexeu num `.fzz`,
+reexporte o PDF, senão ele passa a mostrar uma fiação que não existe mais. É a mesma
+armadilha do `index.html` gerado, só que sem ninguém para avisar.
 
 **Cuidado com a face ao comparar a pinagem do receptor.** A serigrafia fica no verso, onde
 se lê `GND DATA DATA VCC` — é essa a ordem dos diagramas desta página. Visto de cima, que
 é como o Fritzing desenha, a mesma plaquinha é `VCC DATA DATA GND`. As duas estão certas;
 o que engana é comparar uma com a outra sem lembrar de que lado se está olhando.
 
-#### O sketch tem quatro erros, e nenhum foi corrigido ainda
+#### A conferência por netlist, e o que ela pegou
 
-Conferido em 06/09/2026 extraindo a netlist do `.fzz` e comparando com os sketches e com
-a fiação documentada. **O hardware da bancada está certo — quem discorda é o desenho.**
+Em 06/09/2026 a prancha única foi conferida extraindo a netlist do `.fzz` e comparando com
+os sketches e com a fiação documentada. Ela tinha **quatro erros**, todos corrigidos nos
+arquivos novos e registrados aqui porque valem como aviso do que esse desenho erra:
 
-| # | O que está errado | O que deveria ser |
-|---|---|---|
-| 1 | o `VCC` do transmissor sai do **`VIN`** do Nano, e o pino `5V` não vai a lugar nenhum | `5V`. O `VIN` é a **entrada** do regulador: com o Nano na USB não há tensão ali, e o módulo não liga |
-| 2 | **D4 e D5 trocados**: D4 no LED verde 2 e D5 no buzzer | o firmware é o contrário — `PINO_BUZZER = 4` e `PINO_TRACO = 5` |
-| 3 | o **pino 15 do LCD** (luz de fundo) vai direto nos 5 V | com resistor. O `MONTAGEM.md` diz que ele não é opcional, e o desenho faz o que o documento proíbe |
-| 4 | a peça do ESP é a **NodeMCU Amica**, não a LoLin v3 | os 5 V estão no 3º pino da fileira de baixo: na LoLin isso é o `VU`, certo; na Amica é `RSV`, reservado. Certo para a placa dele, errado para a peça desenhada |
+| O que estava errado | Por que importava |
+|---|---|
+| o `VCC` do transmissor saía do **`VIN`** do Nano, e o pino `5V` não ia a lugar nenhum | `VIN` é a **entrada** do regulador: com o Nano na USB não há tensão ali, e o módulo não ligaria |
+| **D4 e D5 trocados**: D4 no LED verde 2 e D5 no buzzer | o firmware é o contrário — `PINO_BUZZER = 4` e `PINO_TRACO = 5` |
+| o **pino 15 do LCD** direto nos 5 V, sem resistor | e depois, corrigido com 10 kΩ, que dá 0,18 mA: a luz de fundo não fica fraca, fica apagada. O valor certo é **220 Ω** |
+| a peça do ESP era a **NodeMCU Amica** | os 5 V estão no 3º pino da fileira de baixo: na LoLin isso é o `VU`, na Amica é `RSV`, reservado |
 
-Os três primeiros são arrastar fio; o quarto é trocar a peça. **Depois de corrigir,
-reexportar o PNG e o PDF** — eles são feitos à mão, ver acima.
+Os dois sketches novos foram conferidos pelo mesmo caminho e passaram. Sobra **uma
+divergência que não é erro**: o potenciômetro de contraste é alimentado pelo `3V3` e não
+pelo `VU`. Funciona, porque o V0 quer algo perto de 0,5 V, mas difere da montagem com Uno,
+onde ele vai ao 5 V.
 
-O que foi conferido e está certo: o divisor inteiro (`DATA → 10k → nó do D2 → 10k → 10k →
-GND`, os três valores lidos no XML), todo o LCD com os pinos 7 a 10 soltos para o modo de
-4 bits, o botão de limpar no D3, o LED vermelho no D8 com 220 Ω, e o rádio receptor. Uma
-diferença que **não** é erro: o potenciômetro de contraste é alimentado pelo `3V3` e não
-pelos 5 V — funciona, porque o V0 quer algo perto de 0,5 V, mas diverge do receptor com
-Uno.
-
-**Como refazer essa conferência.** Os `.fzp` das peças de núcleo não vêm dentro do `.fzz`,
-então não existe mapa de `connectorNN` para nome de pino. O caminho que funcionou foi
-recuperar a identidade pela posição: cada pino está enfiado num furo, a ordem dos furos ao
-longo da placa é a ordem física do header, e daí os nomes voltam. Duas armadilhas: as
-colunas `A`-`E` e `F`-`J` são nós separados, e o `.fz` **não** liga as duas pontas de um
-fio entre si — só diz em que furo cada ponta está. Sem unir as pontas, a netlist sai toda
-picada e parece que nada está conectado.
+**Como refazer a conferência.** Os `.fzp` das peças de núcleo não vêm dentro do `.fzz`,
+então não existe mapa de `connectorNN` para nome de pino — para o Nano e para o LCD a
+identidade tem de ser recuperada pela posição: cada pino está enfiado num furo, e a ordem
+dos furos ao longo da placa é a ordem física do header. As peças próprias são mais fáceis,
+porque o `.fzp` delas viaja dentro do `.fzz` com os nomes prontos. Duas armadilhas do
+formato: as fileiras `A`-`E` e `F`-`J` de uma coluna são nós **separados**, cortados pelo
+canal central; e o `.fz` **não** liga as duas pontas de um fio entre si — só diz em que
+furo cada ponta está. Sem unir as pontas, a netlist sai picada e parece que nada está
+conectado.
 
 O suporte ao **Tinkercad foi removido em 01/09/2026** a pedido dele — seção, sketches
 adaptados, gerador e diagramas. Está no histórico do git (`git revert cb1c707`) se um dia
